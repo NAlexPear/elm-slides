@@ -1,0 +1,57 @@
+var _NAlexPear$elm_slides$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'Slide ',
+							_elm_lang$core$Basics$toString(model.slide))),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		});
+};
+var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _NAlexPear$elm_slides$Main$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		if (_p0.ctor === 'MoveForwards') {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{slide: model.slide + 1}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{slide: model.slide - 1}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
+	});
+var _NAlexPear$elm_slides$Main$init = {
+	ctor: '_Tuple2',
+	_0: {slide: 0},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
+	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Main$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();
+var _NAlexPear$elm_slides$Main$Model = function (a) {
+	return {slide: a};
+};
+var _NAlexPear$elm_slides$Main$MoveBackwards = {ctor: 'MoveBackwards'};
+var _NAlexPear$elm_slides$Main$MoveForwards = {ctor: 'MoveForwards'};
