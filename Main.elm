@@ -1,24 +1,41 @@
 module Main exposing (..)
 
 import Html exposing (..)
+import Keyboard exposing (KeyCode, ups)
 
 
 type Msg
-    = MoveForwards
-    | MoveBackwards
+    = KeyPress KeyCode
+
+
+type alias Step =
+    Int
+
+
+type alias Model =
+    { step : Step }
+
+
+navigate : Step -> KeyCode -> Int
+navigate step code =
+    case code of
+        39 ->
+            step + 1
+
+        37 ->
+            clamp 0 step (step - 1)
+
+        _ ->
+            step
 
 
 
 -- model
 
 
-type alias Model =
-    { slide : Int }
-
-
 init : ( Model, Cmd Msg )
 init =
-    ( { slide = 0 }, Cmd.none )
+    ( { step = 0 }, Cmd.none )
 
 
 
@@ -28,11 +45,8 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MoveForwards ->
-            ( { model | slide = model.slide + 1 }, Cmd.none )
-
-        MoveBackwards ->
-            ( { model | slide = model.slide - 1 }, Cmd.none )
+        KeyPress code ->
+            ( { model | step = navigate model.step code }, Cmd.none )
 
 
 
@@ -41,7 +55,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    ups KeyPress
 
 
 
@@ -54,7 +68,7 @@ view model =
         []
         [ h1
             []
-            [ text ("Slide " ++ (toString model.slide)) ]
+            [ text ("Step " ++ (toString model.step)) ]
         ]
 
 

@@ -12,46 +12,51 @@ var _NAlexPear$elm_slides$Main$view = function (model) {
 					_0: _elm_lang$html$Html$text(
 						A2(
 							_elm_lang$core$Basics_ops['++'],
-							'Slide ',
-							_elm_lang$core$Basics$toString(model.slide))),
+							'Step ',
+							_elm_lang$core$Basics$toString(model.step))),
 					_1: {ctor: '[]'}
 				}),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
-var _NAlexPear$elm_slides$Main$update = F2(
-	function (msg, model) {
-		var _p0 = msg;
-		if (_p0.ctor === 'MoveForwards') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{slide: model.slide + 1}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{slide: model.slide - 1}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		}
-	});
 var _NAlexPear$elm_slides$Main$init = {
 	ctor: '_Tuple2',
-	_0: {slide: 0},
+	_0: {step: 0},
 	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _NAlexPear$elm_slides$Main$navigate = F2(
+	function (step, code) {
+		var _p0 = code;
+		switch (_p0) {
+			case 39:
+				return step + 1;
+			case 37:
+				return A3(_elm_lang$core$Basics$clamp, 0, step, step - 1);
+			default:
+				return step;
+		}
+	});
+var _NAlexPear$elm_slides$Main$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					step: A2(_NAlexPear$elm_slides$Main$navigate, model.step, _p1._0)
+				}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _NAlexPear$elm_slides$Main$Model = function (a) {
+	return {step: a};
+};
+var _NAlexPear$elm_slides$Main$KeyPress = function (a) {
+	return {ctor: 'KeyPress', _0: a};
+};
+var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
+	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Main$KeyPress);
 };
 var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
 	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Main$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();
-var _NAlexPear$elm_slides$Main$Model = function (a) {
-	return {slide: a};
-};
-var _NAlexPear$elm_slides$Main$MoveBackwards = {ctor: 'MoveBackwards'};
-var _NAlexPear$elm_slides$Main$MoveForwards = {ctor: 'MoveForwards'};
