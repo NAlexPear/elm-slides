@@ -1,7 +1,9 @@
 module Main exposing (..)
 
 import Html exposing (..)
+import Html.Attributes exposing (rel, href, class, id, style)
 import Keyboard exposing (KeyCode, ups)
+import Slides
 
 
 type Msg
@@ -27,6 +29,32 @@ navigate step code =
 
         _ ->
             step
+
+
+renderSlide : Model -> Slides.Slide -> List (Html Msg) -> List (Html Msg)
+renderSlide model slide acc =
+    let
+        vw =
+            ((List.length acc) - (model.step)) * 100
+
+        position =
+            ( "left", toString (vw) ++ "vw" )
+
+        next =
+            [ div
+                [ class "slide"
+                , style [ position ]
+                ]
+                [ h1
+                    []
+                    [ text slide.title ]
+                , p
+                    []
+                    [ text slide.content ]
+                ]
+            ]
+    in
+        List.append acc next
 
 
 
@@ -66,9 +94,10 @@ view : Model -> Html Msg
 view model =
     div
         []
-        [ h1
-            []
-            [ text ("Step " ++ (toString model.step)) ]
+        [ node "link" [ rel "stylesheet", href "main.css" ] []
+        , div
+            [ id "container" ]
+            (List.foldl (renderSlide model) [] Slides.list)
         ]
 
 

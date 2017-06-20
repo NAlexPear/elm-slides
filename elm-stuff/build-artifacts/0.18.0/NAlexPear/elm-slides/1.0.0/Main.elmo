@@ -1,28 +1,100 @@
+var _NAlexPear$elm_slides$Main$init = {
+	ctor: '_Tuple2',
+	_0: {step: 0},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _NAlexPear$elm_slides$Main$renderSlide = F3(
+	function (model, slide, acc) {
+		var vw = (_elm_lang$core$List$length(acc) - model.step) * 100;
+		var position = {
+			ctor: '_Tuple2',
+			_0: 'left',
+			_1: A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(vw),
+				'vw')
+		};
+		var next = {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('slide'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: position,
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				},
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$h1,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(slide.title),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(slide.content),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {ctor: '[]'}
+		};
+		return A2(_elm_lang$core$List$append, acc, next);
+	});
 var _NAlexPear$elm_slides$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{ctor: '[]'},
+			_0: A3(
+				_elm_lang$html$Html$node,
+				'link',
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							'Step ',
-							_elm_lang$core$Basics$toString(model.step))),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href('main.css'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('container'),
+						_1: {ctor: '[]'}
+					},
+					A3(
+						_elm_lang$core$List$foldl,
+						_NAlexPear$elm_slides$Main$renderSlide(model),
+						{ctor: '[]'},
+						_NAlexPear$elm_slides$Slides$list)),
+				_1: {ctor: '[]'}
+			}
 		});
-};
-var _NAlexPear$elm_slides$Main$init = {
-	ctor: '_Tuple2',
-	_0: {step: 0},
-	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _NAlexPear$elm_slides$Main$navigate = F2(
 	function (step, code) {

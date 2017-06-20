@@ -1,0 +1,21 @@
+#container {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+
+    font-family: sans-serif;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+
+    transition: left 0.25s ease;
+}
