@@ -14,21 +14,32 @@ type alias Step =
     Int
 
 
+type alias Slide =
+    { title : String, content : String }
+
+
 type alias Model =
-    { step : Step }
+    { step : Step, slides : List Slide }
 
 
-navigate : Step -> KeyCode -> Int
-navigate step code =
-    case code of
-        39 ->
-            step + 1
+navigate : Model -> KeyCode -> Int
+navigate model code =
+    let
+        step =
+            model.step
 
-        37 ->
-            clamp 0 step (step - 1)
+        slides =
+            model.slides
+    in
+        case code of
+            39 ->
+                clamp 0 (step + 1) ((List.length slides) - 1)
 
-        _ ->
-            step
+            37 ->
+                clamp 0 step (step - 1)
+
+            _ ->
+                step
 
 
 renderSlide : Model -> Slides.Slide -> List (Html Msg) -> List (Html Msg)
@@ -63,7 +74,7 @@ renderSlide model slide acc =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0 }, Cmd.none )
+    ( { step = 0, slides = Slides.list }, Cmd.none )
 
 
 
@@ -74,7 +85,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         KeyPress code ->
-            ( { model | step = navigate model.step code }, Cmd.none )
+            ( { model | step = navigate model code }, Cmd.none )
 
 
 
@@ -97,7 +108,7 @@ view model =
         [ node "link" [ rel "stylesheet", href "main.css" ] []
         , div
             [ id "container" ]
-            (List.foldl (renderSlide model) [] Slides.list)
+            (List.foldl (renderSlide model) [] model.slides)
         ]
 
 

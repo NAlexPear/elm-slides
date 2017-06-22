@@ -1,6 +1,6 @@
 var _NAlexPear$elm_slides$Main$init = {
 	ctor: '_Tuple2',
-	_0: {step: 0},
+	_0: {step: 0, slides: _NAlexPear$elm_slides$Slides$list},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _NAlexPear$elm_slides$Main$renderSlide = F3(
@@ -91,17 +91,23 @@ var _NAlexPear$elm_slides$Main$view = function (model) {
 						_elm_lang$core$List$foldl,
 						_NAlexPear$elm_slides$Main$renderSlide(model),
 						{ctor: '[]'},
-						_NAlexPear$elm_slides$Slides$list)),
+						model.slides)),
 				_1: {ctor: '[]'}
 			}
 		});
 };
 var _NAlexPear$elm_slides$Main$navigate = F2(
-	function (step, code) {
+	function (model, code) {
+		var slides = model.slides;
+		var step = model.step;
 		var _p0 = code;
 		switch (_p0) {
 			case 39:
-				return step + 1;
+				return A3(
+					_elm_lang$core$Basics$clamp,
+					0,
+					step + 1,
+					_elm_lang$core$List$length(slides) - 1);
 			case 37:
 				return A3(_elm_lang$core$Basics$clamp, 0, step, step - 1);
 			default:
@@ -116,14 +122,19 @@ var _NAlexPear$elm_slides$Main$update = F2(
 			_0: _elm_lang$core$Native_Utils.update(
 				model,
 				{
-					step: A2(_NAlexPear$elm_slides$Main$navigate, model.step, _p1._0)
+					step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _NAlexPear$elm_slides$Main$Model = function (a) {
-	return {step: a};
-};
+var _NAlexPear$elm_slides$Main$Slide = F2(
+	function (a, b) {
+		return {title: a, content: b};
+	});
+var _NAlexPear$elm_slides$Main$Model = F2(
+	function (a, b) {
+		return {step: a, slides: b};
+	});
 var _NAlexPear$elm_slides$Main$KeyPress = function (a) {
 	return {ctor: 'KeyPress', _0: a};
 };
