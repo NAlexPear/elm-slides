@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (rel, href, class, id, style)
+import Html.Attributes exposing (..)
 import Keyboard exposing (KeyCode, ups)
 import Message exposing (Msg(..))
 import Slides
@@ -53,7 +53,15 @@ renderSlide model slide acc =
                 [ class "slide"
                 , style [ position ]
                 ]
-                [ h1
+                [ img
+                    [ class "edit pointer"
+                    , src "icons/edit.svg"
+                    ]
+                    [ text "EDIT SLIDE" ]
+                , span
+                    [ class "add pointer" ]
+                    [ text "+" ]
+                , h1
                     []
                     [ text slide.title ]
                 , p

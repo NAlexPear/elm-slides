@@ -19,3 +19,32 @@
 
     transition: left 0.25s ease;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.edit,
+.add{
+    position: absolute;
+    opacity: 0.15;
+}
+
+.edit{
+    height: 4rem;
+    top: 1rem;
+    right: 2rem;
+}
+
+.add{
+    height: 5rem;
+    top: 5rem;
+    right: 3rem;
+    font-size: 4rem;
+    font-weight: bold;
+}
+
+.edit:hover,
+.add:hover{
+    opacity: 0.3;
+}
