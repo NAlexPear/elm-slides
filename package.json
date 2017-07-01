@@ -1,0 +1,24 @@
+{
+  "name": "elm-slides",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Main.elm",
+  "dependencies": {
+    "json-server": "^0.10.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "json-server --watch db/db.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NAlexPear/elm-slides.git"
+  },
+  "author": "Alex Pearson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NAlexPear/elm-slides/issues"
+  },
+  "homepage": "https://github.com/NAlexPear/elm-slides#readme"
+}
