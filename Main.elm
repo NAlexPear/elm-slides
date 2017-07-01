@@ -71,7 +71,7 @@ renderSlide model slide acc =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0, slides = Slides.list }, Slides.getSlides )
+    ( { step = 0, slides = [] }, Slides.getSlides )
 
 
 
@@ -84,8 +84,8 @@ update msg model =
         KeyPress code ->
             ( { model | step = navigate model code }, Cmd.none )
 
-        NewSlides (Ok newSlide) ->
-            ( { model | slides = List.singleton newSlide }, Cmd.none )
+        NewSlides (Ok newSlides) ->
+            ( { model | slides = newSlides }, Cmd.none )
 
         NewSlides (Err _) ->
             ( model, Cmd.none )

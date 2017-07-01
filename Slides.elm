@@ -1,4 +1,4 @@
-module Slides exposing (Slide, list, getSlides)
+module Slides exposing (Slide, getSlides)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
@@ -17,24 +17,15 @@ slideDecoder =
         |> required "content" string
 
 
+slidesDecoder : Decoder (List Slide)
+slidesDecoder =
+    list slideDecoder
+
+
 getSlides : Cmd Msg
 getSlides =
     let
         request =
-            Http.get "http://localhost:3000/test" slideDecoder
+            Http.get "http://localhost:3000/slides" slidesDecoder
     in
         Http.send NewSlides request
-
-
-list : List Slide
-list =
-    [ { title = "Slide 1"
-      , content = "This should be the first slide"
-      }
-    , { title = "Slide 2"
-      , content = "This should be the second slide"
-      }
-    , { title = "Slide 3"
-      , content = "This should be the third slide"
-      }
-    ]

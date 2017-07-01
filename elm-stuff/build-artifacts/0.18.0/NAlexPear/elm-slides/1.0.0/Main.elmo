@@ -3,7 +3,10 @@ var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
 };
 var _NAlexPear$elm_slides$Main$init = {
 	ctor: '_Tuple2',
-	_0: {step: 0, slides: _NAlexPear$elm_slides$Slides$list},
+	_0: {
+		step: 0,
+		slides: {ctor: '[]'}
+	},
 	_1: _NAlexPear$elm_slides$Slides$getSlides
 };
 var _NAlexPear$elm_slides$Main$renderSlide = F3(
@@ -136,9 +139,7 @@ var _NAlexPear$elm_slides$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							slides: _elm_lang$core$List$singleton(_p1._0._0)
-						}),
+						{slides: _p1._0._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			} else {

@@ -1,8 +1,4 @@
 {
-    "test": {
-        "title": "Test Slide",
-        "content": "This should be a valid slide"
-    },
     "slides":[
         {
             "title": "Slide 1",
@@ -15,6 +11,10 @@
         {
             "title": "Slide 3",
             "content": "This should be the third slide"
+        },
+        {
+            "title": "Slide 4",
+            "content": "This should be the fourth slide"
         }
     ]
 }
