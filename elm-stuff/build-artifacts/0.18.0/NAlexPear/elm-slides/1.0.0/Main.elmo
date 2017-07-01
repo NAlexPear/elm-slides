@@ -1,7 +1,10 @@
+var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
+	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
+};
 var _NAlexPear$elm_slides$Main$init = {
 	ctor: '_Tuple2',
 	_0: {step: 0, slides: _NAlexPear$elm_slides$Slides$list},
-	_1: _elm_lang$core$Platform_Cmd$none
+	_1: _NAlexPear$elm_slides$Slides$getSlides
 };
 var _NAlexPear$elm_slides$Main$renderSlide = F3(
 	function (model, slide, acc) {
@@ -117,16 +120,34 @@ var _NAlexPear$elm_slides$Main$navigate = F2(
 var _NAlexPear$elm_slides$Main$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
-		return {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
-				}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
+		if (_p1.ctor === 'KeyPress') {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
+					}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			if (_p1._0.ctor === 'Ok') {
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							slides: _elm_lang$core$List$singleton(_p1._0._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			} else {
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			}
+		}
 	});
+var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
+	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Main$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();
 var _NAlexPear$elm_slides$Main$Slide = F2(
 	function (a, b) {
 		return {title: a, content: b};
@@ -135,11 +156,3 @@ var _NAlexPear$elm_slides$Main$Model = F2(
 	function (a, b) {
 		return {step: a, slides: b};
 	});
-var _NAlexPear$elm_slides$Main$KeyPress = function (a) {
-	return {ctor: 'KeyPress', _0: a};
-};
-var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
-	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Main$KeyPress);
-};
-var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
-	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Main$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();

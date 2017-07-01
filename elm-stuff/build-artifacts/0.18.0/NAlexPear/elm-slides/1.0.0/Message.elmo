@@ -1,0 +1,10 @@
+var _NAlexPear$elm_slides$Message$Slide = F2(
+	function (a, b) {
+		return {title: a, content: b};
+	});
+var _NAlexPear$elm_slides$Message$NewSlides = function (a) {
+	return {ctor: 'NewSlides', _0: a};
+};
+var _NAlexPear$elm_slides$Message$KeyPress = function (a) {
+	return {ctor: 'KeyPress', _0: a};
+};

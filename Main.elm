@@ -3,11 +3,8 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (rel, href, class, id, style)
 import Keyboard exposing (KeyCode, ups)
+import Message exposing (Msg(..))
 import Slides
-
-
-type Msg
-    = KeyPress KeyCode
 
 
 type alias Step =
@@ -74,7 +71,7 @@ renderSlide model slide acc =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0, slides = Slides.list }, Cmd.none )
+    ( { step = 0, slides = Slides.list }, Slides.getSlides )
 
 
 
@@ -86,6 +83,12 @@ update msg model =
     case msg of
         KeyPress code ->
             ( { model | step = navigate model code }, Cmd.none )
+
+        NewSlides (Ok newSlide) ->
+            ( { model | slides = List.singleton newSlide }, Cmd.none )
+
+        NewSlides (Err _) ->
+            ( model, Cmd.none )
 
 
 
