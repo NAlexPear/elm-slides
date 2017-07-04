@@ -40,7 +40,69 @@ navigate model code =
                 step
 
 
-renderSlide : Model -> Slides.Slide -> List (Html Msg) -> List (Html Msg)
+addSlide : Model -> Model
+addSlide model =
+    let
+        slide =
+            { title = "Click to Add Title", content = "Click to Add Content" }
+
+        step =
+            model.step
+
+        slides =
+            List.append model.slides (List.singleton slide)
+    in
+        { step = (List.length slides) - 1
+        , slides = slides
+        , isEditing = True
+        }
+
+
+renderIcons : Model -> List (Html Msg)
+renderIcons model =
+    case model.isEditing of
+        True ->
+            [ img
+                [ class "edit pointer"
+                , src "icons/edit.svg"
+                , alt "Save Slides"
+                , onClick ToggleEdit
+                ]
+                []
+            ]
+
+        False ->
+            [ img
+                [ class "edit pointer"
+                , src "icons/edit.svg"
+                , alt "Edit Slides"
+                , onClick ToggleEdit
+                ]
+                []
+            , span
+                [ class "add pointer"
+                , onClick AddSlide
+                ]
+                [ text "+" ]
+            ]
+
+
+renderFields : Model -> Slide -> List (Html Msg)
+renderFields model slide =
+    let
+        editState =
+            contenteditable model.isEditing
+    in
+        [ h1
+            [ editState ]
+            [ text slide.title ]
+        , p
+            [ editState ]
+            [ text slide.content ]
+        ]
+
+
+renderSlide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
 renderSlide model slide acc =
     let
         vw =
@@ -54,21 +116,11 @@ renderSlide model slide acc =
                 [ class "slide"
                 , style [ position ]
                 ]
-                [ img
-                    [ class "edit pointer"
-                    , src "icons/edit.svg"
+                (List.concat
+                    [ (renderIcons model)
+                    , (renderFields model slide)
                     ]
-                    [ text "EDIT SLIDE" ]
-                , span
-                    [ class "add pointer" ]
-                    [ text "+" ]
-                , h1
-                    []
-                    [ text slide.title ]
-                , p
-                    []
-                    [ text slide.content ]
-                ]
+                )
             ]
     in
         List.append acc next
@@ -93,14 +145,17 @@ update msg model =
         KeyPress code ->
             ( { model | step = navigate model code }, Cmd.none )
 
-        NewSlides (Ok newSlides) ->
+        GetSlides (Ok newSlides) ->
             ( { model | slides = newSlides }, Cmd.none )
 
-        NewSlides (Err _) ->
+        GetSlides (Err _) ->
             ( model, Cmd.none )
 
         ToggleEdit ->
-            ( model, Cmd.none )
+            ( { model | isEditing = not model.isEditing }, Cmd.none )
+
+        AddSlide ->
+            ( addSlide model, Cmd.none )
 
 
 

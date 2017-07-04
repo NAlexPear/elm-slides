@@ -3,8 +3,9 @@ var _NAlexPear$elm_slides$Message$Slide = F2(
 		return {title: a, content: b};
 	});
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
-var _NAlexPear$elm_slides$Message$NewSlides = function (a) {
-	return {ctor: 'NewSlides', _0: a};
+var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
+var _NAlexPear$elm_slides$Message$GetSlides = function (a) {
+	return {ctor: 'GetSlides', _0: a};
 };
 var _NAlexPear$elm_slides$Message$KeyPress = function (a) {
 	return {ctor: 'KeyPress', _0: a};

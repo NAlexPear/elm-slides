@@ -12,6 +12,10 @@ var _NAlexPear$elm_slides$Slides$slideDecoder = A3(
 		_elm_lang$core$Json_Decode$string,
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Slides$Slide)));
 var _NAlexPear$elm_slides$Slides$slidesDecoder = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Slides$slideDecoder);
+var _NAlexPear$elm_slides$Slides$setSlides = function (newSlides) {
+	var request = A3(_elm_lang$http$Http$post, 'http://localhost:3000/decks/1', newSlides, _NAlexPear$elm_slides$Slides$slidesDecoder);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetSlides, request);
+};
 var _NAlexPear$elm_slides$Slides$getSlides = function () {
 	var slides = A2(
 		_elm_lang$core$Json_Decode$at,
@@ -22,5 +26,5 @@ var _NAlexPear$elm_slides$Slides$getSlides = function () {
 		},
 		_NAlexPear$elm_slides$Slides$slidesDecoder);
 	var request = A2(_elm_lang$http$Http$get, 'http://localhost:3000/decks/1', slides);
-	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$NewSlides, request);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetSlides, request);
 }();

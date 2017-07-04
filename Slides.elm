@@ -1,4 +1,4 @@
-module Slides exposing (Slide, getSlides)
+module Slides exposing (Slide, getSlides, setSlides)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
@@ -22,6 +22,15 @@ slidesDecoder =
     list slideDecoder
 
 
+setSlides : Http.Body -> Cmd Msg
+setSlides newSlides =
+    let
+        request =
+            Http.post "http://localhost:3000/decks/1" newSlides slidesDecoder
+    in
+        Http.send GetSlides request
+
+
 getSlides : Cmd Msg
 getSlides =
     let
@@ -31,4 +40,4 @@ getSlides =
         request =
             Http.get "http://localhost:3000/decks/1" slides
     in
-        Http.send NewSlides request
+        Http.send GetSlides request

@@ -10,6 +10,114 @@ var _NAlexPear$elm_slides$Main$init = {
 	},
 	_1: _NAlexPear$elm_slides$Slides$getSlides
 };
+var _NAlexPear$elm_slides$Main$renderFields = F2(
+	function (model, slide) {
+		var editState = _elm_lang$html$Html_Attributes$contenteditable(model.isEditing);
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h1,
+				{
+					ctor: '::',
+					_0: editState,
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(slide.title),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					{
+						ctor: '::',
+						_0: editState,
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(slide.content),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		};
+	});
+var _NAlexPear$elm_slides$Main$renderIcons = function (model) {
+	var _p0 = model.isEditing;
+	if (_p0 === true) {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit pointer'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src('icons/edit.svg'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$img,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit pointer'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src('icons/edit.svg'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('add pointer'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('+'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		};
+	}
+};
 var _NAlexPear$elm_slides$Main$renderSlide = F3(
 	function (model, slide, acc) {
 		var vw = (_elm_lang$core$List$length(acc) - model.step) * 100;
@@ -39,63 +147,16 @@ var _NAlexPear$elm_slides$Main$renderSlide = F3(
 						_1: {ctor: '[]'}
 					}
 				},
-				{
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$img,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('edit pointer'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$src('icons/edit.svg'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('EDIT SLIDE'),
-							_1: {ctor: '[]'}
-						}),
-					_1: {
+				_elm_lang$core$List$concat(
+					{
 						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$span,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('add pointer'),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text('+'),
-								_1: {ctor: '[]'}
-							}),
+						_0: _NAlexPear$elm_slides$Main$renderIcons(model),
 						_1: {
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$h1,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html$text(slide.title),
-									_1: {ctor: '[]'}
-								}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_elm_lang$html$Html$p,
-									{ctor: '[]'},
-									{
-										ctor: '::',
-										_0: _elm_lang$html$Html$text(slide.content),
-										_1: {ctor: '[]'}
-									}),
-								_1: {ctor: '[]'}
-							}
+							_0: A2(_NAlexPear$elm_slides$Main$renderFields, model, slide),
+							_1: {ctor: '[]'}
 						}
-					}
-				}),
+					})),
 			_1: {ctor: '[]'}
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
@@ -137,12 +198,25 @@ var _NAlexPear$elm_slides$Main$view = function (model) {
 			}
 		});
 };
+var _NAlexPear$elm_slides$Main$addSlide = function (model) {
+	var step = model.step;
+	var slide = {title: 'Click to Add Title', content: 'Click to Add Content'};
+	var slides = A2(
+		_elm_lang$core$List$append,
+		model.slides,
+		_elm_lang$core$List$singleton(slide));
+	return {
+		step: _elm_lang$core$List$length(slides) - 1,
+		slides: slides,
+		isEditing: true
+	};
+};
 var _NAlexPear$elm_slides$Main$navigate = F2(
 	function (model, code) {
 		var slides = model.slides;
 		var step = model.step;
-		var _p0 = code;
-		switch (_p0) {
+		var _p1 = code;
+		switch (_p1) {
 			case 39:
 				return A3(
 					_elm_lang$core$Basics$clamp,
@@ -157,32 +231,44 @@ var _NAlexPear$elm_slides$Main$navigate = F2(
 	});
 var _NAlexPear$elm_slides$Main$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
 			case 'KeyPress':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
+							step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p2._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'NewSlides':
-				if (_p1._0.ctor === 'Ok') {
+			case 'GetSlides':
+				if (_p2._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{slides: _p1._0._0}),
+							{slides: _p2._0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
+			case 'ToggleEdit':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isEditing: !model.isEditing}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return {
+					ctor: '_Tuple2',
+					_0: _NAlexPear$elm_slides$Main$addSlide(model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
