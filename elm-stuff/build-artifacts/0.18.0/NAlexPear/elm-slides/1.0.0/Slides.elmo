@@ -13,6 +13,14 @@ var _NAlexPear$elm_slides$Slides$slideDecoder = A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Slides$Slide)));
 var _NAlexPear$elm_slides$Slides$slidesDecoder = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Slides$slideDecoder);
 var _NAlexPear$elm_slides$Slides$getSlides = function () {
-	var request = A2(_elm_lang$http$Http$get, 'http://localhost:3000/slides', _NAlexPear$elm_slides$Slides$slidesDecoder);
+	var slides = A2(
+		_elm_lang$core$Json_Decode$at,
+		{
+			ctor: '::',
+			_0: 'slides',
+			_1: {ctor: '[]'}
+		},
+		_NAlexPear$elm_slides$Slides$slidesDecoder);
+	var request = A2(_elm_lang$http$Http$get, 'http://localhost:3000/decks/1', slides);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$NewSlides, request);
 }();

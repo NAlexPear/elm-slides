@@ -2,6 +2,7 @@ module Main exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Keyboard exposing (KeyCode, ups)
 import Message exposing (Msg(..))
 import Slides
@@ -16,7 +17,7 @@ type alias Slide =
 
 
 type alias Model =
-    { step : Step, slides : List Slide }
+    { step : Step, slides : List Slide, isEditing : Bool }
 
 
 navigate : Model -> KeyCode -> Int
@@ -79,7 +80,7 @@ renderSlide model slide acc =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0, slides = [] }, Slides.getSlides )
+    ( { step = 0, slides = [], isEditing = False }, Slides.getSlides )
 
 
 
@@ -96,6 +97,9 @@ update msg model =
             ( { model | slides = newSlides }, Cmd.none )
 
         NewSlides (Err _) ->
+            ( model, Cmd.none )
+
+        ToggleEdit ->
             ( model, Cmd.none )
 
 

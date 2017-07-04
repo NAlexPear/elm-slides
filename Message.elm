@@ -15,3 +15,4 @@ type alias Slides =
 type Msg
     = KeyPress KeyCode
     | NewSlides (Result Http.Error Slides)
+    | ToggleEdit

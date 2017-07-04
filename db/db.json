@@ -1,29 +1,35 @@
 {
-  "slides": [
-    {
-      "id": 1,
-      "title": "Slide 1",
-      "content": "This should be the first slide"
-    },
-    {
-      "id": 2,
-      "title": "Slide 2",
-      "content": "This should be the second slide"
-    },
-    {
-      "id": 3,
-      "title": "Slide 3",
-      "content": "This should be the third slide"
-    },
-    {
-      "id": 4,
-      "title": "Slide 4",
-      "content": "This should be the fourth slide"
-    },
-    {
-      "title": "Posted Slide",
-      "content": "This came from Postman!",
-      "id": 5
-    }
-  ]
+    "decks": [
+        {
+            "slides": [
+                {
+                    "id": 1,
+                    "title": "Slide 1",
+                    "content": "This should be the first slide"
+                },
+                {
+                    "id": 2,
+                    "title": "Slide 2",
+                    "content": "This should be the second slide"
+                },
+                {
+                    "id": 3,
+                    "title": "Slide 3",
+                    "content": "This should be the third slide"
+                },
+                {
+                    "id": 4,
+                    "title": "Slide 4",
+                    "content": "This should be the fourth slide"
+                },
+                {
+                    "title": "Posted Slide",
+                    "content": "This came from Postman!",
+                    "id": 5
+                }
+            ],
+            "id": 1,
+            "title": "Demo Slide Show"
+        }
+    ]
 }

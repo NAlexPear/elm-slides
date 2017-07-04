@@ -25,7 +25,10 @@ slidesDecoder =
 getSlides : Cmd Msg
 getSlides =
     let
+        slides =
+            at [ "slides" ] slidesDecoder
+
         request =
-            Http.get "http://localhost:3000/slides" slidesDecoder
+            Http.get "http://localhost:3000/decks/1" slides
     in
         Http.send NewSlides request

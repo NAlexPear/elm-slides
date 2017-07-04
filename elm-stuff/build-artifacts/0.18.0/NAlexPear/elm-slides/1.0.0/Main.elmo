@@ -5,7 +5,8 @@ var _NAlexPear$elm_slides$Main$init = {
 	ctor: '_Tuple2',
 	_0: {
 		step: 0,
-		slides: {ctor: '[]'}
+		slides: {ctor: '[]'},
+		isEditing: false
 	},
 	_1: _NAlexPear$elm_slides$Slides$getSlides
 };
@@ -157,28 +158,31 @@ var _NAlexPear$elm_slides$Main$navigate = F2(
 var _NAlexPear$elm_slides$Main$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
-		if (_p1.ctor === 'KeyPress') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
-					}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			if (_p1._0.ctor === 'Ok') {
+		switch (_p1.ctor) {
+			case 'KeyPress':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{slides: _p1._0._0}),
+						{
+							step: A2(_NAlexPear$elm_slides$Main$navigate, model, _p1._0)
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			} else {
+			case 'NewSlides':
+				if (_p1._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{slides: _p1._0._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
-			}
 		}
 	});
 var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
@@ -187,7 +191,7 @@ var _NAlexPear$elm_slides$Main$Slide = F2(
 	function (a, b) {
 		return {title: a, content: b};
 	});
-var _NAlexPear$elm_slides$Main$Model = F2(
-	function (a, b) {
-		return {step: a, slides: b};
+var _NAlexPear$elm_slides$Main$Model = F3(
+	function (a, b, c) {
+		return {step: a, slides: b, isEditing: c};
 	});
