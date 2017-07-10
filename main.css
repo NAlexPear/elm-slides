@@ -25,9 +25,18 @@
 }
 
 .edit,
-.add{
+.add,
+.change{
     position: absolute;
     opacity: 0.15;
+}
+
+.add,
+.change{
+    height: 5rem;
+    font-size: 4rem;
+    font-weight: bold;
+    right: 3rem;
 }
 
 .edit{
@@ -37,14 +46,15 @@
 }
 
 .add{
-    height: 5rem;
     top: 5rem;
-    right: 3rem;
-    font-size: 4rem;
-    font-weight: bold;
+}
+
+.change{
+    top: 9rem;
 }
 
 .edit:hover,
-.add:hover{
+.add:hover,
+.change:hover{
     opacity: 0.3;
 }

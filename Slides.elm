@@ -1,4 +1,4 @@
-module Slides exposing (Slide, getSlides, setSlides)
+module Slides exposing (Slide, getSlides, getDecks)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
@@ -8,6 +8,10 @@ import Http
 
 type alias Slide =
     { title : String, content : String }
+
+
+type alias Deck =
+    { title : String, id : Int }
 
 
 slideDecoder : Decoder Slide
@@ -22,22 +26,53 @@ slidesDecoder =
     list slideDecoder
 
 
-setSlides : Http.Body -> Cmd Msg
-setSlides newSlides =
+deckDecoder : Decoder Deck
+deckDecoder =
+    decode Deck
+        |> required "title" string
+        |> required "id" int
+
+
+decksDecoder : Decoder (List Deck)
+decksDecoder =
+    list deckDecoder
+
+
+
+-- saveSlides : List Slide -> Int -> Cmd Msg
+-- saveSlides newSlides deck =
+--     let
+--         url =
+--             "http://localhost:3000/decks/" ++ toString deck
+--
+--         request =
+--             Http.post url newSlides slidesDecoder
+--     in
+--         Http.send SaveSlides request
+
+
+getDecks : Cmd Msg
+getDecks =
     let
+        url =
+            "http://localhost:3000/decks"
+
         request =
-            Http.post "http://localhost:3000/decks/1" newSlides slidesDecoder
+            Http.get url decksDecoder
     in
-        Http.send GetSlides request
+        Http.send GetDecks request
 
 
-getSlides : Cmd Msg
-getSlides =
+getSlides : Int -> Cmd Msg
+getSlides deck =
     let
         slides =
             at [ "slides" ] slidesDecoder
 
+        url =
+            "http://localhost:3000/decks/" ++ toString deck
+
         request =
-            Http.get "http://localhost:3000/decks/1" slides
+            Http.get url slides
     in
         Http.send GetSlides request

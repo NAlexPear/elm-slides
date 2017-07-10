@@ -2,8 +2,19 @@ var _NAlexPear$elm_slides$Message$Slide = F2(
 	function (a, b) {
 		return {title: a, content: b};
 	});
+var _NAlexPear$elm_slides$Message$Deck = F2(
+	function (a, b) {
+		return {title: a, id: b};
+	});
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
+var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
 var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
+var _NAlexPear$elm_slides$Message$SaveSlides = function (a) {
+	return {ctor: 'SaveSlides', _0: a};
+};
+var _NAlexPear$elm_slides$Message$GetDecks = function (a) {
+	return {ctor: 'GetDecks', _0: a};
+};
 var _NAlexPear$elm_slides$Message$GetSlides = function (a) {
 	return {ctor: 'GetSlides', _0: a};
 };

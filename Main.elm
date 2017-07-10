@@ -8,16 +8,22 @@ import Message exposing (Msg(..))
 import Slides
 
 
-type alias Step =
-    Int
-
-
 type alias Slide =
     { title : String, content : String }
 
 
+type alias Deck =
+    { title : String, id : Int }
+
+
 type alias Model =
-    { step : Step, slides : List Slide, isEditing : Bool }
+    { step : Int
+    , deck : Int
+    , decks : List Deck
+    , slides : List Slide
+    , isEditing : Bool
+    , isChangingDeck : Bool
+    }
 
 
 navigate : Model -> KeyCode -> Int
@@ -53,9 +59,17 @@ addSlide model =
             List.append model.slides (List.singleton slide)
     in
         { step = (List.length slides) - 1
+        , deck = model.deck
+        , decks = model.decks
         , slides = slides
         , isEditing = True
+        , isChangingDeck = False
         }
+
+
+
+-- @TODO: implement onClick for posting new decks
+-- , onClick (Slides.saveSlides model.slides model.deck)
 
 
 renderIcons : Model -> List (Html Msg)
@@ -66,7 +80,7 @@ renderIcons model =
                 [ class "edit pointer"
                 , src "icons/edit.svg"
                 , alt "Save Slides"
-                , onClick ToggleEdit
+                , onClick ToggleEdit -- @TODO replace with event handler above
                 ]
                 []
             ]
@@ -84,6 +98,11 @@ renderIcons model =
                 , onClick AddSlide
                 ]
                 [ text "+" ]
+            , span
+                [ class "change pointer"
+                , onClick ToggleChangeDeck
+                ]
+                [ text "CHANGE" ]
             ]
 
 
@@ -100,6 +119,11 @@ renderFields model slide =
             [ editState ]
             [ text slide.content ]
         ]
+
+
+
+-- renderDeckList : Model -> List (Html Msg)
+-- renderDeckList model =
 
 
 renderSlide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
@@ -132,7 +156,19 @@ renderSlide model slide acc =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0, slides = [], isEditing = False }, Slides.getSlides )
+    let
+        deck =
+            1
+    in
+        ( { step = 0
+          , deck = deck
+          , decks = []
+          , slides = []
+          , isEditing = False
+          , isChangingDeck = False
+          }
+        , Slides.getSlides deck
+        )
 
 
 
@@ -151,8 +187,23 @@ update msg model =
         GetSlides (Err _) ->
             ( model, Cmd.none )
 
+        GetDecks (Ok newDecks) ->
+            ( { model | decks = newDecks }, Cmd.none )
+
+        GetDecks (Err _) ->
+            ( model, Cmd.none )
+
+        SaveSlides (Ok newSlides) ->
+            ( { model | slides = newSlides }, Cmd.none )
+
+        SaveSlides (Err _) ->
+            ( model, Cmd.none )
+
         ToggleEdit ->
             ( { model | isEditing = not model.isEditing }, Cmd.none )
+
+        ToggleChangeDeck ->
+            ( { model | isChangingDeck = not model.isChangingDeck }, Slides.getDecks )
 
         AddSlide ->
             ( addSlide model, Cmd.none )

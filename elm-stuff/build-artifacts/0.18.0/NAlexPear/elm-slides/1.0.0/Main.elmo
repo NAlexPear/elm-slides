@@ -1,15 +1,21 @@
 var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
 	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
 };
-var _NAlexPear$elm_slides$Main$init = {
-	ctor: '_Tuple2',
-	_0: {
-		step: 0,
-		slides: {ctor: '[]'},
-		isEditing: false
-	},
-	_1: _NAlexPear$elm_slides$Slides$getSlides
-};
+var _NAlexPear$elm_slides$Main$init = function () {
+	var deck = 1;
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			step: 0,
+			deck: deck,
+			decks: {ctor: '[]'},
+			slides: {ctor: '[]'},
+			isEditing: false,
+			isChangingDeck: false
+		},
+		_1: _NAlexPear$elm_slides$Slides$getSlides(deck)
+	};
+}();
 var _NAlexPear$elm_slides$Main$renderFields = F2(
 	function (model, slide) {
 		var editState = _elm_lang$html$Html_Attributes$contenteditable(model.isEditing);
@@ -113,7 +119,26 @@ var _NAlexPear$elm_slides$Main$renderIcons = function (model) {
 						_0: _elm_lang$html$Html$text('+'),
 						_1: {ctor: '[]'}
 					}),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('change pointer'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('CHANGE'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
 			}
 		};
 	}
@@ -207,8 +232,11 @@ var _NAlexPear$elm_slides$Main$addSlide = function (model) {
 		_elm_lang$core$List$singleton(slide));
 	return {
 		step: _elm_lang$core$List$length(slides) - 1,
+		deck: model.deck,
+		decks: model.decks,
 		slides: slides,
-		isEditing: true
+		isEditing: true,
+		isChangingDeck: false
 	};
 };
 var _NAlexPear$elm_slides$Main$navigate = F2(
@@ -255,6 +283,30 @@ var _NAlexPear$elm_slides$Main$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
+			case 'GetDecks':
+				if (_p2._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{decks: _p2._0._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'SaveSlides':
+				if (_p2._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{slides: _p2._0._0}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
 			case 'ToggleEdit':
 				return {
 					ctor: '_Tuple2',
@@ -262,6 +314,14 @@ var _NAlexPear$elm_slides$Main$update = F2(
 						model,
 						{isEditing: !model.isEditing}),
 					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ToggleChangeDeck':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isChangingDeck: !model.isChangingDeck}),
+					_1: _NAlexPear$elm_slides$Slides$getDecks
 				};
 			default:
 				return {
@@ -277,7 +337,11 @@ var _NAlexPear$elm_slides$Main$Slide = F2(
 	function (a, b) {
 		return {title: a, content: b};
 	});
-var _NAlexPear$elm_slides$Main$Model = F3(
-	function (a, b, c) {
-		return {step: a, slides: b, isEditing: c};
+var _NAlexPear$elm_slides$Main$Deck = F2(
+	function (a, b) {
+		return {title: a, id: b};
+	});
+var _NAlexPear$elm_slides$Main$Model = F6(
+	function (a, b, c, d, e, f) {
+		return {step: a, deck: b, decks: c, slides: d, isEditing: e, isChangingDeck: f};
 	});
