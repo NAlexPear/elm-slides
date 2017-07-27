@@ -201,7 +201,12 @@ update msg model =
             ( model, Cmd.none )
 
         SaveSlides (Ok newSlides) ->
-            ( { model | slides = newSlides }, Cmd.none )
+            ( { model
+                | slides = newSlides
+                , isEditing = not model.isEditing
+              }
+            , Cmd.none
+            )
 
         SaveSlides (Err _) ->
             ( model, Cmd.none )

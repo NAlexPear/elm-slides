@@ -69,13 +69,21 @@ var _NAlexPear$elm_slides$Slides$slideDecoder = A3(
 var _NAlexPear$elm_slides$Slides$slidesDecoder = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Slides$slideDecoder);
 var _NAlexPear$elm_slides$Slides$saveSlides = F2(
 	function (newSlides, deck) {
+		var responseDecoder = A2(
+			_elm_lang$core$Json_Decode$at,
+			{
+				ctor: '::',
+				_0: 'slides',
+				_1: {ctor: '[]'}
+			},
+			_NAlexPear$elm_slides$Slides$slidesDecoder);
 		var body = _elm_lang$http$Http$jsonBody(
 			_NAlexPear$elm_slides$Slides$slidesEncoder(newSlides));
 		var url = A2(
 			_elm_lang$core$Basics_ops['++'],
 			'http://localhost:3000/decks/',
 			_elm_lang$core$Basics$toString(deck));
-		var request = A3(_NAlexPear$elm_slides$Slides$patch, url, body, _NAlexPear$elm_slides$Slides$slidesDecoder);
+		var request = A3(_NAlexPear$elm_slides$Slides$patch, url, body, responseDecoder);
 		return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveSlides, request);
 	});
 var _NAlexPear$elm_slides$Slides$getSlides = function (deck) {

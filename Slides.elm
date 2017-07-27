@@ -84,8 +84,11 @@ saveSlides newSlides deck =
                 |> slidesEncoder
                 |> Http.jsonBody
 
+        responseDecoder =
+            at [ "slides" ] slidesDecoder
+
         request =
-            patch url body slidesDecoder
+            patch url body responseDecoder
     in
         Http.send SaveSlides request
 
