@@ -5,7 +5,7 @@ import Http
 
 
 type alias Slide =
-    { title : String, content : String }
+    { title : String, content : String, id : Int }
 
 
 type alias Deck =
@@ -25,6 +25,7 @@ type Msg
     | GetSlides (Result Http.Error Slides)
     | GetDecks (Result Http.Error Decks)
     | SaveSlides (Result Http.Error Slides)
+    | QueueSave
     | AddSlide
     | ToggleChangeDeck
     | ToggleEdit

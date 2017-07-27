@@ -9,7 +9,7 @@ import Slides
 
 
 type alias Slide =
-    { title : String, content : String }
+    { title : String, content : String, id : Int }
 
 
 type alias Deck =
@@ -34,13 +34,21 @@ navigate model code =
 
         slides =
             model.slides
+
+        ultimate =
+            List.length slides
+
+        penultimate =
+            ultimate - 1
     in
         case code of
             39 ->
-                clamp 0 (step + 1) ((List.length slides) - 1)
+                penultimate
+                    |> clamp 0 (step + 1)
 
             37 ->
-                clamp 0 step (step - 1)
+                (step - 1)
+                    |> clamp 0 step
 
             _ ->
                 step
@@ -49,27 +57,27 @@ navigate model code =
 addSlide : Model -> Model
 addSlide model =
     let
-        slide =
-            { title = "Click to Add Title", content = "Click to Add Content" }
+        end =
+            List.length model.slides
 
-        step =
-            model.step
+        slide =
+            { title = "Click to Add Title"
+            , content = "Click to Add Content"
+            , id = end + 1
+            }
 
         slides =
-            List.append model.slides (List.singleton slide)
+            slide
+                |> List.singleton
+                |> List.append model.slides
     in
-        { step = (List.length slides) - 1
+        { step = end
         , deck = model.deck
         , decks = model.decks
         , slides = slides
         , isEditing = True
         , isChangingDeck = False
         }
-
-
-
--- @TODO: implement onClick for posting new decks
--- , onClick (Slides.saveSlides model.slides model.deck)
 
 
 renderIcons : Model -> List (Html Msg)
@@ -80,7 +88,7 @@ renderIcons model =
                 [ class "edit pointer"
                 , src "icons/edit.svg"
                 , alt "Save Slides"
-                , onClick ToggleEdit -- @TODO replace with event handler above
+                , onClick QueueSave
                 ]
                 []
             ]
@@ -98,11 +106,12 @@ renderIcons model =
                 , onClick AddSlide
                 ]
                 [ text "+" ]
-            , span
+            , img
                 [ class "change pointer"
+                , src "icons/folder.png"
                 , onClick ToggleChangeDeck
                 ]
-                [ text "CHANGE" ]
+                []
             ]
 
 
@@ -121,19 +130,17 @@ renderFields model slide =
         ]
 
 
-
--- renderDeckList : Model -> List (Html Msg)
--- renderDeckList model =
-
-
 renderSlide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
 renderSlide model slide acc =
     let
+        currentLength =
+            List.length acc
+
         vw =
-            ((List.length acc) - (model.step)) * 100
+            (currentLength - model.step) * 100
 
         position =
-            ( "left", toString (vw) ++ "vw" )
+            ( "left", toString vw ++ "vw" )
 
         next =
             [ div
@@ -199,6 +206,9 @@ update msg model =
         SaveSlides (Err _) ->
             ( model, Cmd.none )
 
+        QueueSave ->
+            ( model, (Slides.saveSlides model.slides model.deck) )
+
         ToggleEdit ->
             ( { model | isEditing = not model.isEditing }, Cmd.none )
 
@@ -224,13 +234,17 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div
-        []
-        [ node "link" [ rel "stylesheet", href "main.css" ] []
-        , div
-            [ id "container" ]
-            (List.foldl (renderSlide model) [] model.slides)
-        ]
+    let
+        renderer =
+            renderSlide model
+    in
+        div
+            []
+            [ node "link" [ rel "stylesheet", href "main.css" ] []
+            , model.slides
+                |> List.foldl renderer []
+                |> div [ id "container" ]
+            ]
 
 
 main =

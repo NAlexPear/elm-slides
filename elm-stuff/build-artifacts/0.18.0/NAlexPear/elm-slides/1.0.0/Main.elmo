@@ -69,7 +69,7 @@ var _NAlexPear$elm_slides$Main$renderIcons = function (model) {
 							_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
 								_1: {ctor: '[]'}
 							}
 						}
@@ -122,21 +122,21 @@ var _NAlexPear$elm_slides$Main$renderIcons = function (model) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_elm_lang$html$Html$span,
+						_elm_lang$html$Html$img,
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$class('change pointer'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$src('icons/folder.png'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+									_1: {ctor: '[]'}
+								}
 							}
 						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('CHANGE'),
-							_1: {ctor: '[]'}
-						}),
+						{ctor: '[]'}),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -145,7 +145,8 @@ var _NAlexPear$elm_slides$Main$renderIcons = function (model) {
 };
 var _NAlexPear$elm_slides$Main$renderSlide = F3(
 	function (model, slide, acc) {
-		var vw = (_elm_lang$core$List$length(acc) - model.step) * 100;
+		var currentLength = _elm_lang$core$List$length(acc);
+		var vw = (currentLength - model.step) * 100;
 		var position = {
 			ctor: '_Tuple2',
 			_0: 'left',
@@ -187,6 +188,7 @@ var _NAlexPear$elm_slides$Main$renderSlide = F3(
 		return A2(_elm_lang$core$List$append, acc, next);
 	});
 var _NAlexPear$elm_slides$Main$view = function (model) {
+	var renderer = _NAlexPear$elm_slides$Main$renderSlide(model);
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -216,7 +218,7 @@ var _NAlexPear$elm_slides$Main$view = function (model) {
 					},
 					A3(
 						_elm_lang$core$List$foldl,
-						_NAlexPear$elm_slides$Main$renderSlide(model),
+						renderer,
 						{ctor: '[]'},
 						model.slides)),
 				_1: {ctor: '[]'}
@@ -224,33 +226,24 @@ var _NAlexPear$elm_slides$Main$view = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Main$addSlide = function (model) {
-	var step = model.step;
-	var slide = {title: 'Click to Add Title', content: 'Click to Add Content'};
+	var end = _elm_lang$core$List$length(model.slides);
+	var slide = {title: 'Click to Add Title', content: 'Click to Add Content', id: end + 1};
 	var slides = A2(
 		_elm_lang$core$List$append,
 		model.slides,
 		_elm_lang$core$List$singleton(slide));
-	return {
-		step: _elm_lang$core$List$length(slides) - 1,
-		deck: model.deck,
-		decks: model.decks,
-		slides: slides,
-		isEditing: true,
-		isChangingDeck: false
-	};
+	return {step: end, deck: model.deck, decks: model.decks, slides: slides, isEditing: true, isChangingDeck: false};
 };
 var _NAlexPear$elm_slides$Main$navigate = F2(
 	function (model, code) {
 		var slides = model.slides;
+		var ultimate = _elm_lang$core$List$length(slides);
+		var penultimate = ultimate - 1;
 		var step = model.step;
 		var _p1 = code;
 		switch (_p1) {
 			case 39:
-				return A3(
-					_elm_lang$core$Basics$clamp,
-					0,
-					step + 1,
-					_elm_lang$core$List$length(slides) - 1);
+				return A3(_elm_lang$core$Basics$clamp, 0, step + 1, penultimate);
 			case 37:
 				return A3(_elm_lang$core$Basics$clamp, 0, step, step - 1);
 			default:
@@ -307,6 +300,12 @@ var _NAlexPear$elm_slides$Main$update = F2(
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
+			case 'QueueSave':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(_NAlexPear$elm_slides$Slides$saveSlides, model.slides, model.deck)
+				};
 			case 'ToggleEdit':
 				return {
 					ctor: '_Tuple2',
@@ -333,9 +332,9 @@ var _NAlexPear$elm_slides$Main$update = F2(
 	});
 var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
 	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Main$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();
-var _NAlexPear$elm_slides$Main$Slide = F2(
-	function (a, b) {
-		return {title: a, content: b};
+var _NAlexPear$elm_slides$Main$Slide = F3(
+	function (a, b, c) {
+		return {title: a, content: b, id: c};
 	});
 var _NAlexPear$elm_slides$Main$Deck = F2(
 	function (a, b) {
