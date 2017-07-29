@@ -82,22 +82,31 @@ var _NAlexPear$elm_slides$Main$init = function () {
 		_1: _NAlexPear$elm_slides$Requests$getSlides(deck)
 	};
 }();
+var _NAlexPear$elm_slides$Main$handleEditHotkey = F2(
+	function (model, code) {
+		var _p0 = code;
+		if (_p0 === 69) {
+			return true;
+		} else {
+			return model.isEditing;
+		}
+	});
 var _NAlexPear$elm_slides$Main$initiateSlideSave = function (model) {
 	return A2(_NAlexPear$elm_slides$Requests$saveSlides, model.slides, model.deck);
 };
-var _NAlexPear$elm_slides$Main$handleEditEscape = F2(
+var _NAlexPear$elm_slides$Main$mapKeyToMsg = F2(
 	function (model, code) {
-		var action = function () {
-			var _p0 = model.isEditing;
-			if (_p0 === true) {
+		var save = function () {
+			var _p1 = model.isEditing;
+			if (_p1 === true) {
 				return _NAlexPear$elm_slides$Main$initiateSlideSave(model);
 			} else {
 				return _elm_lang$core$Platform_Cmd$none;
 			}
 		}();
-		var _p1 = code;
-		if (_p1 === 27) {
-			return action;
+		var _p2 = code;
+		if (_p2 === 27) {
+			return save;
 		} else {
 			return _elm_lang$core$Platform_Cmd$none;
 		}
@@ -121,50 +130,51 @@ var _NAlexPear$elm_slides$Main$addSlide = function (model) {
 };
 var _NAlexPear$elm_slides$Main$update = F2(
 	function (msg, model) {
-		var _p2 = msg;
-		switch (_p2.ctor) {
+		var _p3 = msg;
+		switch (_p3.ctor) {
 			case 'KeyPress':
-				var _p3 = _p2._0;
+				var _p4 = _p3._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							step: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p3)
+							step: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p4),
+							isEditing: A2(_NAlexPear$elm_slides$Main$handleEditHotkey, model, _p4)
 						}),
-					_1: A2(_NAlexPear$elm_slides$Main$handleEditEscape, model, _p3)
+					_1: A2(_NAlexPear$elm_slides$Main$mapKeyToMsg, model, _p4)
 				};
 			case 'GetSlides':
-				if (_p2._0.ctor === 'Ok') {
+				if (_p3._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{slides: _p2._0._0}),
+							{slides: _p3._0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'GetDecks':
-				if (_p2._0.ctor === 'Ok') {
+				if (_p3._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{decks: _p2._0._0}),
+							{decks: _p3._0._0}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'SaveSlides':
-				if (_p2._0.ctor === 'Ok') {
+				if (_p3._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{slides: _p2._0._0, isEditing: !model.isEditing}),
+							{slides: _p3._0._0, isEditing: !model.isEditing}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -204,7 +214,7 @@ var _NAlexPear$elm_slides$Main$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							slides: A2(_NAlexPear$elm_slides$Main$updateSlides, model, _p2._0)
+							slides: A2(_NAlexPear$elm_slides$Main$updateSlides, model, _p3._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};

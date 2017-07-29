@@ -55,10 +55,10 @@ initiateSlideSave model =
     saveSlides model.slides model.deck
 
 
-handleEditEscape : Model -> Int -> Cmd Msg
-handleEditEscape model code =
+mapKeyToMsg : Model -> Int -> Cmd Msg
+mapKeyToMsg model code =
     let
-        action =
+        save =
             case model.isEditing of
                 True ->
                     initiateSlideSave model
@@ -68,14 +68,20 @@ handleEditEscape model code =
     in
         case code of
             27 ->
-                action
+                save
 
             _ ->
                 Cmd.none
 
 
+handleEditHotkey : Model -> Int -> Bool
+handleEditHotkey model code =
+    case code of
+        69 ->
+            True
 
--- model
+        _ ->
+            model.isEditing
 
 
 init : ( Model, Cmd Msg )
@@ -105,8 +111,9 @@ update msg model =
         KeyPress code ->
             ( { model
                 | step = navigate model code
+                , isEditing = handleEditHotkey model code
               }
-            , handleEditEscape model code
+            , mapKeyToMsg model code
             )
 
         GetSlides (Ok newSlides) ->
