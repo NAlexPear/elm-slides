@@ -5,25 +5,11 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Keyboard exposing (KeyCode, ups)
 import Message exposing (Msg(..))
+import Types exposing (..)
+import Array exposing (Array)
+import Array
+import Markdown
 import Slides
-
-
-type alias Slide =
-    { title : String, content : String, id : Int }
-
-
-type alias Deck =
-    { title : String, id : Int }
-
-
-type alias Model =
-    { step : Int
-    , deck : Int
-    , decks : List Deck
-    , slides : List Slide
-    , isEditing : Bool
-    , isChangingDeck : Bool
-    }
 
 
 navigate : Model -> KeyCode -> Int
@@ -36,7 +22,7 @@ navigate model code =
             model.slides
 
         ultimate =
-            List.length slides
+            Array.length slides
 
         penultimate =
             ultimate - 1
@@ -58,25 +44,23 @@ addSlide : Model -> Model
 addSlide model =
     let
         end =
-            List.length model.slides
+            Array.length model.slides
 
         slide =
-            { title = "Click to Add Title"
-            , content = "Click to Add Content"
+            { content = "# Click Edit Button \n ...and add some content!"
             , id = end + 1
             }
 
         slides =
-            slide
-                |> List.singleton
-                |> List.append model.slides
+            Array.empty
+                |> Array.push slide
+                |> Array.append model.slides
     in
-        { step = end
-        , deck = model.deck
-        , decks = model.decks
-        , slides = slides
-        , isEditing = True
-        , isChangingDeck = False
+        { model
+            | step = end
+            , slides = slides
+            , isEditing = True
+            , isChangingDeck = False
         }
 
 
@@ -117,17 +101,20 @@ renderIcons model =
 
 renderFields : Model -> Slide -> List (Html Msg)
 renderFields model slide =
-    let
-        editState =
-            contenteditable model.isEditing
-    in
-        [ h1
-            [ editState ]
-            [ text slide.title ]
-        , p
-            [ editState ]
-            [ text slide.content ]
-        ]
+    case model.isEditing of
+        True ->
+            [ textarea
+                [ value slide.content
+                , onInput UpdateContent
+                ]
+                []
+            ]
+
+        False ->
+            [ div
+                []
+                [ Markdown.toHtml [] slide.content ]
+            ]
 
 
 renderSlide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
@@ -143,18 +130,31 @@ renderSlide model slide acc =
             ( "left", toString vw ++ "vw" )
 
         next =
-            [ div
-                [ class "slide"
-                , style [ position ]
-                ]
-                (List.concat
-                    [ (renderIcons model)
-                    , (renderFields model slide)
+            [ [ renderIcons model
+              , renderFields model slide
+              ]
+                |> List.concat
+                |> div
+                    [ class "slide"
+                    , style [ position ]
                     ]
-                )
             ]
     in
         List.append acc next
+
+
+updateSlides : Model -> String -> Array Slide
+updateSlides model newContent =
+    let
+        id =
+            model.step + 1
+
+        slide =
+            { content = newContent
+            , id = id
+            }
+    in
+        Array.set model.step slide model.slides
 
 
 
@@ -170,7 +170,7 @@ init =
         ( { step = 0
           , deck = deck
           , decks = []
-          , slides = []
+          , slides = Array.empty
           , isEditing = False
           , isChangingDeck = False
           }
@@ -223,6 +223,9 @@ update msg model =
         AddSlide ->
             ( addSlide model, Cmd.none )
 
+        UpdateContent newContent ->
+            ( { model | slides = updateSlides model newContent }, Cmd.none )
+
 
 
 -- subscriptions
@@ -247,7 +250,7 @@ view model =
             []
             [ node "link" [ rel "stylesheet", href "main.css" ] []
             , model.slides
-                |> List.foldl renderer []
+                |> Array.foldl renderer []
                 |> div [ id "container" ]
             ]
 

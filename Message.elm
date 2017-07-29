@@ -1,23 +1,8 @@
 module Message exposing (Msg(..))
 
 import Keyboard exposing (KeyCode)
+import Types exposing (..)
 import Http
-
-
-type alias Slide =
-    { title : String, content : String, id : Int }
-
-
-type alias Deck =
-    { title : String, id : Int }
-
-
-type alias Slides =
-    List Slide
-
-
-type alias Decks =
-    List Deck
 
 
 type Msg
@@ -29,3 +14,4 @@ type Msg
     | AddSlide
     | ToggleChangeDeck
     | ToggleEdit
+    | UpdateContent String

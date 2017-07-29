@@ -1,21 +1,16 @@
-module Slides exposing (Slide, getSlides, saveSlides, getDecks)
+module Slides exposing (getSlides, saveSlides, getDecks)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
+import Types exposing (..)
+import Array exposing (Array)
+import Array
 import Http
 
 
-type alias Slide =
-    { title : String, content : String, id : Int }
-
-
-type alias Deck =
-    { title : String, id : Int }
-
-
-patch : String -> Http.Body -> Decoder (List Slide) -> Http.Request (List Slide)
+patch : String -> Http.Body -> Decoder Slides -> Http.Request Slides
 patch url body decoder =
     Http.request
         { method = "PATCH"
@@ -31,7 +26,6 @@ patch url body decoder =
 slideDecoder : Decoder Slide
 slideDecoder =
     decode Slide
-        |> required "title" string
         |> required "content" string
         |> required "id" int
 
@@ -39,24 +33,23 @@ slideDecoder =
 slideEncoder : Slide -> Encode.Value
 slideEncoder slide =
     Encode.object
-        [ ( "title", Encode.string slide.title )
-        , ( "content", Encode.string slide.content )
+        [ ( "content", Encode.string slide.content )
         , ( "id", Encode.int slide.id )
         ]
 
 
-slidesDecoder : Decoder (List Slide)
+slidesDecoder : Decoder Slides
 slidesDecoder =
-    list slideDecoder
+    array slideDecoder
 
 
-slidesEncoder : List Slide -> Encode.Value
+slidesEncoder : Array Slide -> Encode.Value
 slidesEncoder slides =
     let
         slidesList =
             slides
-                |> List.map slideEncoder
-                |> Encode.list
+                |> Array.map slideEncoder
+                |> Encode.array
     in
         Encode.object [ ( "slides", slidesList ) ]
 
@@ -68,12 +61,12 @@ deckDecoder =
         |> required "id" int
 
 
-decksDecoder : Decoder (List Deck)
+decksDecoder : Decoder Decks
 decksDecoder =
     list deckDecoder
 
 
-saveSlides : List Slide -> Int -> Cmd Msg
+saveSlides : Slides -> Int -> Cmd Msg
 saveSlides newSlides deck =
     let
         url =

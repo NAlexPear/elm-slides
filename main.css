@@ -58,3 +58,13 @@
 .change:hover{
     opacity: 0.3;
 }
+
+textarea{
+    width: 90%;
+    max-width: 60em;
+    height: 50%;
+    font-size: 1.5rem;
+    font-family: monospace;
+    padding: 0.5rem;
+    resize: none;
+}

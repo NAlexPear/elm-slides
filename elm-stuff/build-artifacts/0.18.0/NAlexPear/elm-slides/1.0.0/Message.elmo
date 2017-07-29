@@ -1,11 +1,6 @@
-var _NAlexPear$elm_slides$Message$Slide = F3(
-	function (a, b, c) {
-		return {title: a, content: b, id: c};
-	});
-var _NAlexPear$elm_slides$Message$Deck = F2(
-	function (a, b) {
-		return {title: a, id: b};
-	});
+var _NAlexPear$elm_slides$Message$UpdateContent = function (a) {
+	return {ctor: 'UpdateContent', _0: a};
+};
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
 var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
 var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};

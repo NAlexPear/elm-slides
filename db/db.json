@@ -3,49 +3,28 @@
     {
       "slides": [
         {
-          "title": "Slide 1",
-          "content": "This should be the first slide",
+          "content": "# The First Slide\n\n---\n\nThis is _definitely_ the first slide. But can I change it, now?\n\n---\n\n__What about other bits of markdown?__\n\n---\n\n+ Unordered\n+ List\n+ of\n+ Items\n\n---\n\n1. Numbered\n2. List\n\n---\n\n```\nvar codeSnippet = item;\nvar isBlock = true;\n```",
           "id": 1
         },
         {
-          "title": "Slide 2",
-          "content": "This should be the second slide",
+          "content": "# The Second Slide\n\nThis should be the second slide",
           "id": 2
         },
         {
-          "title": "Slide 3",
           "content": "This should be the third slide",
           "id": 3
         },
         {
-          "title": "Slide 4",
           "content": "This should be the fourth slide",
           "id": 4
         },
         {
-          "title": "Edited Slide",
           "content": "This came from Postman!",
           "id": 5
         },
         {
-          "title": "Click to Add Title",
-          "content": "Click to Add Content",
+          "content": "# Click Edit Button \n ...and add some content!",
           "id": 6
-        },
-        {
-          "title": "Click to Add Title",
-          "content": "Click to Add Content",
-          "id": 7
-        },
-        {
-          "title": "Click to Add Title",
-          "content": "Click to Add Content",
-          "id": 8
-        },
-        {
-          "title": "Click to Add Title",
-          "content": "Click to Add Content",
-          "id": 9
         }
       ],
       "id": 1,
