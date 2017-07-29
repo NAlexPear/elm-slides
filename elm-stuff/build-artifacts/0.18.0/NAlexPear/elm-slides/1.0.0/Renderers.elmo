@@ -1,0 +1,149 @@
+var _NAlexPear$elm_slides$Renderers$renderFields = F2(
+	function (model, slide) {
+		var _p0 = model.isEditing;
+		if (_p0 === true) {
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$textarea,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$value(slide.content),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateContent),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			};
+		} else {
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_evancz$elm_markdown$Markdown$toHtml,
+							{ctor: '[]'},
+							slide.content),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			};
+		}
+	});
+var _NAlexPear$elm_slides$Renderers$renderSlide = F3(
+	function (model, slide, acc) {
+		var currentLength = _elm_lang$core$List$length(acc);
+		var vw = (currentLength - model.step) * 100;
+		var position = {
+			ctor: '_Tuple2',
+			_0: 'left',
+			_1: A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(vw),
+				'vw')
+		};
+		var next = {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('slide'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$style(
+							{
+								ctor: '::',
+								_0: position,
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				},
+				A2(_NAlexPear$elm_slides$Renderers$renderFields, model, slide)),
+			_1: {ctor: '[]'}
+		};
+		return A2(_elm_lang$core$List$append, acc, next);
+	});
+var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
+	var _p1 = model.isEditing;
+	if (_p1 === true) {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit pointer fa fa-pencil-square-o'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit pointer fa fa-pencil-square-o'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('add pointer fa fa-plus'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('change pointer fa fa-exchange'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			}
+		};
+	}
+};

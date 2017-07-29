@@ -4,7 +4,9 @@
     "repository": "https://github.com/NAlexPear/elm-slides.git",
     "license": "BSD3",
     "source-directories": [
-        "."
+        ".",
+        "./src",
+        "./src/helpers"
     ],
     "exposed-modules": [],
     "dependencies": {

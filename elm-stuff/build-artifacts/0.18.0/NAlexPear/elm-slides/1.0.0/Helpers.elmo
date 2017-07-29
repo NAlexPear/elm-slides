@@ -1,0 +1,33 @@
+var _NAlexPear$elm_slides$Helpers$stepBackwards = F2(
+	function (isEditing, step) {
+		var _p0 = isEditing;
+		if (_p0 === false) {
+			return A3(_elm_lang$core$Basics$clamp, 0, step, step - 1);
+		} else {
+			return step;
+		}
+	});
+var _NAlexPear$elm_slides$Helpers$stepForwards = F3(
+	function (isEditing, penultimate, step) {
+		var _p1 = isEditing;
+		if (_p1 === false) {
+			return A3(_elm_lang$core$Basics$clamp, 0, step + 1, penultimate);
+		} else {
+			return step;
+		}
+	});
+var _NAlexPear$elm_slides$Helpers$navigate = F2(
+	function (model, code) {
+		var ultimate = _elm_lang$core$Array$length(model.slides);
+		var penultimate = ultimate - 1;
+		var step = model.step;
+		var _p2 = code;
+		switch (_p2) {
+			case 39:
+				return A3(_NAlexPear$elm_slides$Helpers$stepForwards, model.isEditing, penultimate, step);
+			case 37:
+				return A2(_NAlexPear$elm_slides$Helpers$stepBackwards, model.isEditing, step);
+			default:
+				return step;
+		}
+	});

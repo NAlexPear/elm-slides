@@ -1,4 +1,4 @@
-module Slides exposing (getSlides, saveSlides, getDecks)
+module Requests exposing (getSlides, saveSlides, getDecks)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
