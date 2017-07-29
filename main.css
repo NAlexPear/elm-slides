@@ -7,6 +7,35 @@
     font-family: sans-serif;
 }
 
+#icons {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 3rem;
+    padding-top: 0.25rem;
+    z-index: 1;
+}
+
+#icons .fa {
+    font-size: 2rem;
+    opacity: 0.15;
+    margin: 0.25rem 0 0.25rem 5rem;
+    transition: margin 0.15s ease;
+}
+
+#icons:hover .fa {
+    margin-left: 0;
+}
+
+#icons .fa:hover{
+    opacity: 0.3;
+}
+
 .slide {
     width: 100vw;
     height: 100vh;
@@ -22,41 +51,6 @@
 
 .pointer {
     cursor: pointer;
-}
-
-.edit,
-.add,
-.change{
-    position: absolute;
-    opacity: 0.15;
-}
-
-.add,
-.change{
-    height: 5rem;
-    font-size: 4rem;
-    font-weight: bold;
-    right: 3rem;
-}
-
-.edit{
-    height: 4rem;
-    top: 1rem;
-    right: 2rem;
-}
-
-.add{
-    top: 5rem;
-}
-
-.change{
-    top: 9rem;
-}
-
-.edit:hover,
-.add:hover,
-.change:hover{
-    opacity: 0.3;
 }
 
 textarea{

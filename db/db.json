@@ -3,7 +3,7 @@
     {
       "slides": [
         {
-          "content": "# The First Slide\n\n---\n\nThis is _definitely_ the first slide. But can I change it, now?\n\n---\n\n__What about other bits of markdown?__\n\n---\n\n+ Unordered\n+ List\n+ of\n+ Items\n\n---\n\n1. Numbered\n2. List\n\n---\n\n```\nvar codeSnippet = item;\nvar isBlock = true;\n```",
+          "content": "# The First Slide\n\n---\n\nThis is _definitely_ the first slide. But can I change it, now?\n\n---\n\n__What about other bits of markdown?__\n\n---\n\n+ Unordered\n+ List\n+ of\n+ Items\n\n---\n\n1. Numbered\n2. List\n\n---\n\n```\nvar codeSnippet = item;\nvar isBlock = true;\n\nfunction anotherOne(){\n    console.log('another one!');\n}\n```",
           "id": 1
         },
         {

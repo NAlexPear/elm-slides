@@ -68,9 +68,8 @@ renderIcons : Model -> List (Html Msg)
 renderIcons model =
     case model.isEditing of
         True ->
-            [ img
-                [ class "edit pointer"
-                , src "icons/edit.svg"
+            [ span
+                [ class "edit pointer fa fa-pencil-square-o"
                 , alt "Save Slides"
                 , onClick QueueSave
                 ]
@@ -78,21 +77,19 @@ renderIcons model =
             ]
 
         False ->
-            [ img
-                [ class "edit pointer"
-                , src "icons/edit.svg"
+            [ span
+                [ class "edit pointer fa fa-pencil-square-o"
                 , alt "Edit Slides"
                 , onClick ToggleEdit
                 ]
                 []
             , span
-                [ class "add pointer"
+                [ class "add pointer fa fa-plus"
                 , onClick AddSlide
                 ]
-                [ text "+" ]
-            , img
-                [ class "change pointer"
-                , src "icons/folder.png"
+                []
+            , span
+                [ class "change pointer fa fa-exchange"
                 , onClick ToggleChangeDeck
                 ]
                 []
@@ -130,10 +127,8 @@ renderSlide model slide acc =
             ( "left", toString vw ++ "vw" )
 
         next =
-            [ [ renderIcons model
-              , renderFields model slide
-              ]
-                |> List.concat
+            [ slide
+                |> renderFields model
                 |> div
                     [ class "slide"
                     , style [ position ]
@@ -245,12 +240,20 @@ view model =
     let
         renderer =
             renderSlide model
+
+        icons =
+            model
+                |> renderIcons
+                |> div [ id "icons" ]
+                |> List.singleton
     in
         div
             []
-            [ node "link" [ rel "stylesheet", href "main.css" ] []
+            [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
+            , node "link" [ rel "stylesheet", href "main.css" ] []
             , model.slides
                 |> Array.foldl renderer []
+                |> List.append icons
                 |> div [ id "container" ]
             ]
 
