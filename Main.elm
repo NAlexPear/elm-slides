@@ -164,6 +164,14 @@ update msg model =
             , getDecks
             )
 
+        ChangeDeck deck ->
+            ( { model
+                | isChangingDeck = False
+                , deck = deck
+              }
+            , getSlides deck
+            )
+
         AddSlide ->
             ( addSlide model, Cmd.none )
 

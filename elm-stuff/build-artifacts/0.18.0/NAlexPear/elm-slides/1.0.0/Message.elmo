@@ -2,6 +2,9 @@ var _NAlexPear$elm_slides$Message$UpdateContent = function (a) {
 	return {ctor: 'UpdateContent', _0: a};
 };
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
+var _NAlexPear$elm_slides$Message$ChangeDeck = function (a) {
+	return {ctor: 'ChangeDeck', _0: a};
+};
 var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
 var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
 var _NAlexPear$elm_slides$Message$QueueSave = {ctor: 'QueueSave'};

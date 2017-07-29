@@ -13,5 +13,6 @@ type Msg
     | QueueSave
     | AddSlide
     | ToggleChangeDeck
+    | ChangeDeck Int
     | ToggleEdit
     | UpdateContent String

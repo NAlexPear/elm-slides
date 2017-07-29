@@ -202,6 +202,15 @@ var _NAlexPear$elm_slides$Main$update = F2(
 						{isChangingDeck: !model.isChangingDeck}),
 					_1: _NAlexPear$elm_slides$Requests$getDecks
 				};
+			case 'ChangeDeck':
+				var _p5 = _p3._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isChangingDeck: false, deck: _p5}),
+					_1: _NAlexPear$elm_slides$Requests$getSlides(_p5)
+				};
 			case 'AddSlide':
 				return {
 					ctor: '_Tuple2',

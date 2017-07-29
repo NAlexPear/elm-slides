@@ -8,6 +8,58 @@ import Message exposing (Msg(..))
 import Markdown
 
 
+renderDeckLink : Deck -> Html Msg
+renderDeckLink deck =
+    let
+        clickHandler =
+            ChangeDeck deck.id
+    in
+        li
+            [ class "pointer"
+            , onClick clickHandler
+            ]
+            [ text deck.title ]
+
+
+renderDeckLinks : Decks -> List (Html Msg)
+renderDeckLinks decks =
+    List.map renderDeckLink decks
+
+
+renderDeckModal : Model -> Html Msg
+renderDeckModal model =
+    let
+        classString =
+            if model.isChangingDeck then
+                ""
+            else
+                "hidden"
+    in
+        div [ id "decks", class classString ]
+            [ model.decks
+                |> renderDeckLinks
+                |> ul []
+            ]
+
+
+renderFields : Model -> Slide -> List (Html Msg)
+renderFields model slide =
+    case model.isEditing of
+        True ->
+            [ textarea
+                [ value slide.content
+                , onInput UpdateContent
+                ]
+                []
+            ]
+
+        False ->
+            [ div
+                []
+                [ Markdown.toHtml [] slide.content ]
+            ]
+
+
 renderIcons : Model -> List (Html Msg)
 renderIcons model =
     case model.isEditing of
@@ -37,24 +89,7 @@ renderIcons model =
                 , onClick ToggleChangeDeck
                 ]
                 []
-            ]
-
-
-renderFields : Model -> Slide -> List (Html Msg)
-renderFields model slide =
-    case model.isEditing of
-        True ->
-            [ textarea
-                [ value slide.content
-                , onInput UpdateContent
-                ]
-                []
-            ]
-
-        False ->
-            [ div
-                []
-                [ Markdown.toHtml [] slide.content ]
+            , renderDeckModal model
             ]
 
 

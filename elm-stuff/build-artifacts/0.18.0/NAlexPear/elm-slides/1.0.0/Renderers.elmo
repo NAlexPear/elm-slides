@@ -71,6 +71,50 @@ var _NAlexPear$elm_slides$Renderers$renderSlide = F3(
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
 	});
+var _NAlexPear$elm_slides$Renderers$renderDeckLink = function (deck) {
+	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(deck.id);
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('pointer'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(clickHandler),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(deck.title),
+			_1: {ctor: '[]'}
+		});
+};
+var _NAlexPear$elm_slides$Renderers$renderDeckLinks = function (decks) {
+	return A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Renderers$renderDeckLink, decks);
+};
+var _NAlexPear$elm_slides$Renderers$renderDeckModal = function (model) {
+	var classString = model.isChangingDeck ? '' : 'hidden';
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$id('decks'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class(classString),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$ul,
+				{ctor: '[]'},
+				_NAlexPear$elm_slides$Renderers$renderDeckLinks(model.decks)),
+			_1: {ctor: '[]'}
+		});
+};
 var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
 	var _p1 = model.isEditing;
 	if (_p1 === true) {
@@ -141,7 +185,11 @@ var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
 							}
 						},
 						{ctor: '[]'}),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: _NAlexPear$elm_slides$Renderers$renderDeckModal(model),
+						_1: {ctor: '[]'}
+					}
 				}
 			}
 		};
