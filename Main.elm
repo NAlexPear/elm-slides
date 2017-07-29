@@ -12,25 +12,42 @@ import Navigators exposing (navigate)
 import Array
 
 
+mapIdToIndex : Int -> Slide -> Slide
+mapIdToIndex index slide =
+    let
+        id =
+            index + 1
+    in
+        { slide | id = id }
+
+
 addSlide : Model -> Model
 addSlide model =
     let
-        end =
-            Array.length model.slides
-
         slide =
             { content = "# This is a new slide \n ...and add some content!"
-            , id = end + 1
+            , id = model.step
             }
 
-        slides =
-            Array.empty
+        length =
+            Array.length model.slides
+
+        head =
+            model.slides
+                |> Array.slice 0 model.step
                 |> Array.push slide
-                |> Array.append model.slides
+
+        tail =
+            model.slides
+                |> Array.slice model.step length
+
+        slides =
+            tail
+                |> Array.append head
+                |> Array.indexedMap mapIdToIndex
     in
         { model
-            | step = end
-            , slides = slides
+            | slides = slides
             , isEditing = True
             , isChangingDeck = False
         }
@@ -58,15 +75,6 @@ initiateSlideSave model =
 rejectSlideById : Int -> Slide -> Bool
 rejectSlideById id slide =
     slide.id /= id
-
-
-mapIdToIndex : Int -> Slide -> Slide
-mapIdToIndex index slide =
-    let
-        id =
-            index + 1
-    in
-        { slide | id = id }
 
 
 initiateSlideDelete : Model -> Cmd Msg

@@ -91,26 +91,10 @@ var _NAlexPear$elm_slides$Main$handleEditHotkey = F2(
 			return model.isEditing;
 		}
 	});
-var _NAlexPear$elm_slides$Main$mapIdToIndex = F2(
-	function (index, slide) {
-		var id = index + 1;
-		return _elm_lang$core$Native_Utils.update(
-			slide,
-			{id: id});
-	});
 var _NAlexPear$elm_slides$Main$rejectSlideById = F2(
 	function (id, slide) {
 		return !_elm_lang$core$Native_Utils.eq(slide.id, id);
 	});
-var _NAlexPear$elm_slides$Main$initiateSlideDelete = function (model) {
-	var id = model.step + 1;
-	var predicate = _NAlexPear$elm_slides$Main$rejectSlideById(id);
-	var slides = A2(
-		_elm_lang$core$Array$indexedMap,
-		_NAlexPear$elm_slides$Main$mapIdToIndex,
-		A2(_elm_lang$core$Array$filter, predicate, model.slides));
-	return A2(_NAlexPear$elm_slides$Requests$saveSlides, slides, model.deck);
-};
 var _NAlexPear$elm_slides$Main$initiateSlideSave = function (model) {
 	return A2(_NAlexPear$elm_slides$Requests$saveSlides, model.slides, model.deck);
 };
@@ -137,16 +121,37 @@ var _NAlexPear$elm_slides$Main$updateSlides = F2(
 		var slide = {content: newContent, id: id};
 		return A3(_elm_lang$core$Array$set, model.step, slide, model.slides);
 	});
+var _NAlexPear$elm_slides$Main$mapIdToIndex = F2(
+	function (index, slide) {
+		var id = index + 1;
+		return _elm_lang$core$Native_Utils.update(
+			slide,
+			{id: id});
+	});
 var _NAlexPear$elm_slides$Main$addSlide = function (model) {
-	var end = _elm_lang$core$Array$length(model.slides);
-	var slide = {content: '# This is a new slide \n ...and add some content!', id: end + 1};
+	var length = _elm_lang$core$Array$length(model.slides);
+	var tail = A3(_elm_lang$core$Array$slice, model.step, length, model.slides);
+	var slide = {content: '# This is a new slide \n ...and add some content!', id: model.step};
+	var head = A2(
+		_elm_lang$core$Array$push,
+		slide,
+		A3(_elm_lang$core$Array$slice, 0, model.step, model.slides));
 	var slides = A2(
-		_elm_lang$core$Array$append,
-		model.slides,
-		A2(_elm_lang$core$Array$push, slide, _elm_lang$core$Array$empty));
+		_elm_lang$core$Array$indexedMap,
+		_NAlexPear$elm_slides$Main$mapIdToIndex,
+		A2(_elm_lang$core$Array$append, head, tail));
 	return _elm_lang$core$Native_Utils.update(
 		model,
-		{step: end, slides: slides, isEditing: true, isChangingDeck: false});
+		{slides: slides, isEditing: true, isChangingDeck: false});
+};
+var _NAlexPear$elm_slides$Main$initiateSlideDelete = function (model) {
+	var id = model.step + 1;
+	var predicate = _NAlexPear$elm_slides$Main$rejectSlideById(id);
+	var slides = A2(
+		_elm_lang$core$Array$indexedMap,
+		_NAlexPear$elm_slides$Main$mapIdToIndex,
+		A2(_elm_lang$core$Array$filter, predicate, model.slides));
+	return A2(_NAlexPear$elm_slides$Requests$saveSlides, slides, model.deck);
 };
 var _NAlexPear$elm_slides$Main$update = F2(
 	function (msg, model) {

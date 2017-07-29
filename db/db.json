@@ -15,8 +15,12 @@
           "id": 3
         },
         {
-          "content": "# This is a new slide \n ...and add some content!",
+          "content": "# This is a new slide, too\n ...and it was injected dynamically!",
           "id": 4
+        },
+        {
+          "content": "# This is a new slide \n ...and add some content!",
+          "id": 5
         }
       ],
       "id": 1,
