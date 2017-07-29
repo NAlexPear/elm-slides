@@ -5,8 +5,8 @@ import Html.Attributes exposing (..)
 import Types exposing (..)
 import Array exposing (Array)
 import Message exposing (Msg(..))
+import Components exposing (icons, slide)
 import Keyboard exposing (ups)
-import Renderers exposing (renderIcons, renderSlide)
 import Requests exposing (getSlides, saveSlides, getDecks)
 import Navigators exposing (navigate)
 import Array
@@ -98,12 +98,10 @@ mapKeyToMsg : Model -> Int -> Cmd Msg
 mapKeyToMsg model code =
     let
         save =
-            case model.isEditing of
-                True ->
-                    initiateSlideSave model
-
-                False ->
-                    Cmd.none
+            if model.isEditing then
+                initiateSlideSave model
+            else
+                Cmd.none
     in
         case code of
             27 ->
@@ -242,12 +240,18 @@ view : Model -> Html Msg
 view model =
     let
         renderer =
-            renderSlide model
+            slide model
 
-        icons =
+        iconClasses =
+            if model.isChangingDeck then
+                "active"
+            else
+                ""
+
+        sidebar =
             model
-                |> renderIcons
-                |> div [ id "icons" ]
+                |> icons
+                |> div [ id "icons", class iconClasses ]
                 |> List.singleton
     in
         div
@@ -256,7 +260,7 @@ view model =
             , node "link" [ rel "stylesheet", href "main.css" ] []
             , model.slides
                 |> Array.foldl renderer []
-                |> List.append icons
+                |> List.append sidebar
                 |> div [ id "container" ]
             ]
 

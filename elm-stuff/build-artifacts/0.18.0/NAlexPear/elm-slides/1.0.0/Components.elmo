@@ -1,4 +1,4 @@
-var _NAlexPear$elm_slides$Renderers$renderFields = F2(
+var _NAlexPear$elm_slides$Components$fields = F2(
 	function (model, slide) {
 		return model.isEditing ? {
 			ctor: '::',
@@ -31,7 +31,7 @@ var _NAlexPear$elm_slides$Renderers$renderFields = F2(
 			_1: {ctor: '[]'}
 		};
 	});
-var _NAlexPear$elm_slides$Renderers$renderSlide = F3(
+var _NAlexPear$elm_slides$Components$slide = F3(
 	function (model, slide, acc) {
 		var currentLength = _elm_lang$core$List$length(acc);
 		var vw = (currentLength - model.step) * 100;
@@ -61,12 +61,12 @@ var _NAlexPear$elm_slides$Renderers$renderSlide = F3(
 						_1: {ctor: '[]'}
 					}
 				},
-				A2(_NAlexPear$elm_slides$Renderers$renderFields, model, slide)),
+				A2(_NAlexPear$elm_slides$Components$fields, model, slide)),
 			_1: {ctor: '[]'}
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
 	});
-var _NAlexPear$elm_slides$Renderers$renderDeckLink = function (deck) {
+var _NAlexPear$elm_slides$Components$deckItem = function (deck) {
 	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(deck.id);
 	return A2(
 		_elm_lang$html$Html$li,
@@ -85,10 +85,10 @@ var _NAlexPear$elm_slides$Renderers$renderDeckLink = function (deck) {
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Renderers$renderDeckLinks = function (decks) {
-	return A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Renderers$renderDeckLink, decks);
+var _NAlexPear$elm_slides$Components$deckItems = function (decks) {
+	return A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Components$deckItem, decks);
 };
-var _NAlexPear$elm_slides$Renderers$renderDeckModal = function (model) {
+var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
 	var hiddenString = model.isChangingDeck ? '' : ' hidden';
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
@@ -107,11 +107,11 @@ var _NAlexPear$elm_slides$Renderers$renderDeckModal = function (model) {
 			_0: A2(
 				_elm_lang$html$Html$ul,
 				{ctor: '[]'},
-				_NAlexPear$elm_slides$Renderers$renderDeckLinks(model.decks)),
+				_NAlexPear$elm_slides$Components$deckItems(model.decks)),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
+var _NAlexPear$elm_slides$Components$icons = function (model) {
 	return model.isEditing ? {
 		ctor: '::',
 		_0: A2(
@@ -191,7 +191,7 @@ var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
 							}
 						},
 						_elm_lang$core$List$singleton(
-							_NAlexPear$elm_slides$Renderers$renderDeckModal(model))),
+							_NAlexPear$elm_slides$Components$deckMenu(model))),
 					_1: {
 						ctor: '::',
 						_0: A2(
