@@ -12,29 +12,46 @@ import Markdown
 import Slides
 
 
+stepForwards : Bool -> Int -> Int -> Int
+stepForwards isEditing penultimate step =
+    case isEditing of
+        False ->
+            penultimate
+                |> clamp 0 (step + 1)
+
+        True ->
+            step
+
+
+stepBackwards : Bool -> Int -> Int
+stepBackwards isEditing step =
+    case isEditing of
+        False ->
+            (step - 1)
+                |> clamp 0 step
+
+        True ->
+            step
+
+
 navigate : Model -> KeyCode -> Int
 navigate model code =
     let
         step =
             model.step
 
-        slides =
-            model.slides
-
         ultimate =
-            Array.length slides
+            Array.length model.slides
 
         penultimate =
             ultimate - 1
     in
         case code of
             39 ->
-                penultimate
-                    |> clamp 0 (step + 1)
+                stepForwards model.isEditing penultimate step
 
             37 ->
-                (step - 1)
-                    |> clamp 0 step
+                stepBackwards model.isEditing step
 
             _ ->
                 step
@@ -177,11 +194,30 @@ init =
 -- update
 
 
+handleEditEscape : Model -> Int -> Cmd Msg
+handleEditEscape model code =
+    let
+        action =
+            case model.isEditing of
+                True ->
+                    Slides.saveSlides model.slides model.deck
+
+                False ->
+                    Cmd.none
+    in
+        case code of
+            27 ->
+                action
+
+            _ ->
+                Cmd.none
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         KeyPress code ->
-            ( { model | step = navigate model code }, Cmd.none )
+            ( { model | step = navigate model code }, handleEditEscape model code )
 
         GetSlides (Ok newSlides) ->
             ( { model | slides = newSlides }, Cmd.none )

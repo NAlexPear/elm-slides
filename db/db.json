@@ -11,7 +11,7 @@
           "id": 2
         },
         {
-          "content": "This should be the third slide",
+          "content": "# This is the third slide\n\nAnd now arrows are behaving correctly when we're in editing mode!",
           "id": 3
         },
         {
@@ -25,6 +25,10 @@
         {
           "content": "# Click Edit Button \n ...and add some content!",
           "id": 6
+        },
+        {
+          "content": "# This is another new slide\n\n ...and here's some content!",
+          "id": 7
         }
       ],
       "id": 1,
