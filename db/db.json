@@ -3,32 +3,20 @@
     {
       "slides": [
         {
-          "content": "# The First Slide\n\n---\n\nThis is _definitely_ the first slide. But can I change it, now?\n\n---\n\n__What about other bits of markdown?__\n\n---\n\n+ Unordered\n+ List\n+ of\n+ Items\n\n---\n\n1. Numbered\n2. List\n\n---\n\n```\nvar codeSnippet = item;\nvar isBlock = true;\n\nfunction anotherOne(){\n    console.log('another one!');\n}\n```",
+          "content": "# This is a new slide \n ...first slide, who dis",
           "id": 1
         },
         {
-          "content": "# The Second Slide\n\nThis should be the second slide",
+          "content": "# This is the _new_ second slide\n## The first one was deleted in a terrible accident\n\nHere's an unordered list to make me feel better:\n* What\n* is\n* this!",
           "id": 2
         },
         {
-          "content": "# This is the third slide\n\nAnd now arrows are behaving correctly when we're in editing mode!",
+          "content": "# This is a new ~~fourth~~ _third_ slide\n ...and add some content!",
           "id": 3
         },
         {
-          "content": "This should be the fourth slide",
+          "content": "# This is a new slide \n ...and add some content!",
           "id": 4
-        },
-        {
-          "content": "This came from Postman!",
-          "id": 5
-        },
-        {
-          "content": "# Click Edit Button \n ...and add some content!",
-          "id": 6
-        },
-        {
-          "content": "# This is another new slide\n\n ...and here's some content!",
-          "id": 7
         }
       ],
       "id": 1,

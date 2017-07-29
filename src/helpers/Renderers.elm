@@ -85,6 +85,11 @@ renderIcons model =
                 ]
                 []
             , span
+                [ class "pointer fa fa-trash"
+                , onClick QueueDelete
+                ]
+                []
+            , span
                 [ class "change pointer fa fa-exchange"
                 , onClick ToggleChangeDeck
                 ]

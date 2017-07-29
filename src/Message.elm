@@ -11,6 +11,7 @@ type Msg
     | GetDecks (Result Http.Error Decks)
     | SaveSlides (Result Http.Error Slides)
     | QueueSave
+    | QueueDelete
     | AddSlide
     | ToggleChangeDeck
     | ChangeDeck Int

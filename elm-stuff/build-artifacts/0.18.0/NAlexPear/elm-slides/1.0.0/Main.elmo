@@ -91,6 +91,26 @@ var _NAlexPear$elm_slides$Main$handleEditHotkey = F2(
 			return model.isEditing;
 		}
 	});
+var _NAlexPear$elm_slides$Main$mapIdToIndex = F2(
+	function (index, slide) {
+		var id = index + 1;
+		return _elm_lang$core$Native_Utils.update(
+			slide,
+			{id: id});
+	});
+var _NAlexPear$elm_slides$Main$rejectSlideById = F2(
+	function (id, slide) {
+		return !_elm_lang$core$Native_Utils.eq(slide.id, id);
+	});
+var _NAlexPear$elm_slides$Main$initiateSlideDelete = function (model) {
+	var id = model.step + 1;
+	var predicate = _NAlexPear$elm_slides$Main$rejectSlideById(id);
+	var slides = A2(
+		_elm_lang$core$Array$indexedMap,
+		_NAlexPear$elm_slides$Main$mapIdToIndex,
+		A2(_elm_lang$core$Array$filter, predicate, model.slides));
+	return A2(_NAlexPear$elm_slides$Requests$saveSlides, slides, model.deck);
+};
 var _NAlexPear$elm_slides$Main$initiateSlideSave = function (model) {
 	return A2(_NAlexPear$elm_slides$Requests$saveSlides, model.slides, model.deck);
 };
@@ -174,7 +194,7 @@ var _NAlexPear$elm_slides$Main$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{slides: _p3._0._0, isEditing: !model.isEditing}),
+							{slides: _p3._0._0, isEditing: false}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
@@ -185,6 +205,12 @@ var _NAlexPear$elm_slides$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: model,
 					_1: _NAlexPear$elm_slides$Main$initiateSlideSave(model)
+				};
+			case 'QueueDelete':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _NAlexPear$elm_slides$Main$initiateSlideDelete(model)
 				};
 			case 'ToggleEdit':
 				return {

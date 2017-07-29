@@ -55,6 +55,37 @@ initiateSlideSave model =
     saveSlides model.slides model.deck
 
 
+rejectSlideById : Int -> Slide -> Bool
+rejectSlideById id slide =
+    slide.id /= id
+
+
+mapIdToIndex : Int -> Slide -> Slide
+mapIdToIndex index slide =
+    let
+        id =
+            index + 1
+    in
+        { slide | id = id }
+
+
+initiateSlideDelete : Model -> Cmd Msg
+initiateSlideDelete model =
+    let
+        id =
+            model.step + 1
+
+        predicate =
+            rejectSlideById id
+
+        slides =
+            model.slides
+                |> Array.filter predicate
+                |> Array.indexedMap mapIdToIndex
+    in
+        saveSlides slides model.deck
+
+
 mapKeyToMsg : Model -> Int -> Cmd Msg
 mapKeyToMsg model code =
     let
@@ -139,7 +170,7 @@ update msg model =
         SaveSlides (Ok newSlides) ->
             ( { model
                 | slides = newSlides
-                , isEditing = not model.isEditing
+                , isEditing = False
               }
             , Cmd.none
             )
@@ -149,6 +180,9 @@ update msg model =
 
         QueueSave ->
             ( model, initiateSlideSave model )
+
+        QueueDelete ->
+            ( model, initiateSlideDelete model )
 
         ToggleEdit ->
             ( { model

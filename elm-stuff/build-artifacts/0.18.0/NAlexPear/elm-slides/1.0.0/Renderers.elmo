@@ -177,18 +177,33 @@ var _NAlexPear$elm_slides$Renderers$renderIcons = function (model) {
 						_elm_lang$html$Html$span,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('change pointer fa fa-exchange'),
+							_0: _elm_lang$html$Html_Attributes$class('pointer fa fa-trash'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDelete),
 								_1: {ctor: '[]'}
 							}
 						},
 						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
-						_0: _NAlexPear$elm_slides$Renderers$renderDeckModal(model),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('change pointer fa fa-exchange'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {
+							ctor: '::',
+							_0: _NAlexPear$elm_slides$Renderers$renderDeckModal(model),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
