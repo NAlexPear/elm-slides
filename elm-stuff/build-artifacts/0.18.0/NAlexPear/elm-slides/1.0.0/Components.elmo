@@ -73,11 +73,15 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (deck) {
 		{stopPropagation: true, preventDefault: true},
 		_elm_lang$core$Json_Decode$succeed(_NAlexPear$elm_slides$Message$NoOp));
 	return A2(
-		_elm_lang$html$Html$form,
+		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: clickHandler,
-			_1: {ctor: '[]'}
+			_0: _elm_lang$html$Html_Attributes$id('settings'),
+			_1: {
+				ctor: '::',
+				_0: clickHandler,
+				_1: {ctor: '[]'}
+			}
 		},
 		{
 			ctor: '::',
@@ -101,7 +105,11 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (deck) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$name('title'),
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateTitle),
+										_1: {ctor: '[]'}
+									}
 								}
 							},
 							{ctor: '[]'}),
@@ -115,7 +123,11 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (deck) {
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Attributes$class('pointer'),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSaveDeck),
+							_1: {ctor: '[]'}
+						}
 					},
 					{
 						ctor: '::',
@@ -172,7 +184,8 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
-	var maybeDeck = A2(_elm_lang$core$Array$get, model.deck, model.decks);
+	var index = model.deck - 1;
+	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks);
 	var menu = function () {
 		var _p0 = maybeDeck;
 		if (_p0.ctor === 'Just') {
@@ -181,7 +194,6 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
 			return _elm_lang$html$Html$text('No deck information found');
 		}
 	}();
-	var index = model.deck - 1;
 	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.isEditingDeck);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(

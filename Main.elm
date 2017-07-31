@@ -87,7 +87,7 @@ initiateDeckSave model =
     in
         case maybeDeck of
             Just deck ->
-                saveDeck deck
+                saveDeck { deck | title = model.title }
 
             Nothing ->
                 Cmd.none
@@ -141,7 +141,7 @@ handleEditHotkey : Model -> Int -> Bool
 handleEditHotkey model code =
     case code of
         69 ->
-            True
+            not model.isEditingDeck
 
         _ ->
             model.isEditing
@@ -155,6 +155,7 @@ init =
     in
         ( { step = 0
           , deck = deck
+          , title = ""
           , decks = Array.empty
           , slides = Array.empty
           , isEditing = False
@@ -267,6 +268,13 @@ update msg model =
         UpdateContent newContent ->
             ( { model
                 | slides = updateSlides model newContent
+              }
+            , Cmd.none
+            )
+
+        UpdateTitle newTitle ->
+            ( { model
+                | title = newTitle
               }
             , Cmd.none
             )

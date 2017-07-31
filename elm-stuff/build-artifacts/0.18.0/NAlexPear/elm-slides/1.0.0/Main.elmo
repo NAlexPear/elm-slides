@@ -76,7 +76,7 @@ var _NAlexPear$elm_slides$Main$init = function () {
 	var deck = 1;
 	return {
 		ctor: '_Tuple2',
-		_0: {step: 0, deck: deck, decks: _elm_lang$core$Array$empty, slides: _elm_lang$core$Array$empty, isEditing: false, isChangingDeck: false, isEditingDeck: false},
+		_0: {step: 0, deck: deck, title: '', decks: _elm_lang$core$Array$empty, slides: _elm_lang$core$Array$empty, isEditing: false, isChangingDeck: false, isEditingDeck: false},
 		_1: _NAlexPear$elm_slides$Requests$getSlides(deck)
 	};
 }();
@@ -84,7 +84,7 @@ var _NAlexPear$elm_slides$Main$handleEditHotkey = F2(
 	function (model, code) {
 		var _p0 = code;
 		if (_p0 === 69) {
-			return true;
+			return !model.isEditingDeck;
 		} else {
 			return model.isEditing;
 		}
@@ -111,7 +111,10 @@ var _NAlexPear$elm_slides$Main$initiateDeckSave = function (model) {
 	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks);
 	var _p2 = maybeDeck;
 	if (_p2.ctor === 'Just') {
-		return _NAlexPear$elm_slides$Requests$saveDeck(_p2._0);
+		return _NAlexPear$elm_slides$Requests$saveDeck(
+			_elm_lang$core$Native_Utils.update(
+				_p2._0,
+				{title: model.title}));
 	} else {
 		return _elm_lang$core$Platform_Cmd$none;
 	}
@@ -290,6 +293,14 @@ var _NAlexPear$elm_slides$Main$update = F2(
 						{
 							slides: A2(_NAlexPear$elm_slides$Main$updateSlides, model, _p3._0)
 						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateTitle':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{title: _p3._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:

@@ -20,4 +20,5 @@ type Msg
     | ToggleEditDeck
     | ToggleEdit
     | UpdateContent String
+    | UpdateTitle String
     | NoOp

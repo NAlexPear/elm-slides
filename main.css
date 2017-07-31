@@ -46,6 +46,17 @@
     margin-left: 0;
 }
 
+#settings{
+    padding: 0.5rem;
+}
+
+#settings label{
+    margin-bottom: 0.25rem;
+}
+
+#settings button{
+    margin-top: 0.5rem;
+}
 
 .menu {
     width: 10rem;
@@ -128,18 +139,7 @@ textarea{
     resize: none;
 }
 
-form{
-    padding: 0.5rem;
-}
-
 input{
     margin: 0.25rem 0;
-}
-
-form label{
-    margin-bottom: 0.25rem;
-}
-
-form button{
-    margin-top: 0.5rem;
+    max-width: 90%;
 }

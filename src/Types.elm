@@ -26,6 +26,7 @@ type alias Decks =
 type alias Model =
     { step : Int
     , deck : Int
+    , title : String
     , decks : Decks
     , slides : Slides
     , isEditing : Bool

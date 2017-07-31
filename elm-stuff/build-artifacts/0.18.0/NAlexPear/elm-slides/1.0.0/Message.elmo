@@ -1,4 +1,7 @@
 var _NAlexPear$elm_slides$Message$NoOp = {ctor: 'NoOp'};
+var _NAlexPear$elm_slides$Message$UpdateTitle = function (a) {
+	return {ctor: 'UpdateTitle', _0: a};
+};
 var _NAlexPear$elm_slides$Message$UpdateContent = function (a) {
 	return {ctor: 'UpdateContent', _0: a};
 };

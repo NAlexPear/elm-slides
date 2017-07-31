@@ -63,13 +63,20 @@ deckSettingsForm deck =
                 |> Decode.succeed
                 |> onWithOptions "click" { stopPropagation = True, preventDefault = True }
     in
-        Html.form [ clickHandler ]
+        div [ id "settings", clickHandler ]
             [ label
                 [ for "title" ]
                 [ text "Deck Title:"
-                , input [ placeholder deck.title, name "title" ] []
+                , input
+                    [ placeholder deck.title
+                    , name "title"
+                    , onInput UpdateTitle
+                    ]
+                    []
                 ]
-            , button [ class "pointer" ] [ text "Save Changes" ]
+            , button
+                [ class "pointer", onClick QueueSaveDeck ]
+                [ text "Save Changes" ]
             ]
 
 
@@ -86,7 +93,7 @@ deckSettingsMenu model =
             model.deck - 1
 
         maybeDeck =
-            Array.get model.deck model.decks
+            Array.get index model.decks
 
         menu =
             case maybeDeck of
