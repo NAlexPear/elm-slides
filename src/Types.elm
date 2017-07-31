@@ -20,7 +20,7 @@ type alias Slides =
 
 
 type alias Decks =
-    List Deck
+    Array Deck
 
 
 type alias Model =
@@ -30,4 +30,5 @@ type alias Model =
     , slides : Slides
     , isEditing : Bool
     , isChangingDeck : Bool
+    , isEditingDeck : Bool
     }

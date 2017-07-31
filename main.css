@@ -24,17 +24,21 @@
 
 #icons .fa {
     font-size: 2rem;
+}
+
+#icons .fa::before{
+    cursor: pointer;
     opacity: 0.15;
+}
+
+#icons .fa:hover::before{
+    opacity: 0.3;
 }
 
 .menu,
 #icons .fa {
     margin: 0.25rem 0 0.25rem 6rem;
     transition: margin 0.15s ease;
-}
-
-#icons .fa:hover{
-    opacity: 0.3;
 }
 
 #icons.active .fa,
@@ -88,7 +92,8 @@
     display: block;
 }
 
-.change {
+.change,
+.settings{
     position: relative;
 }
 
@@ -121,4 +126,20 @@ textarea{
     font-family: monospace;
     padding: 0.5rem;
     resize: none;
+}
+
+form{
+    padding: 0.5rem;
+}
+
+input{
+    margin: 0.25rem 0;
+}
+
+form label{
+    margin-bottom: 0.25rem;
+}
+
+form button{
+    margin-top: 0.5rem;
 }

@@ -1,19 +1,25 @@
+var _NAlexPear$elm_slides$Message$NoOp = {ctor: 'NoOp'};
 var _NAlexPear$elm_slides$Message$UpdateContent = function (a) {
 	return {ctor: 'UpdateContent', _0: a};
 };
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
+var _NAlexPear$elm_slides$Message$ToggleEditDeck = {ctor: 'ToggleEditDeck'};
+var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
 var _NAlexPear$elm_slides$Message$ChangeDeck = function (a) {
 	return {ctor: 'ChangeDeck', _0: a};
 };
-var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
 var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
+var _NAlexPear$elm_slides$Message$QueueSaveDeck = {ctor: 'QueueSaveDeck'};
 var _NAlexPear$elm_slides$Message$QueueDelete = {ctor: 'QueueDelete'};
 var _NAlexPear$elm_slides$Message$QueueSave = {ctor: 'QueueSave'};
-var _NAlexPear$elm_slides$Message$SaveSlides = function (a) {
-	return {ctor: 'SaveSlides', _0: a};
+var _NAlexPear$elm_slides$Message$SaveDeck = function (a) {
+	return {ctor: 'SaveDeck', _0: a};
 };
 var _NAlexPear$elm_slides$Message$GetDecks = function (a) {
 	return {ctor: 'GetDecks', _0: a};
+};
+var _NAlexPear$elm_slides$Message$SaveSlides = function (a) {
+	return {ctor: 'SaveSlides', _0: a};
 };
 var _NAlexPear$elm_slides$Message$GetSlides = function (a) {
 	return {ctor: 'GetSlides', _0: a};

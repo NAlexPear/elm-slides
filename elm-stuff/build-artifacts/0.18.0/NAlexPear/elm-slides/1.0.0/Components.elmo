@@ -66,6 +66,66 @@ var _NAlexPear$elm_slides$Components$slide = F3(
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
 	});
+var _NAlexPear$elm_slides$Components$deckSettingsForm = function (deck) {
+	var clickHandler = A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		{stopPropagation: true, preventDefault: true},
+		_elm_lang$core$Json_Decode$succeed(_NAlexPear$elm_slides$Message$NoOp));
+	return A2(
+		_elm_lang$html$Html$form,
+		{
+			ctor: '::',
+			_0: clickHandler,
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$for('title'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Deck Title:'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder(deck.title),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$name('title'),
+									_1: {ctor: '[]'}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('pointer'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Save Changes'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _NAlexPear$elm_slides$Components$deckItem = function (deck) {
 	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(deck.id);
 	return A2(
@@ -86,21 +146,21 @@ var _NAlexPear$elm_slides$Components$deckItem = function (deck) {
 		});
 };
 var _NAlexPear$elm_slides$Components$deckItems = function (decks) {
-	return A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Components$deckItem, decks);
+	return _elm_lang$core$Array$toList(
+		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, decks));
+};
+var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
+	return trigger ? '' : ' hidden';
 };
 var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
-	var hiddenString = model.isChangingDeck ? '' : ' hidden';
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.isChangingDeck);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
 		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$id('decks'),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class(classString),
-				_1: {ctor: '[]'}
-			}
+			_0: _elm_lang$html$Html_Attributes$class(classString),
+			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
@@ -111,6 +171,32 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
 			_1: {ctor: '[]'}
 		});
 };
+var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
+	var maybeDeck = A2(_elm_lang$core$Array$get, model.deck, model.decks);
+	var menu = function () {
+		var _p0 = maybeDeck;
+		if (_p0.ctor === 'Just') {
+			return _NAlexPear$elm_slides$Components$deckSettingsForm(_p0._0);
+		} else {
+			return _elm_lang$html$Html$text('No deck information found');
+		}
+	}();
+	var index = model.deck - 1;
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.isEditingDeck);
+	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(classString),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: menu,
+			_1: {ctor: '[]'}
+		});
+};
 var _NAlexPear$elm_slides$Components$icons = function (model) {
 	return model.isEditing ? {
 		ctor: '::',
@@ -118,7 +204,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 			_elm_lang$html$Html$span,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('edit pointer fa fa-pencil-square-o'),
+				_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
@@ -137,7 +223,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 			_elm_lang$html$Html$span,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('edit pointer fa fa-pencil-square-o'),
+				_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
@@ -155,7 +241,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 				_elm_lang$html$Html$span,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('add pointer fa fa-plus'),
+					_0: _elm_lang$html$Html_Attributes$class('add fa fa-plus'),
 					_1: {
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
@@ -169,7 +255,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 					_elm_lang$html$Html$span,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('pointer fa fa-trash'),
+						_0: _elm_lang$html$Html_Attributes$class('fa fa-trash'),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDelete),
@@ -183,7 +269,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 						_elm_lang$html$Html$span,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('change pointer fa fa-exchange'),
+							_0: _elm_lang$html$Html_Attributes$class('change fa fa-exchange'),
 							_1: {
 								ctor: '::',
 								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
@@ -198,10 +284,15 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 							_elm_lang$html$Html$span,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('pointer fa fa-gear'),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$html$Html_Attributes$class('settings fa fa-gear'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEditDeck),
+									_1: {ctor: '[]'}
+								}
 							},
-							{ctor: '[]'}),
+							_elm_lang$core$List$singleton(
+								_NAlexPear$elm_slides$Components$deckSettingsMenu(model))),
 						_1: {ctor: '[]'}
 					}
 				}

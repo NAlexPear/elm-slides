@@ -8,12 +8,16 @@ import Http
 type Msg
     = KeyPress KeyCode
     | GetSlides (Result Http.Error Slides)
-    | GetDecks (Result Http.Error Decks)
     | SaveSlides (Result Http.Error Slides)
+    | GetDecks (Result Http.Error Decks)
+    | SaveDeck (Result Http.Error Deck)
     | QueueSave
     | QueueDelete
+    | QueueSaveDeck
     | AddSlide
-    | ToggleChangeDeck
     | ChangeDeck Int
+    | ToggleChangeDeck
+    | ToggleEditDeck
     | ToggleEdit
     | UpdateContent String
+    | NoOp

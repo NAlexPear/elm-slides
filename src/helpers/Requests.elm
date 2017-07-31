@@ -1,4 +1,4 @@
-module Requests exposing (getSlides, saveSlides, getDecks)
+module Requests exposing (getSlides, saveSlides, getDecks, saveDeck)
 
 import Message exposing (Msg(..))
 import Json.Decode exposing (..)
@@ -10,7 +10,7 @@ import Array
 import Http
 
 
-patch : String -> Http.Body -> Decoder Slides -> Http.Request Slides
+patch : String -> Http.Body -> Decoder a -> Http.Request a
 patch url body decoder =
     Http.request
         { method = "PATCH"
@@ -63,7 +63,29 @@ deckDecoder =
 
 decksDecoder : Decoder Decks
 decksDecoder =
-    list deckDecoder
+    array deckDecoder
+
+
+deckEncoder : Deck -> Encode.Value
+deckEncoder deck =
+    Encode.object [ ( "title", Encode.string deck.title ) ]
+
+
+saveDeck : Deck -> Cmd Msg
+saveDeck deck =
+    let
+        url =
+            "http://localhost:3000/decks/" ++ toString deck.id
+
+        body =
+            deck
+                |> deckEncoder
+                |> Http.jsonBody
+
+        request =
+            patch url body deckDecoder
+    in
+        Http.send SaveDeck request
 
 
 saveSlides : Slides -> Int -> Cmd Msg

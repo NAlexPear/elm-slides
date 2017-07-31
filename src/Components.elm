@@ -5,7 +5,18 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Types exposing (..)
 import Message exposing (Msg(..))
+import Array exposing (Array)
+import Json.Decode as Decode
+import Array
 import Markdown
+
+
+getHiddenString : Bool -> String
+getHiddenString trigger =
+    if trigger then
+        ""
+    else
+        " hidden"
 
 
 deckItem : Deck -> Html Msg
@@ -23,26 +34,69 @@ deckItem deck =
 
 deckItems : Decks -> List (Html Msg)
 deckItems decks =
-    List.map deckItem decks
+    decks
+        |> Array.map deckItem
+        |> Array.toList
 
 
 deckMenu : Model -> Html Msg
 deckMenu model =
     let
         hiddenString =
-            if model.isChangingDeck then
-                ""
-            else
-                " hidden"
+            getHiddenString model.isChangingDeck
 
         classString =
             "menu" ++ hiddenString
     in
-        div [ id "decks", class classString ]
+        div [ class classString ]
             [ model.decks
                 |> deckItems
                 |> ul []
             ]
+
+
+deckSettingsForm : Deck -> Html Msg
+deckSettingsForm deck =
+    let
+        clickHandler =
+            NoOp
+                |> Decode.succeed
+                |> onWithOptions "click" { stopPropagation = True, preventDefault = True }
+    in
+        Html.form [ clickHandler ]
+            [ label
+                [ for "title" ]
+                [ text "Deck Title:"
+                , input [ placeholder deck.title, name "title" ] []
+                ]
+            , button [ class "pointer" ] [ text "Save Changes" ]
+            ]
+
+
+deckSettingsMenu : Model -> Html Msg
+deckSettingsMenu model =
+    let
+        hiddenString =
+            getHiddenString model.isEditingDeck
+
+        classString =
+            "menu" ++ hiddenString
+
+        index =
+            model.deck - 1
+
+        maybeDeck =
+            Array.get model.deck model.decks
+
+        menu =
+            case maybeDeck of
+                Just deck ->
+                    deckSettingsForm deck
+
+                Nothing ->
+                    text "No deck information found"
+    in
+        div [ class classString ] [ menu ]
 
 
 fields : Model -> Slide -> List (Html Msg)
@@ -65,7 +119,7 @@ icons : Model -> List (Html Msg)
 icons model =
     if model.isEditing then
         [ span
-            [ class "edit pointer fa fa-pencil-square-o"
+            [ class "edit fa fa-pencil-square-o"
             , alt "Save Slides"
             , onClick QueueSave
             ]
@@ -73,30 +127,33 @@ icons model =
         ]
     else
         [ span
-            [ class "edit pointer fa fa-pencil-square-o"
+            [ class "edit fa fa-pencil-square-o"
             , alt "Edit Slides"
             , onClick ToggleEdit
             ]
             []
         , span
-            [ class "add pointer fa fa-plus"
+            [ class "add fa fa-plus"
             , onClick AddSlide
             ]
             []
         , span
-            [ class "pointer fa fa-trash"
+            [ class "fa fa-trash"
             , onClick QueueDelete
             ]
             []
         , deckMenu model
             |> List.singleton
             |> span
-                [ class "change pointer fa fa-exchange"
+                [ class "change fa fa-exchange"
                 , onClick ToggleChangeDeck
                 ]
-        , span
-            [ class "pointer fa fa-gear" ]
-            []
+        , deckSettingsMenu model
+            |> List.singleton
+            |> span
+                [ class "settings fa fa-gear"
+                , onClick ToggleEditDeck
+                ]
         ]
 
 

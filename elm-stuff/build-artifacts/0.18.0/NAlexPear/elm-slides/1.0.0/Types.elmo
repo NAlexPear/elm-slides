@@ -6,7 +6,7 @@ var _NAlexPear$elm_slides$Types$Deck = F2(
 	function (a, b) {
 		return {title: a, id: b};
 	});
-var _NAlexPear$elm_slides$Types$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {step: a, deck: b, decks: c, slides: d, isEditing: e, isChangingDeck: f};
+var _NAlexPear$elm_slides$Types$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {step: a, deck: b, decks: c, slides: d, isEditing: e, isChangingDeck: f, isEditingDeck: g};
 	});

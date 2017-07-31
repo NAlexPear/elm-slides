@@ -7,7 +7,7 @@ import Array exposing (Array)
 import Message exposing (Msg(..))
 import Components exposing (icons, slide)
 import Keyboard exposing (ups)
-import Requests exposing (getSlides, saveSlides, getDecks)
+import Requests exposing (getSlides, saveSlides, getDecks, saveDeck)
 import Navigators exposing (navigate)
 import Array
 
@@ -53,7 +53,7 @@ addSlide model =
         }
 
 
-updateSlides : Model -> String -> Array Slide
+updateSlides : Model -> String -> Slides
 updateSlides model newContent =
     let
         id =
@@ -65,6 +65,32 @@ updateSlides model newContent =
             }
     in
         Array.set model.step slide model.slides
+
+
+updateDecks : Model -> Deck -> Decks
+updateDecks model newDeck =
+    let
+        index =
+            newDeck.id - 1
+    in
+        Array.set index newDeck model.decks
+
+
+initiateDeckSave : Model -> Cmd Msg
+initiateDeckSave model =
+    let
+        index =
+            model.deck - 1
+
+        maybeDeck =
+            Array.get index model.decks
+    in
+        case maybeDeck of
+            Just deck ->
+                saveDeck deck
+
+            Nothing ->
+                Cmd.none
 
 
 initiateSlideSave : Model -> Cmd Msg
@@ -129,10 +155,11 @@ init =
     in
         ( { step = 0
           , deck = deck
-          , decks = []
+          , decks = Array.empty
           , slides = Array.empty
           , isEditing = False
           , isChangingDeck = False
+          , isEditingDeck = False
           }
         , getSlides deck
         )
@@ -184,11 +211,24 @@ update msg model =
         SaveSlides (Err _) ->
             ( model, Cmd.none )
 
+        SaveDeck (Ok newDeck) ->
+            ( { model
+                | decks = updateDecks model newDeck
+              }
+            , Cmd.none
+            )
+
+        SaveDeck (Err _) ->
+            ( model, Cmd.none )
+
         QueueSave ->
             ( model, initiateSlideSave model )
 
         QueueDelete ->
             ( model, initiateSlideDelete model )
+
+        QueueSaveDeck ->
+            ( model, initiateDeckSave model )
 
         ToggleEdit ->
             ( { model
@@ -200,6 +240,7 @@ update msg model =
         ToggleChangeDeck ->
             ( { model
                 | isChangingDeck = not model.isChangingDeck
+                , isEditingDeck = False
               }
             , getDecks
             )
@@ -212,6 +253,14 @@ update msg model =
             , getSlides deck
             )
 
+        ToggleEditDeck ->
+            ( { model
+                | isChangingDeck = False
+                , isEditingDeck = not model.isEditingDeck
+              }
+            , getDecks
+            )
+
         AddSlide ->
             ( addSlide model, Cmd.none )
 
@@ -221,6 +270,9 @@ update msg model =
               }
             , Cmd.none
             )
+
+        NoOp ->
+            ( model, Cmd.none )
 
 
 
@@ -243,7 +295,7 @@ view model =
             slide model
 
         iconClasses =
-            if model.isChangingDeck then
+            if model.isChangingDeck || model.isEditingDeck then
                 "active"
             else
                 ""
