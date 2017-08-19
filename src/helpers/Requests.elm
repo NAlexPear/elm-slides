@@ -62,7 +62,7 @@ deckDecoder =
         |> required "slides" slidesDecoder
 
 
-decksDecoder : Decoder Decks
+decksDecoder : Decoder (Array Deck)
 decksDecoder =
     array deckDecoder
 

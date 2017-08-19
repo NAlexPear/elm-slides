@@ -18,7 +18,7 @@ var _NAlexPear$elm_slides$Navigators$stepForwards = F3(
 	});
 var _NAlexPear$elm_slides$Navigators$navigate = F2(
 	function (model, code) {
-		var ultimate = _elm_lang$core$Array$length(model.deck.slides);
+		var ultimate = _elm_lang$core$Array$length(model.decks.current.slides);
 		var penultimate = ultimate - 1;
 		var step = model.step;
 		var _p2 = code;

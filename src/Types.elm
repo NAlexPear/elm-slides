@@ -21,13 +21,13 @@ type alias Deck =
 
 
 type alias Decks =
-    Array Deck
+    { current : Deck
+    , others : Array Deck
+    }
 
 
 type alias Model =
     { step : Int
-    , deck : Deck
-    , title : String
     , decks : Decks
     , isEditing : Bool
     , isChangingDeck : Bool

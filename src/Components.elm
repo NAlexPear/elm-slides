@@ -34,7 +34,7 @@ deckItem deck =
 
 deckItems : Decks -> List (Html Msg)
 deckItems decks =
-    decks
+    decks.others
         |> Array.map deckItem
         |> Array.toList
 
@@ -90,10 +90,10 @@ deckSettingsMenu model =
             "menu" ++ hiddenString
 
         index =
-            model.deck.id - 1
+            model.decks.current.id - 1
 
         maybeDeck =
-            Array.get index model.decks
+            Array.get index model.decks.others
 
         menu =
             case maybeDeck of

@@ -30,15 +30,15 @@ addSlide model =
             }
 
         length =
-            Array.length model.deck.slides
+            Array.length model.decks.current.slides
 
         head =
-            model.deck.slides
+            model.decks.current.slides
                 |> Array.slice 0 model.step
                 |> Array.push slide
 
         tail =
-            model.deck.slides
+            model.decks.current.slides
                 |> Array.slice model.step length
 
         slides =
@@ -46,17 +46,28 @@ addSlide model =
                 |> Array.append head
                 |> Array.indexedMap mapIdToIndex
 
+        decks =
+            model.decks
+
         deck =
-            model.deck
+            decks.current
 
         newDeck =
             { deck | slides = slides }
+
+        newDecks =
+            { decks | current = deck }
     in
         { model
-            | deck = newDeck
+            | decks = newDecks
             , isEditing = True
             , isChangingDeck = False
         }
+
+
+updateTitle : Deck -> String -> Deck
+updateTitle deck newTitle =
+    { deck | title = newTitle }
 
 
 updateSlides : Model -> String -> Deck
@@ -66,7 +77,7 @@ updateSlides model newContent =
             model.step + 1
 
         deck =
-            model.deck
+            model.decks.current
 
         slide =
             { content = newContent
@@ -79,35 +90,9 @@ updateSlides model newContent =
         { deck | slides = slides }
 
 
-updateDecks : Model -> Deck -> Decks
-updateDecks model newDeck =
-    let
-        index =
-            newDeck.id - 1
-    in
-        Array.set index newDeck model.decks
-
-
-initiateDeckSave : Model -> Cmd Msg
-initiateDeckSave model =
-    let
-        index =
-            model.deck.id - 1
-
-        maybeDeck =
-            Array.get index model.decks
-    in
-        case maybeDeck of
-            Just deck ->
-                saveDeck { deck | title = model.title }
-
-            Nothing ->
-                Cmd.none
-
-
 initiateSlideSave : Model -> Cmd Msg
 initiateSlideSave model =
-    saveDeck model.deck
+    saveDeck model.decks.current
 
 
 rejectSlideById : Int -> Slide -> Bool
@@ -125,10 +110,10 @@ initiateSlideDelete model =
             rejectSlideById id
 
         deck =
-            model.deck
+            model.decks.current
 
         slides =
-            model.deck.slides
+            model.decks.current.slides
                 |> Array.filter predicate
                 |> Array.indexedMap mapIdToIndex
 
@@ -167,20 +152,21 @@ handleEditHotkey model code =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0
-      , deck =
+    let
+        current =
             { title = ""
             , id = 1
             , slides = Array.empty
             }
-      , title = ""
-      , decks = Array.empty
-      , isEditing = False
-      , isChangingDeck = False
-      , isEditingDeck = False
-      }
-    , getDeck 1
-    )
+    in
+        ( { step = 0
+          , decks = { current = current, others = Array.empty }
+          , isEditing = False
+          , isChangingDeck = False
+          , isEditingDeck = False
+          }
+        , getDeck 1
+        )
 
 
 
@@ -198,20 +184,34 @@ update msg model =
             , mapKeyToMsg model code
             )
 
-        GetDeck (Ok newDeck) ->
-            ( { model
-                | deck = newDeck
-              }
+        GetDeck (Ok current) ->
+            ( let
+                decks =
+                    model.decks
+
+                newDecks =
+                    { decks | current = current }
+              in
+                { model
+                    | decks = newDecks
+                }
             , Cmd.none
             )
 
         GetDeck (Err _) ->
             ( model, Cmd.none )
 
-        GetDecks (Ok newDecks) ->
-            ( { model
-                | decks = newDecks
-              }
+        GetDecks (Ok others) ->
+            ( let
+                decks =
+                    model.decks
+
+                newDecks =
+                    { decks | others = others }
+              in
+                { model
+                    | decks = newDecks
+                }
             , Cmd.none
             )
 
@@ -219,23 +219,28 @@ update msg model =
             ( model, Cmd.none )
 
         SaveDeck (Ok newDeck) ->
-            ( { model
-                | decks = updateDecks model newDeck
-              }
+            ( let
+                decks =
+                    model.decks
+
+                newDecks =
+                    { decks | current = newDeck }
+              in
+                { model | decks = newDecks }
             , Cmd.none
             )
 
         SaveDeck (Err _) ->
             ( model, Cmd.none )
 
+        QueueSaveDeck ->
+            ( model, saveDeck model.decks.current )
+
         QueueSave ->
             ( model, initiateSlideSave model )
 
         QueueDelete ->
             ( model, initiateSlideDelete model )
-
-        QueueSaveDeck ->
-            ( model, initiateDeckSave model )
 
         ToggleEdit ->
             ( { model
@@ -271,16 +276,30 @@ update msg model =
             ( addSlide model, Cmd.none )
 
         UpdateContent newContent ->
-            ( { model
-                | deck = updateSlides model newContent
-              }
+            ( let
+                decks =
+                    model.decks
+
+                newDecks =
+                    { decks | current = updateSlides model newContent }
+              in
+                { model
+                    | decks = newDecks
+                }
             , Cmd.none
             )
 
         UpdateTitle newTitle ->
-            ( { model
-                | title = newTitle
-              }
+            ( let
+                decks =
+                    model.decks
+
+                newDecks =
+                    { decks | current = updateTitle model.decks.current newTitle }
+              in
+                { model
+                    | decks = newDecks
+                }
             , Cmd.none
             )
 
@@ -323,7 +342,7 @@ view model =
             []
             [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
             , node "link" [ rel "stylesheet", href "main.css" ] []
-            , model.deck.slides
+            , model.decks.current.slides
                 |> Array.foldl renderer []
                 |> List.append sidebar
                 |> div [ id "container" ]

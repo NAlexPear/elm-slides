@@ -159,7 +159,7 @@ var _NAlexPear$elm_slides$Components$deckItem = function (deck) {
 };
 var _NAlexPear$elm_slides$Components$deckItems = function (decks) {
 	return _elm_lang$core$Array$toList(
-		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, decks));
+		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, decks.others));
 };
 var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 	return trigger ? '' : ' hidden';
@@ -184,8 +184,8 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
-	var index = model.deck.id - 1;
-	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks);
+	var index = model.decks.current.id - 1;
+	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks.others);
 	var menu = function () {
 		var _p0 = maybeDeck;
 		if (_p0.ctor === 'Just') {
