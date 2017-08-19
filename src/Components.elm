@@ -43,7 +43,7 @@ deckMenu : Model -> Html Msg
 deckMenu model =
     let
         hiddenString =
-            getHiddenString model.isChangingDeck
+            getHiddenString model.sidebar.isChangingDeck
 
         classString =
             "menu" ++ hiddenString
@@ -84,7 +84,7 @@ deckSettingsMenu : Model -> Html Msg
 deckSettingsMenu model =
     let
         hiddenString =
-            getHiddenString model.isEditingDeck
+            getHiddenString model.sidebar.isEditingDeck
 
         classString =
             "menu" ++ hiddenString
@@ -108,7 +108,7 @@ deckSettingsMenu model =
 
 fields : Model -> Slide -> List (Html Msg)
 fields model slide =
-    if model.isEditing then
+    if model.sidebar.isEditing then
         [ textarea
             [ value slide.content
             , onInput UpdateContent
@@ -124,7 +124,7 @@ fields model slide =
 
 icons : Model -> List (Html Msg)
 icons model =
-    if model.isEditing then
+    if model.sidebar.isEditing then
         [ span
             [ class "edit fa fa-pencil-square-o"
             , alt "Save Slides"

@@ -26,10 +26,15 @@ type alias Decks =
     }
 
 
+type alias Sidebar =
+    { isEditing : Bool
+    , isChangingDeck : Bool
+    , isEditingDeck : Bool
+    }
+
+
 type alias Model =
     { step : Int
     , decks : Decks
-    , isEditing : Bool
-    , isChangingDeck : Bool
-    , isEditingDeck : Bool
+    , sidebar : Sidebar
     }

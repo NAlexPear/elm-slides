@@ -20,12 +20,16 @@ init =
             , id = 1
             , slides = Array.empty
             }
+
+        sidebar =
+            { isEditing = False
+            , isChangingDeck = False
+            , isEditingDeck = False
+            }
     in
         ( { step = 0
           , decks = { current = current, others = Array.empty }
-          , isEditing = False
-          , isChangingDeck = False
-          , isEditingDeck = False
+          , sidebar = sidebar
           }
         , getDeck 1
         )
@@ -51,7 +55,7 @@ view model =
             slide model
 
         iconClasses =
-            if model.isChangingDeck || model.isEditingDeck then
+            if model.sidebar.isChangingDeck || model.sidebar.isEditingDeck then
                 "active"
             else
                 ""

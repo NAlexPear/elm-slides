@@ -1,15 +1,20 @@
 var _NAlexPear$elm_slides$Update$handleEditHotkey = F2(
-	function (model, code) {
-		var _p0 = code;
-		if (_p0 === 69) {
-			return !model.isEditingDeck;
-		} else {
-			return model.isEditing;
-		}
+	function (sidebar, code) {
+		var isEditing = function () {
+			var _p0 = code;
+			if (_p0 === 69) {
+				return !sidebar.isEditingDeck;
+			} else {
+				return sidebar.isEditing;
+			}
+		}();
+		return _elm_lang$core$Native_Utils.update(
+			sidebar,
+			{isEditing: isEditing});
 	});
 var _NAlexPear$elm_slides$Update$mapKeyToMsg = F2(
 	function (model, code) {
-		var save = model.isEditing ? _NAlexPear$elm_slides$Initiators$initiateSlideSave(model) : _elm_lang$core$Platform_Cmd$none;
+		var save = model.sidebar.isEditing ? _NAlexPear$elm_slides$Initiators$initiateSlideSave(model) : _elm_lang$core$Platform_Cmd$none;
 		var _p1 = code;
 		if (_p1 === 27) {
 			return save;
@@ -29,7 +34,7 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						model,
 						{
 							step: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p3),
-							isEditing: A2(_NAlexPear$elm_slides$Update$handleEditHotkey, model, _p3)
+							sidebar: A2(_NAlexPear$elm_slides$Update$handleEditHotkey, model.sidebar, _p3)
 						}),
 					_1: A2(_NAlexPear$elm_slides$Update$mapKeyToMsg, model, _p3)
 				};
@@ -108,33 +113,57 @@ var _NAlexPear$elm_slides$Update$update = F2(
 			case 'ToggleEdit':
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isEditing: !model.isEditing}),
+					_0: function () {
+						var sidebar = model.sidebar;
+						var newSidebar = _elm_lang$core$Native_Utils.update(
+							sidebar,
+							{isEditing: !sidebar.isEditing});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{sidebar: newSidebar});
+					}(),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ToggleChangeDeck':
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isChangingDeck: !model.isChangingDeck, isEditingDeck: false}),
+					_0: function () {
+						var sidebar = model.sidebar;
+						var newSidebar = _elm_lang$core$Native_Utils.update(
+							sidebar,
+							{isChangingDeck: !sidebar.isChangingDeck, isEditing: false});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{sidebar: newSidebar});
+					}(),
 					_1: _NAlexPear$elm_slides$Requests$getDecks
 				};
 			case 'ChangeDeck':
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isChangingDeck: false}),
+					_0: function () {
+						var sidebar = model.sidebar;
+						var newSidebar = _elm_lang$core$Native_Utils.update(
+							sidebar,
+							{isChangingDeck: false});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{sidebar: newSidebar});
+					}(),
 					_1: _NAlexPear$elm_slides$Requests$getDeck(_p2._0)
 				};
 			case 'ToggleEditDeck':
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isChangingDeck: false, isEditingDeck: !model.isEditingDeck}),
+					_0: function () {
+						var sidebar = model.sidebar;
+						var newSidebar = _elm_lang$core$Native_Utils.update(
+							sidebar,
+							{isChangingDeck: false, isEditing: !sidebar.isEditingDeck});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{sidebar: newSidebar});
+					}(),
 					_1: _NAlexPear$elm_slides$Requests$getDecks
 				};
 			case 'AddSlide':

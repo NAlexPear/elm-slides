@@ -38,13 +38,16 @@ navigate model code =
 
         penultimate =
             ultimate - 1
+
+        isEditing =
+            model.sidebar.isEditing
     in
         case code of
             39 ->
-                stepForwards model.isEditing penultimate step
+                stepForwards isEditing penultimate step
 
             37 ->
-                stepBackwards model.isEditing step
+                stepBackwards isEditing step
 
             _ ->
                 step

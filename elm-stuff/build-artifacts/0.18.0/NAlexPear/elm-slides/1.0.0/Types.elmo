@@ -10,7 +10,11 @@ var _NAlexPear$elm_slides$Types$Decks = F2(
 	function (a, b) {
 		return {current: a, others: b};
 	});
-var _NAlexPear$elm_slides$Types$Model = F5(
-	function (a, b, c, d, e) {
-		return {step: a, decks: b, isEditing: c, isChangingDeck: d, isEditingDeck: e};
+var _NAlexPear$elm_slides$Types$Sidebar = F3(
+	function (a, b, c) {
+		return {isEditing: a, isChangingDeck: b, isEditingDeck: c};
+	});
+var _NAlexPear$elm_slides$Types$Model = F3(
+	function (a, b, c) {
+		return {step: a, decks: b, sidebar: c};
 	});

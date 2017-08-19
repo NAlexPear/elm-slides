@@ -1,6 +1,6 @@
 var _NAlexPear$elm_slides$Components$fields = F2(
 	function (model, slide) {
-		return model.isEditing ? {
+		return model.sidebar.isEditing ? {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$textarea,
@@ -165,7 +165,7 @@ var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 	return trigger ? '' : ' hidden';
 };
 var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.isChangingDeck);
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.sidebar.isChangingDeck);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
 		_elm_lang$html$Html$div,
@@ -194,7 +194,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
 			return _elm_lang$html$Html$text('No deck information found');
 		}
 	}();
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.isEditingDeck);
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.sidebar.isEditingDeck);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
 		_elm_lang$html$Html$div,
@@ -210,7 +210,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Components$icons = function (model) {
-	return model.isEditing ? {
+	return model.sidebar.isEditing ? {
 		ctor: '::',
 		_0: A2(
 			_elm_lang$html$Html$span,

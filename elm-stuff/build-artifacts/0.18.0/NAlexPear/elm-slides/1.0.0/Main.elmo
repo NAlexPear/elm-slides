@@ -1,5 +1,5 @@
 var _NAlexPear$elm_slides$Main$view = function (model) {
-	var iconClasses = (model.isChangingDeck || model.isEditingDeck) ? 'active' : '';
+	var iconClasses = (model.sidebar.isChangingDeck || model.sidebar.isEditingDeck) ? 'active' : '';
 	var sidebar = _elm_lang$core$List$singleton(
 		A2(
 			_elm_lang$html$Html$div,
@@ -73,15 +73,14 @@ var _NAlexPear$elm_slides$Main$subscriptions = function (model) {
 	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
 };
 var _NAlexPear$elm_slides$Main$init = function () {
+	var sidebar = {isEditing: false, isChangingDeck: false, isEditingDeck: false};
 	var current = {title: '', id: 1, slides: _elm_lang$core$Array$empty};
 	return {
 		ctor: '_Tuple2',
 		_0: {
 			step: 0,
 			decks: {current: current, others: _elm_lang$core$Array$empty},
-			isEditing: false,
-			isChangingDeck: false,
-			isEditingDeck: false
+			sidebar: sidebar
 		},
 		_1: _NAlexPear$elm_slides$Requests$getDeck(1)
 	};

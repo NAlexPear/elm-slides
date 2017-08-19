@@ -34,8 +34,8 @@ updateSlides model newContent =
         { deck | slides = slides }
 
 
-addSlide : Model -> Model
-addSlide model =
+getInjectedSlides : Model -> Slides
+getInjectedSlides model =
     let
         slide =
             { content = "# This is a new slide \n ...and add some content!"
@@ -53,12 +53,15 @@ addSlide model =
         tail =
             model.decks.current.slides
                 |> Array.slice model.step length
+    in
+        tail
+            |> Array.append head
+            |> Array.indexedMap mapIdToIndex
 
-        slides =
-            tail
-                |> Array.append head
-                |> Array.indexedMap mapIdToIndex
 
+addSlide : Model -> Model
+addSlide model =
+    let
         decks =
             model.decks
 
@@ -66,13 +69,21 @@ addSlide model =
             decks.current
 
         newDeck =
-            { deck | slides = slides }
+            { deck | slides = getInjectedSlides model }
 
         newDecks =
             { decks | current = deck }
+
+        sidebar =
+            model.sidebar
+
+        newSidebar =
+            { sidebar
+                | isEditing = True
+                , isChangingDeck = False
+            }
     in
         { model
             | decks = newDecks
-            , isEditing = True
-            , isChangingDeck = False
+            , sidebar = newSidebar
         }

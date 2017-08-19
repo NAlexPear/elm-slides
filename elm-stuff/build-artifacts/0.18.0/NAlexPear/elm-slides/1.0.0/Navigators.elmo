@@ -18,15 +18,16 @@ var _NAlexPear$elm_slides$Navigators$stepForwards = F3(
 	});
 var _NAlexPear$elm_slides$Navigators$navigate = F2(
 	function (model, code) {
+		var isEditing = model.sidebar.isEditing;
 		var ultimate = _elm_lang$core$Array$length(model.decks.current.slides);
 		var penultimate = ultimate - 1;
 		var step = model.step;
 		var _p2 = code;
 		switch (_p2) {
 			case 39:
-				return A3(_NAlexPear$elm_slides$Navigators$stepForwards, model.isEditing, penultimate, step);
+				return A3(_NAlexPear$elm_slides$Navigators$stepForwards, isEditing, penultimate, step);
 			case 37:
-				return A2(_NAlexPear$elm_slides$Navigators$stepBackwards, model.isEditing, step);
+				return A2(_NAlexPear$elm_slides$Navigators$stepBackwards, isEditing, step);
 			default:
 				return step;
 		}

@@ -4,7 +4,7 @@ import Initiators exposing (initiateSlideSave, initiateSlideDelete)
 import Message exposing (Msg(..))
 import Navigators exposing (navigate)
 import Requests exposing (saveDeck, getDeck, getDecks)
-import Types exposing (Model)
+import Types exposing (..)
 import Updaters exposing (updateTitle, updateSlides, addSlide)
 
 
@@ -12,7 +12,7 @@ mapKeyToMsg : Model -> Int -> Cmd Msg
 mapKeyToMsg model code =
     let
         save =
-            if model.isEditing then
+            if model.sidebar.isEditing then
                 initiateSlideSave model
             else
                 Cmd.none
@@ -25,14 +25,18 @@ mapKeyToMsg model code =
                 Cmd.none
 
 
-handleEditHotkey : Model -> Int -> Bool
-handleEditHotkey model code =
-    case code of
-        69 ->
-            not model.isEditingDeck
+handleEditHotkey : Sidebar -> Int -> Sidebar
+handleEditHotkey sidebar code =
+    let
+        isEditing =
+            case code of
+                69 ->
+                    not sidebar.isEditingDeck
 
-        _ ->
-            model.isEditing
+                _ ->
+                    sidebar.isEditing
+    in
+        { sidebar | isEditing = isEditing }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -41,7 +45,7 @@ update msg model =
         KeyPress code ->
             ( { model
                 | step = navigate model code
-                , isEditing = handleEditHotkey model code
+                , sidebar = handleEditHotkey model.sidebar code
               }
             , mapKeyToMsg model code
             )
@@ -105,32 +109,56 @@ update msg model =
             ( model, initiateSlideDelete model )
 
         ToggleEdit ->
-            ( { model
-                | isEditing = not model.isEditing
-              }
+            ( let
+                sidebar =
+                    model.sidebar
+
+                newSidebar =
+                    { sidebar | isEditing = not sidebar.isEditing }
+              in
+                { model | sidebar = newSidebar }
             , Cmd.none
             )
 
         ToggleChangeDeck ->
-            ( { model
-                | isChangingDeck = not model.isChangingDeck
-                , isEditingDeck = False
-              }
+            ( let
+                sidebar =
+                    model.sidebar
+
+                newSidebar =
+                    { sidebar
+                        | isChangingDeck = not sidebar.isChangingDeck
+                        , isEditing = False
+                    }
+              in
+                { model | sidebar = newSidebar }
             , getDecks
             )
 
         ChangeDeck deck ->
-            ( { model
-                | isChangingDeck = False
-              }
+            ( let
+                sidebar =
+                    model.sidebar
+
+                newSidebar =
+                    { sidebar | isChangingDeck = False }
+              in
+                { model | sidebar = newSidebar }
             , getDeck deck
             )
 
         ToggleEditDeck ->
-            ( { model
-                | isChangingDeck = False
-                , isEditingDeck = not model.isEditingDeck
-              }
+            ( let
+                sidebar =
+                    model.sidebar
+
+                newSidebar =
+                    { sidebar
+                        | isChangingDeck = False
+                        , isEditing = not sidebar.isEditingDeck
+                    }
+              in
+                { model | sidebar = newSidebar }
             , getDecks
             )
 
