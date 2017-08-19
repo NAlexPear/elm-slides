@@ -1,34 +1,76 @@
-var _NAlexPear$elm_slides$Navigators$stepBackwards = F2(
-	function (isEditing, step) {
-		var _p0 = isEditing;
-		if (_p0 === false) {
-			return A3(_elm_lang$core$Basics$clamp, 0, step, step - 1);
+var _NAlexPear$elm_slides$Navigators$stepBackwards = function (_p0) {
+	var _p1 = _p0;
+	var _p3 = _p1.current;
+	var slides = _p3.slides;
+	var penultimate = _elm_lang$core$List$length(slides.previous) - 1;
+	var newCurrent = function () {
+		var _p2 = _elm_lang$core$List$head(
+			_elm_lang$core$List$reverse(slides.previous));
+		if (_p2.ctor === 'Just') {
+			return _p2._0;
 		} else {
-			return step;
+			return slides.current;
 		}
-	});
-var _NAlexPear$elm_slides$Navigators$stepForwards = F3(
-	function (isEditing, penultimate, step) {
-		var _p1 = isEditing;
-		if (_p1 === false) {
-			return A3(_elm_lang$core$Basics$clamp, 0, step + 1, penultimate);
+	}();
+	var newSlides = _elm_lang$core$List$isEmpty(slides.previous) ? slides : {
+		previous: A2(_elm_lang$core$List$take, penultimate, slides.previous),
+		current: newCurrent,
+		remaining: {ctor: '::', _0: slides.current, _1: slides.remaining}
+	};
+	var newDeck = _elm_lang$core$Native_Utils.update(
+		_p3,
+		{slides: newSlides});
+	return _elm_lang$core$Native_Utils.update(
+		_p1,
+		{current: newDeck});
+};
+var _NAlexPear$elm_slides$Navigators$stepForwards = function (_p4) {
+	var _p5 = _p4;
+	var _p7 = _p5.current;
+	var slides = _p7.slides;
+	var newCurrent = function () {
+		var _p6 = _elm_lang$core$List$head(slides.remaining);
+		if (_p6.ctor === 'Just') {
+			return _p6._0;
 		} else {
-			return step;
+			return slides.current;
 		}
-	});
+	}();
+	var newSlides = _elm_lang$core$List$isEmpty(slides.remaining) ? slides : {
+		previous: A2(
+			_elm_lang$core$Basics_ops['++'],
+			slides.previous,
+			{
+				ctor: '::',
+				_0: slides.current,
+				_1: {ctor: '[]'}
+			}),
+		current: newCurrent,
+		remaining: A2(_elm_lang$core$List$drop, 1, slides.remaining)
+	};
+	var newDeck = _elm_lang$core$Native_Utils.update(
+		_p7,
+		{slides: newSlides});
+	return _elm_lang$core$Native_Utils.update(
+		_p5,
+		{current: newDeck});
+};
 var _NAlexPear$elm_slides$Navigators$navigate = F2(
-	function (model, code) {
-		var isEditingSlide = _elm_lang$core$Native_Utils.eq(model.sidebar, _NAlexPear$elm_slides$Types$EditingSlide);
-		var ultimate = _elm_lang$core$Array$length(model.decks.current.slides);
-		var penultimate = ultimate - 1;
-		var step = model.step;
-		var _p2 = code;
-		switch (_p2) {
-			case 39:
-				return A3(_NAlexPear$elm_slides$Navigators$stepForwards, isEditingSlide, penultimate, step);
-			case 37:
-				return A2(_NAlexPear$elm_slides$Navigators$stepBackwards, isEditingSlide, step);
-			default:
-				return step;
+	function (_p8, code) {
+		var _p9 = _p8;
+		var _p11 = _p9.decks;
+		var slides = _p11.current.slides;
+		if (_elm_lang$core$Native_Utils.eq(_p9.sidebar, _NAlexPear$elm_slides$Types$EditingSlide)) {
+			return _p11;
+		} else {
+			var _p10 = code;
+			switch (_p10) {
+				case 39:
+					return _NAlexPear$elm_slides$Navigators$stepForwards(_p11);
+				case 37:
+					return _NAlexPear$elm_slides$Navigators$stepBackwards(_p11);
+				default:
+					return _p11;
+			}
 		}
 	});

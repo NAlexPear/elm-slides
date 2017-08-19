@@ -10,7 +10,10 @@ type alias Slide =
 
 
 type alias Slides =
-    Array Slide
+    { previous : List Slide
+    , current : Slide
+    , remaining : List Slide
+    }
 
 
 type alias Deck =
@@ -34,7 +37,6 @@ type Sidebar
 
 
 type alias Model =
-    { step : Int
-    , decks : Decks
+    { decks : Decks
     , sidebar : Sidebar
     }

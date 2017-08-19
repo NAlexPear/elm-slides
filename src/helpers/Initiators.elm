@@ -24,19 +24,17 @@ initiateSlideSave model =
 initiateSlideDelete : Model -> Cmd Msg
 initiateSlideDelete model =
     let
-        id =
-            model.step + 1
-
-        predicate =
-            rejectSlideById id
-
         deck =
             model.decks.current
 
+        remaining =
+            deck.slides.previous ++ deck.slides.remaining
+
         slides =
-            model.decks.current.slides
-                |> Array.filter predicate
-                |> Array.indexedMap mapIdToIndex
+            { previous = []
+            , current = List.head remaining
+            , remaining = List.tail remaining
+            }
 
         newDeck =
             { deck | slides = slides }

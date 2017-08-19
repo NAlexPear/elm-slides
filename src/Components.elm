@@ -180,8 +180,11 @@ slide model slide acc =
         currentLength =
             List.length acc
 
+        previousLength =
+            List.length model.decks.current.slides.previous
+
         vw =
-            (currentLength - model.step) * 100
+            (currentLength - previousLength) * 100
 
         position =
             ( "left", toString vw ++ "vw" )

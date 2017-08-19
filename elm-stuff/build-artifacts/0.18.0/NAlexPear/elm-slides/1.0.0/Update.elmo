@@ -17,7 +17,7 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							step: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p1),
+							decks: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p1),
 							sidebar: A2(_NAlexPear$elm_slides$Update$handleEditHotkey, model.sidebar, _p1)
 						}),
 					_1: A2(_NAlexPear$elm_slides$Update$mapKeyToMsg, model, _p1)
@@ -167,11 +167,21 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					ctor: '_Tuple2',
 					_0: function () {
 						var decks = model.decks;
+						var current = decks.current;
+						var slides = current.slides;
+						var slide = slides.current;
+						var newSlide = _elm_lang$core$Native_Utils.update(
+							slide,
+							{content: _p0._0});
+						var newSlides = _elm_lang$core$Native_Utils.update(
+							slides,
+							{current: newSlide});
+						var newDeck = _elm_lang$core$Native_Utils.update(
+							current,
+							{slides: newSlides});
 						var newDecks = _elm_lang$core$Native_Utils.update(
 							decks,
-							{
-								current: A2(_NAlexPear$elm_slides$Updaters$updateSlides, model, _p0._0)
-							});
+							{current: newDeck});
 						return _elm_lang$core$Native_Utils.update(
 							model,
 							{decks: newDecks});
@@ -183,11 +193,13 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					ctor: '_Tuple2',
 					_0: function () {
 						var decks = model.decks;
+						var deck = decks.current;
+						var newDeck = _elm_lang$core$Native_Utils.update(
+							deck,
+							{title: _p0._0});
 						var newDecks = _elm_lang$core$Native_Utils.update(
 							decks,
-							{
-								current: A2(_NAlexPear$elm_slides$Updaters$updateTitle, model.decks.current, _p0._0)
-							});
+							{current: newDeck});
 						return _elm_lang$core$Native_Utils.update(
 							model,
 							{decks: newDecks});

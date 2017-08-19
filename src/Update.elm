@@ -5,7 +5,7 @@ import Message exposing (Msg(..))
 import Navigators exposing (navigate)
 import Requests exposing (saveDeck, getDeck, getDecks)
 import Types exposing (..)
-import Updaters exposing (updateTitle, updateSlides, addSlide)
+import Updaters exposing (addSlide)
 
 
 mapKeyToMsg : Model -> Int -> Cmd Msg
@@ -29,7 +29,7 @@ update msg model =
     case msg of
         KeyPress code ->
             ( { model
-                | step = navigate model code
+                | decks = navigate model code
                 , sidebar = handleEditHotkey model.sidebar code
               }
             , mapKeyToMsg model code
@@ -151,12 +151,28 @@ update msg model =
                 decks =
                     model.decks
 
+                current =
+                    decks.current
+
+                slides =
+                    current.slides
+
+                slide =
+                    slides.current
+
+                newSlide =
+                    { slide | content = newContent }
+
+                newSlides =
+                    { slides | current = newSlide }
+
+                newDeck =
+                    { current | slides = newSlides }
+
                 newDecks =
-                    { decks | current = updateSlides model newContent }
+                    { decks | current = newDeck }
               in
-                { model
-                    | decks = newDecks
-                }
+                { model | decks = newDecks }
             , Cmd.none
             )
 
@@ -165,8 +181,14 @@ update msg model =
                 decks =
                     model.decks
 
+                deck =
+                    decks.current
+
+                newDeck =
+                    { deck | title = newTitle }
+
                 newDecks =
-                    { decks | current = updateTitle model.decks.current newTitle }
+                    { decks | current = newDeck }
               in
                 { model | decks = newDecks }
             , Cmd.none

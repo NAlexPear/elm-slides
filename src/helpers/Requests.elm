@@ -38,18 +38,41 @@ slideEncoder slide =
         ]
 
 
+mapSlides slides =
+    let
+        slide =
+            { previous = []
+            , current = Slide "" 1
+            , remaining = []
+            }
+    in
+        case slides of
+            x :: y ->
+                { slide
+                    | current = x
+                    , remaining = y
+                }
+
+            _ ->
+                slide
+
+
 slidesDecoder : Decoder Slides
 slidesDecoder =
-    array slideDecoder
+    let
+        slides =
+            list slideDecoder
+    in
+        map mapSlides slides
 
 
-slidesEncoder : Array Slide -> Encode.Value
+slidesEncoder : List Slide -> Encode.Value
 slidesEncoder slides =
     let
         slidesList =
             slides
-                |> Array.map slideEncoder
-                |> Encode.array
+                |> List.map slideEncoder
+                |> Encode.list
     in
         Encode.object [ ( "slides", slidesList ) ]
 

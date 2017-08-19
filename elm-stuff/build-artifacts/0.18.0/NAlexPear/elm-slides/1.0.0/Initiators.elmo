@@ -1,3 +1,16 @@
+var _NAlexPear$elm_slides$Initiators$initiateSlideDelete = function (model) {
+	var deck = model.decks.current;
+	var remaining = A2(_elm_lang$core$Basics_ops['++'], deck.slides.previous, deck.slides.remaining);
+	var slides = {
+		previous: {ctor: '[]'},
+		current: _elm_lang$core$List$head(remaining),
+		remaining: _elm_lang$core$List$tail(remaining)
+	};
+	var newDeck = _elm_lang$core$Native_Utils.update(
+		deck,
+		{slides: slides});
+	return _NAlexPear$elm_slides$Requests$saveDeck(deck);
+};
 var _NAlexPear$elm_slides$Initiators$initiateSlideSave = function (model) {
 	return _NAlexPear$elm_slides$Requests$saveDeck(model.decks.current);
 };
@@ -11,16 +24,3 @@ var _NAlexPear$elm_slides$Initiators$rejectSlideById = F2(
 	function (id, slide) {
 		return !_elm_lang$core$Native_Utils.eq(slide.id, id);
 	});
-var _NAlexPear$elm_slides$Initiators$initiateSlideDelete = function (model) {
-	var deck = model.decks.current;
-	var id = model.step + 1;
-	var predicate = _NAlexPear$elm_slides$Initiators$rejectSlideById(id);
-	var slides = A2(
-		_elm_lang$core$Array$indexedMap,
-		_NAlexPear$elm_slides$Initiators$mapIdToIndex,
-		A2(_elm_lang$core$Array$filter, predicate, model.decks.current.slides));
-	var newDeck = _elm_lang$core$Native_Utils.update(
-		deck,
-		{slides: slides});
-	return _NAlexPear$elm_slides$Requests$saveDeck(deck);
-};

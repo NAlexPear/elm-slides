@@ -2,6 +2,10 @@ var _NAlexPear$elm_slides$Types$Slide = F2(
 	function (a, b) {
 		return {content: a, id: b};
 	});
+var _NAlexPear$elm_slides$Types$Slides = F3(
+	function (a, b, c) {
+		return {previous: a, current: b, remaining: c};
+	});
 var _NAlexPear$elm_slides$Types$Deck = F3(
 	function (a, b, c) {
 		return {title: a, id: b, slides: c};
@@ -10,9 +14,9 @@ var _NAlexPear$elm_slides$Types$Decks = F2(
 	function (a, b) {
 		return {current: a, others: b};
 	});
-var _NAlexPear$elm_slides$Types$Model = F3(
-	function (a, b, c) {
-		return {step: a, decks: b, sidebar: c};
+var _NAlexPear$elm_slides$Types$Model = F2(
+	function (a, b) {
+		return {decks: a, sidebar: b};
 	});
 var _NAlexPear$elm_slides$Types$Inactive = {ctor: 'Inactive'};
 var _NAlexPear$elm_slides$Types$EditingDeck = {ctor: 'EditingDeck'};

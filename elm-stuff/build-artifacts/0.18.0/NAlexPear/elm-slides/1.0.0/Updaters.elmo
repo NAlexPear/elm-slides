@@ -1,50 +1,36 @@
-var _NAlexPear$elm_slides$Updaters$updateSlides = F2(
-	function (model, newContent) {
-		var deck = model.decks.current;
-		var id = model.step + 1;
-		var slide = {content: newContent, id: id};
-		var slides = A3(_elm_lang$core$Array$set, model.step, slide, deck.slides);
-		return _elm_lang$core$Native_Utils.update(
-			deck,
-			{slides: slides});
-	});
-var _NAlexPear$elm_slides$Updaters$updateTitle = F2(
-	function (deck, newTitle) {
-		return _elm_lang$core$Native_Utils.update(
-			deck,
-			{title: newTitle});
-	});
-var _NAlexPear$elm_slides$Updaters$mapIdToIndex = F2(
-	function (index, slide) {
-		return _elm_lang$core$Native_Utils.update(
-			slide,
-			{id: index + 1});
-	});
-var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (model) {
-	var length = _elm_lang$core$Array$length(model.decks.current.slides);
-	var tail = A3(_elm_lang$core$Array$slice, model.step, length, model.decks.current.slides);
-	var slide = {content: '# This is a new slide \n ...and add some content!', id: model.step};
-	var head = A2(
-		_elm_lang$core$Array$push,
-		slide,
-		A3(_elm_lang$core$Array$slice, 0, model.step, model.decks.current.slides));
-	return A2(
-		_elm_lang$core$Array$indexedMap,
-		_NAlexPear$elm_slides$Updaters$mapIdToIndex,
-		A2(_elm_lang$core$Array$append, head, tail));
+var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (_p0) {
+	var _p1 = _p0;
+	var _p2 = _p1.previous;
+	return _elm_lang$core$Native_Utils.update(
+		_p1,
+		{
+			previous: A2(
+				_elm_lang$core$Basics_ops['++'],
+				_p2,
+				{
+					ctor: '::',
+					_0: _p1.current,
+					_1: {ctor: '[]'}
+				}),
+			current: {
+				content: '# This is a new slide \n ...and add some content!',
+				id: _elm_lang$core$List$length(_p2)
+			}
+		});
 };
-var _NAlexPear$elm_slides$Updaters$addSlide = function (model) {
-	var decks = model.decks;
-	var deck = decks.current;
+var _NAlexPear$elm_slides$Updaters$addSlide = function (_p3) {
+	var _p4 = _p3;
+	var _p5 = _p4.decks;
+	var deck = _p5.current;
 	var newDeck = _elm_lang$core$Native_Utils.update(
 		deck,
 		{
-			slides: _NAlexPear$elm_slides$Updaters$getInjectedSlides(model)
+			slides: _NAlexPear$elm_slides$Updaters$getInjectedSlides(deck.slides)
 		});
 	var newDecks = _elm_lang$core$Native_Utils.update(
-		decks,
-		{current: deck});
+		_p5,
+		{current: newDeck});
 	return _elm_lang$core$Native_Utils.update(
-		model,
+		_p4,
 		{decks: newDecks, sidebar: _NAlexPear$elm_slides$Types$EditingSlide});
 };

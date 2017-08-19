@@ -14,19 +14,28 @@ import Update exposing (update)
 
 init : ( Model, Cmd Msg )
 init =
-    ( { step = 0
-      , decks =
-            { current =
-                { title = ""
+    let
+        slides =
+            { previous = []
+            , current =
+                { content = ""
                 , id = 1
-                , slides = Array.empty
                 }
-            , others = Array.empty
+            , remaining = []
             }
-      , sidebar = Inactive
-      }
-    , getDeck 1
-    )
+    in
+        ( { decks =
+                { current =
+                    { title = ""
+                    , id = 1
+                    , slides = slides
+                    }
+                , others = Array.empty
+                }
+          , sidebar = Inactive
+          }
+        , getDeck 1
+        )
 
 
 
@@ -62,13 +71,18 @@ view model =
                 |> icons
                 |> div [ id "icons", class iconClasses ]
                 |> List.singleton
+
+        slides =
+            model.decks.current.slides
     in
         div
             []
             [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
             , node "link" [ rel "stylesheet", href "main.css" ] []
-            , model.decks.current.slides
-                |> Array.foldl renderer []
+            , slides.remaining
+                |> List.append [ slides.current ]
+                |> List.append slides.previous
+                |> List.foldl renderer []
                 |> List.append sidebarView
                 |> div [ id "container" ]
             ]

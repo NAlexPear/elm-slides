@@ -38,8 +38,9 @@ var _NAlexPear$elm_slides$Components$fields = F2(
 	});
 var _NAlexPear$elm_slides$Components$slide = F3(
 	function (model, slide, acc) {
+		var previousLength = _elm_lang$core$List$length(model.decks.current.slides.previous);
 		var currentLength = _elm_lang$core$List$length(acc);
-		var vw = (currentLength - model.step) * 100;
+		var vw = (currentLength - previousLength) * 100;
 		var position = {
 			ctor: '_Tuple2',
 			_0: 'left',
