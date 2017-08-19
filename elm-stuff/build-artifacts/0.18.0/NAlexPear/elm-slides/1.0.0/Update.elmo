@@ -1,0 +1,181 @@
+var _NAlexPear$elm_slides$Update$handleEditHotkey = F2(
+	function (model, code) {
+		var _p0 = code;
+		if (_p0 === 69) {
+			return !model.isEditingDeck;
+		} else {
+			return model.isEditing;
+		}
+	});
+var _NAlexPear$elm_slides$Update$mapKeyToMsg = F2(
+	function (model, code) {
+		var save = model.isEditing ? _NAlexPear$elm_slides$Initiators$initiateSlideSave(model) : _elm_lang$core$Platform_Cmd$none;
+		var _p1 = code;
+		if (_p1 === 27) {
+			return save;
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
+	});
+var _NAlexPear$elm_slides$Update$update = F2(
+	function (msg, model) {
+		var _p2 = msg;
+		switch (_p2.ctor) {
+			case 'KeyPress':
+				var _p3 = _p2._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							step: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p3),
+							isEditing: A2(_NAlexPear$elm_slides$Update$handleEditHotkey, model, _p3)
+						}),
+					_1: A2(_NAlexPear$elm_slides$Update$mapKeyToMsg, model, _p3)
+				};
+			case 'GetDeck':
+				if (_p2._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: function () {
+							var decks = model.decks;
+							var newDecks = _elm_lang$core$Native_Utils.update(
+								decks,
+								{current: _p2._0._0});
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{decks: newDecks});
+						}(),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'GetDecks':
+				if (_p2._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: function () {
+							var decks = model.decks;
+							var newDecks = _elm_lang$core$Native_Utils.update(
+								decks,
+								{others: _p2._0._0});
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{decks: newDecks});
+						}(),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'SaveDeck':
+				if (_p2._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: function () {
+							var decks = model.decks;
+							var newDecks = _elm_lang$core$Native_Utils.update(
+								decks,
+								{current: _p2._0._0});
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{decks: newDecks});
+						}(),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			case 'QueueSaveDeck':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _NAlexPear$elm_slides$Requests$saveDeck(model.decks.current)
+				};
+			case 'QueueSave':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _NAlexPear$elm_slides$Initiators$initiateSlideSave(model)
+				};
+			case 'QueueDelete':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _NAlexPear$elm_slides$Initiators$initiateSlideDelete(model)
+				};
+			case 'ToggleEdit':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isEditing: !model.isEditing}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ToggleChangeDeck':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isChangingDeck: !model.isChangingDeck, isEditingDeck: false}),
+					_1: _NAlexPear$elm_slides$Requests$getDecks
+				};
+			case 'ChangeDeck':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isChangingDeck: false}),
+					_1: _NAlexPear$elm_slides$Requests$getDeck(_p2._0)
+				};
+			case 'ToggleEditDeck':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isChangingDeck: false, isEditingDeck: !model.isEditingDeck}),
+					_1: _NAlexPear$elm_slides$Requests$getDecks
+				};
+			case 'AddSlide':
+				return {
+					ctor: '_Tuple2',
+					_0: _NAlexPear$elm_slides$Updaters$addSlide(model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateContent':
+				return {
+					ctor: '_Tuple2',
+					_0: function () {
+						var decks = model.decks;
+						var newDecks = _elm_lang$core$Native_Utils.update(
+							decks,
+							{
+								current: A2(_NAlexPear$elm_slides$Updaters$updateSlides, model, _p2._0)
+							});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{decks: newDecks});
+					}(),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateTitle':
+				return {
+					ctor: '_Tuple2',
+					_0: function () {
+						var decks = model.decks;
+						var newDecks = _elm_lang$core$Native_Utils.update(
+							decks,
+							{
+								current: A2(_NAlexPear$elm_slides$Updaters$updateTitle, model.decks.current, _p2._0)
+							});
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{decks: newDecks});
+					}(),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		}
+	});
