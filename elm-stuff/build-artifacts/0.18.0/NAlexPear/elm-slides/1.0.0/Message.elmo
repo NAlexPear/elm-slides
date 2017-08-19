@@ -15,17 +15,14 @@ var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
 var _NAlexPear$elm_slides$Message$QueueSaveDeck = {ctor: 'QueueSaveDeck'};
 var _NAlexPear$elm_slides$Message$QueueDelete = {ctor: 'QueueDelete'};
 var _NAlexPear$elm_slides$Message$QueueSave = {ctor: 'QueueSave'};
-var _NAlexPear$elm_slides$Message$SaveDeck = function (a) {
-	return {ctor: 'SaveDeck', _0: a};
-};
 var _NAlexPear$elm_slides$Message$GetDecks = function (a) {
 	return {ctor: 'GetDecks', _0: a};
 };
-var _NAlexPear$elm_slides$Message$SaveSlides = function (a) {
-	return {ctor: 'SaveSlides', _0: a};
+var _NAlexPear$elm_slides$Message$SaveDeck = function (a) {
+	return {ctor: 'SaveDeck', _0: a};
 };
-var _NAlexPear$elm_slides$Message$GetSlides = function (a) {
-	return {ctor: 'GetSlides', _0: a};
+var _NAlexPear$elm_slides$Message$GetDeck = function (a) {
+	return {ctor: 'GetDeck', _0: a};
 };
 var _NAlexPear$elm_slides$Message$KeyPress = function (a) {
 	return {ctor: 'KeyPress', _0: a};

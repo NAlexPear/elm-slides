@@ -9,14 +9,15 @@ type alias Slide =
     }
 
 
+type alias Slides =
+    Array Slide
+
+
 type alias Deck =
     { title : String
     , id : Int
+    , slides : Slides
     }
-
-
-type alias Slides =
-    Array Slide
 
 
 type alias Decks =
@@ -25,10 +26,9 @@ type alias Decks =
 
 type alias Model =
     { step : Int
-    , deck : Int
+    , deck : Deck
     , title : String
     , decks : Decks
-    , slides : Slides
     , isEditing : Bool
     , isChangingDeck : Bool
     , isEditingDeck : Bool

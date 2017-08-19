@@ -90,7 +90,7 @@ deckSettingsMenu model =
             "menu" ++ hiddenString
 
         index =
-            model.deck - 1
+            model.deck.id - 1
 
         maybeDeck =
             Array.get index model.decks

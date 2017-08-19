@@ -34,7 +34,7 @@ navigate model code =
             model.step
 
         ultimate =
-            Array.length model.slides
+            Array.length model.deck.slides
 
         penultimate =
             ultimate - 1

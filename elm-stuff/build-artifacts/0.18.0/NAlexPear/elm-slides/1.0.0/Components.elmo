@@ -184,7 +184,7 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
-	var index = model.deck - 1;
+	var index = model.deck.id - 1;
 	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks);
 	var menu = function () {
 		var _p0 = maybeDeck;

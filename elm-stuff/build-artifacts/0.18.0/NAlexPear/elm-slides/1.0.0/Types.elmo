@@ -2,11 +2,11 @@ var _NAlexPear$elm_slides$Types$Slide = F2(
 	function (a, b) {
 		return {content: a, id: b};
 	});
-var _NAlexPear$elm_slides$Types$Deck = F2(
-	function (a, b) {
-		return {title: a, id: b};
+var _NAlexPear$elm_slides$Types$Deck = F3(
+	function (a, b, c) {
+		return {title: a, id: b, slides: c};
 	});
-var _NAlexPear$elm_slides$Types$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {step: a, deck: b, title: c, decks: d, slides: e, isEditing: f, isChangingDeck: g, isEditingDeck: h};
+var _NAlexPear$elm_slides$Types$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {step: a, deck: b, title: c, decks: d, isEditing: e, isChangingDeck: f, isEditingDeck: g};
 	});
