@@ -26,11 +26,11 @@ type alias Decks =
     }
 
 
-type alias Sidebar =
-    { isEditing : Bool
-    , isChangingDeck : Bool
-    , isEditingDeck : Bool
-    }
+type Sidebar
+    = EditingSlide
+    | ChangingDeck
+    | EditingDeck
+    | Inactive
 
 
 type alias Model =

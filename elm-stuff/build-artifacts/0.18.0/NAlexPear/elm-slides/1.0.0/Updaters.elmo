@@ -34,10 +34,6 @@ var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (model) {
 		A2(_elm_lang$core$Array$append, head, tail));
 };
 var _NAlexPear$elm_slides$Updaters$addSlide = function (model) {
-	var sidebar = model.sidebar;
-	var newSidebar = _elm_lang$core$Native_Utils.update(
-		sidebar,
-		{isEditing: true, isChangingDeck: false});
 	var decks = model.decks;
 	var deck = decks.current;
 	var newDeck = _elm_lang$core$Native_Utils.update(
@@ -50,5 +46,5 @@ var _NAlexPear$elm_slides$Updaters$addSlide = function (model) {
 		{current: deck});
 	return _elm_lang$core$Native_Utils.update(
 		model,
-		{decks: newDecks, sidebar: newSidebar});
+		{decks: newDecks, sidebar: _NAlexPear$elm_slides$Types$EditingSlide});
 };

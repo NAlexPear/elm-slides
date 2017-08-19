@@ -1,35 +1,40 @@
 var _NAlexPear$elm_slides$Components$fields = F2(
-	function (model, slide) {
-		return model.sidebar.isEditing ? {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$textarea,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$value(slide.content),
-					_1: {
+	function (sidebar, slide) {
+		var _p0 = sidebar;
+		if (_p0.ctor === 'EditingSlide') {
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$textarea,
+					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateContent),
+						_0: _elm_lang$html$Html_Attributes$value(slide.content),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateContent),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			};
+		} else {
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_evancz$elm_markdown$Markdown$toHtml,
+							{ctor: '[]'},
+							slide.content),
 						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		} : {
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: A2(
-						_evancz$elm_markdown$Markdown$toHtml,
-						{ctor: '[]'},
-						slide.content),
-					_1: {ctor: '[]'}
-				}),
-			_1: {ctor: '[]'}
-		};
+					}),
+				_1: {ctor: '[]'}
+			};
+		}
 	});
 var _NAlexPear$elm_slides$Components$slide = F3(
 	function (model, slide, acc) {
@@ -61,7 +66,7 @@ var _NAlexPear$elm_slides$Components$slide = F3(
 						_1: {ctor: '[]'}
 					}
 				},
-				A2(_NAlexPear$elm_slides$Components$fields, model, slide)),
+				A2(_NAlexPear$elm_slides$Components$fields, model.sidebar, slide)),
 			_1: {ctor: '[]'}
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
@@ -165,7 +170,8 @@ var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 	return trigger ? '' : ' hidden';
 };
 var _NAlexPear$elm_slides$Components$deckMenu = function (model) {
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.sidebar.isChangingDeck);
+	var trigger = _elm_lang$core$Native_Utils.eq(model.sidebar, _NAlexPear$elm_slides$Types$ChangingDeck);
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
 		_elm_lang$html$Html$div,
@@ -187,14 +193,15 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
 	var index = model.decks.current.id - 1;
 	var maybeDeck = A2(_elm_lang$core$Array$get, index, model.decks.others);
 	var menu = function () {
-		var _p0 = maybeDeck;
-		if (_p0.ctor === 'Just') {
-			return _NAlexPear$elm_slides$Components$deckSettingsForm(_p0._0);
+		var _p1 = maybeDeck;
+		if (_p1.ctor === 'Just') {
+			return _NAlexPear$elm_slides$Components$deckSettingsForm(_p1._0);
 		} else {
 			return _elm_lang$html$Html$text('No deck information found');
 		}
 	}();
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(model.sidebar.isEditingDeck);
+	var trigger = _elm_lang$core$Native_Utils.eq(model.sidebar, _NAlexPear$elm_slides$Types$EditingDeck);
+	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
 		_elm_lang$html$Html$div,
@@ -210,54 +217,44 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (model) {
 		});
 };
 var _NAlexPear$elm_slides$Components$icons = function (model) {
-	return model.sidebar.isEditing ? {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$span,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
-						_1: {ctor: '[]'}
-					}
-				}
-			},
-			{ctor: '[]'}),
-		_1: {ctor: '[]'}
-	} : {
-		ctor: '::',
-		_0: A2(
-			_elm_lang$html$Html$span,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
-						_1: {ctor: '[]'}
-					}
-				}
-			},
-			{ctor: '[]'}),
-		_1: {
+	var _p2 = model.sidebar;
+	if (_p2.ctor === 'EditingSlide') {
+		return {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$span,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('add fa fa-plus'),
+					_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
-						_1: {ctor: '[]'}
+						_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+							_1: {ctor: '[]'}
+						}
 					}
 				},
 				{ctor: '[]'}),
@@ -267,10 +264,10 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 					_elm_lang$html$Html$span,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('fa fa-trash'),
+						_0: _elm_lang$html$Html_Attributes$class('add fa fa-plus'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDelete),
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -281,34 +278,49 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 						_elm_lang$html$Html$span,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('change fa fa-exchange'),
+							_0: _elm_lang$html$Html_Attributes$class('fa fa-trash'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDelete),
 								_1: {ctor: '[]'}
 							}
 						},
-						_elm_lang$core$List$singleton(
-							_NAlexPear$elm_slides$Components$deckMenu(model))),
+						{ctor: '[]'}),
 					_1: {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$span,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$class('settings fa fa-gear'),
+								_0: _elm_lang$html$Html_Attributes$class('change fa fa-exchange'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEditDeck),
+									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
 									_1: {ctor: '[]'}
 								}
 							},
 							_elm_lang$core$List$singleton(
-								_NAlexPear$elm_slides$Components$deckSettingsMenu(model))),
-						_1: {ctor: '[]'}
+								_NAlexPear$elm_slides$Components$deckMenu(model))),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('settings fa fa-gear'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEditDeck),
+										_1: {ctor: '[]'}
+									}
+								},
+								_elm_lang$core$List$singleton(
+									_NAlexPear$elm_slides$Components$deckSettingsMenu(model))),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
-		}
-	};
+		};
+	}
 };

@@ -10,11 +10,11 @@ var _NAlexPear$elm_slides$Types$Decks = F2(
 	function (a, b) {
 		return {current: a, others: b};
 	});
-var _NAlexPear$elm_slides$Types$Sidebar = F3(
-	function (a, b, c) {
-		return {isEditing: a, isChangingDeck: b, isEditingDeck: c};
-	});
 var _NAlexPear$elm_slides$Types$Model = F3(
 	function (a, b, c) {
 		return {step: a, decks: b, sidebar: c};
 	});
+var _NAlexPear$elm_slides$Types$Inactive = {ctor: 'Inactive'};
+var _NAlexPear$elm_slides$Types$EditingDeck = {ctor: 'EditingDeck'};
+var _NAlexPear$elm_slides$Types$ChangingDeck = {ctor: 'ChangingDeck'};
+var _NAlexPear$elm_slides$Types$EditingSlide = {ctor: 'EditingSlide'};

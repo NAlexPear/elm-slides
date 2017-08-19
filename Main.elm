@@ -14,25 +14,19 @@ import Update exposing (update)
 
 init : ( Model, Cmd Msg )
 init =
-    let
-        current =
-            { title = ""
-            , id = 1
-            , slides = Array.empty
+    ( { step = 0
+      , decks =
+            { current =
+                { title = ""
+                , id = 1
+                , slides = Array.empty
+                }
+            , others = Array.empty
             }
-
-        sidebar =
-            { isEditing = False
-            , isChangingDeck = False
-            , isEditingDeck = False
-            }
-    in
-        ( { step = 0
-          , decks = { current = current, others = Array.empty }
-          , sidebar = sidebar
-          }
-        , getDeck 1
-        )
+      , sidebar = Inactive
+      }
+    , getDeck 1
+    )
 
 
 
@@ -54,13 +48,16 @@ view model =
         renderer =
             slide model
 
+        sidebar =
+            model.sidebar
+
         iconClasses =
-            if model.sidebar.isChangingDeck || model.sidebar.isEditingDeck then
+            if sidebar == ChangingDeck || sidebar == EditingDeck then
                 "active"
             else
                 ""
 
-        sidebar =
+        sidebarView =
             model
                 |> icons
                 |> div [ id "icons", class iconClasses ]
@@ -72,7 +69,7 @@ view model =
             , node "link" [ rel "stylesheet", href "main.css" ] []
             , model.decks.current.slides
                 |> Array.foldl renderer []
-                |> List.append sidebar
+                |> List.append sidebarView
                 |> div [ id "container" ]
             ]
 

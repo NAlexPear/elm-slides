@@ -73,17 +73,8 @@ addSlide model =
 
         newDecks =
             { decks | current = deck }
-
-        sidebar =
-            model.sidebar
-
-        newSidebar =
-            { sidebar
-                | isEditing = True
-                , isChangingDeck = False
-            }
     in
         { model
             | decks = newDecks
-            , sidebar = newSidebar
+            , sidebar = EditingSlide
         }

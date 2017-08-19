@@ -10,33 +10,18 @@ import Updaters exposing (updateTitle, updateSlides, addSlide)
 
 mapKeyToMsg : Model -> Int -> Cmd Msg
 mapKeyToMsg model code =
-    let
-        save =
-            if model.sidebar.isEditing then
-                initiateSlideSave model
-            else
-                Cmd.none
-    in
-        case code of
-            27 ->
-                save
-
-            _ ->
-                Cmd.none
+    if code == 27 && model.sidebar == EditingSlide then
+        initiateSlideSave model
+    else
+        Cmd.none
 
 
 handleEditHotkey : Sidebar -> Int -> Sidebar
 handleEditHotkey sidebar code =
-    let
-        isEditing =
-            case code of
-                69 ->
-                    not sidebar.isEditingDeck
-
-                _ ->
-                    sidebar.isEditing
-    in
-        { sidebar | isEditing = isEditing }
+    if code == 69 && sidebar /= EditingDeck then
+        EditingSlide
+    else
+        sidebar
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -92,7 +77,10 @@ update msg model =
                 newDecks =
                     { decks | current = newDeck }
               in
-                { model | decks = newDecks }
+                { model
+                    | decks = newDecks
+                    , sidebar = Inactive
+                }
             , Cmd.none
             )
 
@@ -110,11 +98,13 @@ update msg model =
 
         ToggleEdit ->
             ( let
-                sidebar =
-                    model.sidebar
-
                 newSidebar =
-                    { sidebar | isEditing = not sidebar.isEditing }
+                    case model.sidebar of
+                        EditingSlide ->
+                            Inactive
+
+                        _ ->
+                            EditingSlide
               in
                 { model | sidebar = newSidebar }
             , Cmd.none
@@ -122,41 +112,32 @@ update msg model =
 
         ToggleChangeDeck ->
             ( let
-                sidebar =
-                    model.sidebar
-
                 newSidebar =
-                    { sidebar
-                        | isChangingDeck = not sidebar.isChangingDeck
-                        , isEditing = False
-                    }
+                    case model.sidebar of
+                        ChangingDeck ->
+                            Inactive
+
+                        _ ->
+                            ChangingDeck
               in
                 { model | sidebar = newSidebar }
             , getDecks
             )
 
         ChangeDeck deck ->
-            ( let
-                sidebar =
-                    model.sidebar
-
-                newSidebar =
-                    { sidebar | isChangingDeck = False }
-              in
-                { model | sidebar = newSidebar }
+            ( { model | sidebar = Inactive }
             , getDeck deck
             )
 
         ToggleEditDeck ->
             ( let
-                sidebar =
-                    model.sidebar
-
                 newSidebar =
-                    { sidebar
-                        | isChangingDeck = False
-                        , isEditing = not sidebar.isEditingDeck
-                    }
+                    case model.sidebar of
+                        EditingDeck ->
+                            Inactive
+
+                        _ ->
+                            EditingDeck
               in
                 { model | sidebar = newSidebar }
             , getDecks
@@ -187,9 +168,7 @@ update msg model =
                 newDecks =
                     { decks | current = updateTitle model.decks.current newTitle }
               in
-                { model
-                    | decks = newDecks
-                }
+                { model | decks = newDecks }
             , Cmd.none
             )
 

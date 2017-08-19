@@ -42,8 +42,11 @@ deckItems decks =
 deckMenu : Model -> Html Msg
 deckMenu model =
     let
+        trigger =
+            model.sidebar == ChangingDeck
+
         hiddenString =
-            getHiddenString model.sidebar.isChangingDeck
+            getHiddenString trigger
 
         classString =
             "menu" ++ hiddenString
@@ -83,8 +86,11 @@ deckSettingsForm deck =
 deckSettingsMenu : Model -> Html Msg
 deckSettingsMenu model =
     let
+        trigger =
+            model.sidebar == EditingDeck
+
         hiddenString =
-            getHiddenString model.sidebar.isEditingDeck
+            getHiddenString trigger
 
         classString =
             "menu" ++ hiddenString
@@ -106,62 +112,66 @@ deckSettingsMenu model =
         div [ class classString ] [ menu ]
 
 
-fields : Model -> Slide -> List (Html Msg)
-fields model slide =
-    if model.sidebar.isEditing then
-        [ textarea
-            [ value slide.content
-            , onInput UpdateContent
+fields : Sidebar -> Slide -> List (Html Msg)
+fields sidebar slide =
+    case sidebar of
+        EditingSlide ->
+            [ textarea
+                [ value slide.content
+                , onInput UpdateContent
+                ]
+                []
             ]
-            []
-        ]
-    else
-        [ div
-            []
-            [ Markdown.toHtml [] slide.content ]
-        ]
+
+        _ ->
+            [ div
+                []
+                [ Markdown.toHtml [] slide.content ]
+            ]
 
 
 icons : Model -> List (Html Msg)
 icons model =
-    if model.sidebar.isEditing then
-        [ span
-            [ class "edit fa fa-pencil-square-o"
-            , alt "Save Slides"
-            , onClick QueueSave
-            ]
-            []
-        ]
-    else
-        [ span
-            [ class "edit fa fa-pencil-square-o"
-            , alt "Edit Slides"
-            , onClick ToggleEdit
-            ]
-            []
-        , span
-            [ class "add fa fa-plus"
-            , onClick AddSlide
-            ]
-            []
-        , span
-            [ class "fa fa-trash"
-            , onClick QueueDelete
-            ]
-            []
-        , deckMenu model
-            |> List.singleton
-            |> span
-                [ class "change fa fa-exchange"
-                , onClick ToggleChangeDeck
+    case model.sidebar of
+        EditingSlide ->
+            [ span
+                [ class "edit fa fa-pencil-square-o"
+                , alt "Save Slides"
+                , onClick QueueSave
                 ]
-        , deckSettingsMenu model
-            |> List.singleton
-            |> span
-                [ class "settings fa fa-gear"
-                , onClick ToggleEditDeck
+                []
+            ]
+
+        _ ->
+            [ span
+                [ class "edit fa fa-pencil-square-o"
+                , alt "Edit Slides"
+                , onClick ToggleEdit
                 ]
-        ]
+                []
+            , span
+                [ class "add fa fa-plus"
+                , onClick AddSlide
+                ]
+                []
+            , span
+                [ class "fa fa-trash"
+                , onClick QueueDelete
+                ]
+                []
+            , deckMenu model
+                |> List.singleton
+                |> span
+                    [ class "change fa fa-exchange"
+                    , onClick ToggleChangeDeck
+                    ]
+            , deckSettingsMenu model
+                |> List.singleton
+                |> span
+                    [ class "settings fa fa-gear"
+                    , onClick ToggleEditDeck
+                    ]
+            ]
 
 
 slide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
@@ -178,7 +188,7 @@ slide model slide acc =
 
         next =
             [ slide
-                |> fields model
+                |> fields model.sidebar
                 |> div
                     [ class "slide"
                     , style [ position ]
