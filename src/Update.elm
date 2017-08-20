@@ -35,7 +35,11 @@ update msg model =
             )
 
         GetDeck (Ok newCurrentDeck) ->
-            ( updateCurrentDeck model newCurrentDeck
+            ( let
+                newModel =
+                    updateCurrentDeck model newCurrentDeck
+              in
+                { newModel | sidebar = Inactive }
             , Cmd.none
             )
 
@@ -50,18 +54,12 @@ update msg model =
         GetDecks (Err _) ->
             ( model, Cmd.none )
 
-        SaveDeck (Ok newDeck) ->
+        SaveDeck (Ok newCurrentDeck) ->
             ( let
-                decks =
-                    model.decks
-
-                newDecks =
-                    { decks | current = newDeck }
+                newModel =
+                    updateCurrentDeck model newCurrentDeck
               in
-                { model
-                    | decks = newDecks
-                    , sidebar = Inactive
-                }
+                { newModel | sidebar = Inactive }
             , Cmd.none
             )
 
@@ -75,30 +73,28 @@ update msg model =
             ( model, deleteSlide model.decks )
 
         ToggleEdit ->
-            ( let
-                newSidebar =
+            ( { model
+                | sidebar =
                     case model.sidebar of
                         EditingSlide ->
                             Inactive
 
                         _ ->
                             EditingSlide
-              in
-                { model | sidebar = newSidebar }
+              }
             , Cmd.none
             )
 
         ToggleChangeDeck ->
-            ( let
-                newSidebar =
+            ( { model
+                | sidebar =
                     case model.sidebar of
                         ChangingDeck ->
                             Inactive
 
                         _ ->
                             ChangingDeck
-              in
-                { model | sidebar = newSidebar }
+              }
             , getDecks
             )
 
@@ -124,51 +120,17 @@ update msg model =
         AddSlide ->
             ( addSlide model, Cmd.none )
 
-        UpdateContent newContent ->
-            ( let
-                decks =
-                    model.decks
-
-                current =
-                    decks.current
-
-                slides =
-                    current.slides
-
-                slide =
-                    slides.current
-
-                newSlide =
-                    { slide | content = newContent }
-
-                newSlides =
-                    { slides | current = newSlide }
-
-                newDeck =
-                    { current | slides = newSlides }
-
-                newDecks =
-                    { decks | current = newDeck }
-              in
-                { model | decks = newDecks }
+        UpdateSlide newContent ->
+            ( updateSlide model newContent
             , Cmd.none
             )
 
-        UpdateTitle newTitle ->
+        UpdateDeckTitle newTitle ->
             ( let
-                decks =
-                    model.decks
-
                 deck =
-                    decks.current
-
-                newDeck =
-                    { deck | title = newTitle }
-
-                newDecks =
-                    { decks | current = newDeck }
+                    model.decks.current
               in
-                { model | decks = newDecks }
+                updateCurrentDeck model { deck | title = newTitle }
             , Cmd.none
             )
 

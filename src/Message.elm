@@ -18,6 +18,6 @@ type Msg
     | ToggleChangeDeck
     | ToggleEditDeck
     | ToggleEdit
-    | UpdateContent String
-    | UpdateTitle String
+    | UpdateSlide String
+    | UpdateDeckTitle String
     | NoOp

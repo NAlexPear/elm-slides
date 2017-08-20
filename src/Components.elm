@@ -73,7 +73,7 @@ deckSettingsForm { title } =
                 , input
                     [ placeholder title
                     , name "title"
-                    , onInput UpdateTitle
+                    , onInput UpdateDeckTitle
                     ]
                     []
                 ]
@@ -104,7 +104,7 @@ fields sidebar { content } =
         EditingSlide ->
             [ textarea
                 [ value content
-                , onInput UpdateContent
+                , onInput UpdateSlide
                 ]
                 []
             ]

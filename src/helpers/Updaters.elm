@@ -1,4 +1,4 @@
-module Updaters exposing (addSlide, deleteSlide, updateCurrentDeck, updateOtherDecks)
+module Updaters exposing (addSlide, deleteSlide, updateSlide, updateCurrentDeck, updateOtherDecks)
 
 import Array
 import Array exposing (Array)
@@ -59,6 +59,33 @@ deleteSlide { current } =
             { current | slides = slides }
     in
         saveDeck newDeck
+
+
+updateSlide : Model -> String -> Model
+updateSlide ({ decks } as model) newContent =
+    let
+        current =
+            decks.current
+
+        slides =
+            current.slides
+
+        slide =
+            slides.current
+
+        newSlide =
+            { slide | content = newContent }
+
+        newSlides =
+            { slides | current = newSlide }
+
+        newDeck =
+            { current | slides = newSlides }
+
+        newDecks =
+            { decks | current = newDeck }
+    in
+        { model | decks = newDecks }
 
 
 getInjectedSlides : Slides -> Slides

@@ -1,9 +1,9 @@
 var _NAlexPear$elm_slides$Message$NoOp = {ctor: 'NoOp'};
-var _NAlexPear$elm_slides$Message$UpdateTitle = function (a) {
-	return {ctor: 'UpdateTitle', _0: a};
+var _NAlexPear$elm_slides$Message$UpdateDeckTitle = function (a) {
+	return {ctor: 'UpdateDeckTitle', _0: a};
 };
-var _NAlexPear$elm_slides$Message$UpdateContent = function (a) {
-	return {ctor: 'UpdateContent', _0: a};
+var _NAlexPear$elm_slides$Message$UpdateSlide = function (a) {
+	return {ctor: 'UpdateSlide', _0: a};
 };
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
 var _NAlexPear$elm_slides$Message$ToggleEditDeck = {ctor: 'ToggleEditDeck'};

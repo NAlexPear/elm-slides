@@ -13,7 +13,7 @@ var _NAlexPear$elm_slides$Components$fields = F2(
 						_0: _elm_lang$html$Html_Attributes$value(_p3),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateContent),
+							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateSlide),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -117,7 +117,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p6) {
 									_0: _elm_lang$html$Html_Attributes$name('title'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateTitle),
+										_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateDeckTitle),
 										_1: {ctor: '[]'}
 									}
 								}
