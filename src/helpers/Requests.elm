@@ -1,13 +1,13 @@
 module Requests exposing (getDeck, getDecks, saveDeck)
 
-import Message exposing (Msg(..))
+import Array
+import Array exposing (Array)
+import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
+import Message exposing (Msg(..))
 import Types exposing (..)
-import Array exposing (Array)
-import Array
-import Http
 
 
 patch : String -> Http.Body -> Decoder a -> Http.Request a

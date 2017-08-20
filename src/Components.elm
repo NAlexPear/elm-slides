@@ -1,14 +1,14 @@
 module Components exposing (slide, icons)
 
+import Array
+import Array exposing (Array)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Types exposing (..)
-import Message exposing (Msg(..))
-import Array exposing (Array)
 import Json.Decode as Decode
-import Array
 import Markdown
+import Message exposing (Msg(..))
+import Types exposing (..)
 
 
 getHiddenString : Bool -> String

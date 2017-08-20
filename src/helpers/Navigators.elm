@@ -1,8 +1,8 @@
 module Navigators exposing (navigate)
 
-import Types exposing (..)
-import Keyboard exposing (KeyCode)
 import Array
+import Keyboard exposing (KeyCode)
+import Types exposing (..)
 
 
 stepForwards : Decks -> Decks
