@@ -8,6 +8,7 @@ import Html.Events exposing (..)
 import Json.Decode as Decode
 import Markdown
 import Message exposing (Msg(..))
+import Regex exposing (Regex, find, regex, replace)
 import Types exposing (..)
 
 
@@ -98,6 +99,68 @@ deckSettingsMenu { decks, sidebar } =
         div [ class classString ] [ deckSettingsForm decks.current ]
 
 
+mapToConfig : List String -> ( String, String )
+mapToConfig pair =
+    case pair of
+        x :: y ->
+            ( x
+            , case List.head y of
+                Just value ->
+                    value
+
+                Nothing ->
+                    ""
+            )
+
+        [] ->
+            ( "display", "block" )
+
+
+frontMatter : Regex
+frontMatter =
+    regex "^---\n(.|\n)*?---"
+
+
+generateContent : String -> List (Html Msg)
+generateContent content =
+    let
+        visible =
+            replace (Regex.AtMost 1) frontMatter (\_ -> "") content
+    in
+        [ div
+            []
+            [ Markdown.toHtml [] visible ]
+        ]
+
+
+generateSlide : String -> ( String, String ) -> List (Html Msg) -> Html Msg
+generateSlide content position children =
+    let
+        dividers =
+            regex "(^---\n|\n---$)"
+
+        configYaml =
+            find (Regex.AtMost 1) frontMatter content
+
+        config =
+            case List.head configYaml of
+                Just { match } ->
+                    match
+                        |> replace (Regex.AtMost 2) dividers (\_ -> "")
+                        |> String.lines
+                        |> List.map (Regex.split (Regex.AtMost 1) (regex ":"))
+                        |> List.map mapToConfig
+
+                Nothing ->
+                    []
+    in
+        div
+            [ class "slide"
+            , style <| position :: config
+            ]
+            children
+
+
 fields : Sidebar -> Slide -> List (Html Msg)
 fields sidebar { content } =
     case sidebar of
@@ -110,10 +173,7 @@ fields sidebar { content } =
             ]
 
         _ ->
-            [ div
-                []
-                [ Markdown.toHtml [] content ]
-            ]
+            generateContent content
 
 
 icons : Model -> List (Html Msg)
@@ -178,10 +238,7 @@ slide { decks, sidebar } slide acc =
         next =
             [ slide
                 |> fields sidebar
-                |> div
-                    [ class "slide"
-                    , style [ position ]
-                    ]
+                |> generateSlide slide.content position
             ]
     in
         List.append acc next

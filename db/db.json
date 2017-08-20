@@ -3,7 +3,7 @@
     {
       "slides": [
         {
-          "content": "# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis!",
+          "content": "---\nbackground: hotpink\n---\n\n# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis!",
           "id": 1
         },
         {
@@ -37,7 +37,7 @@
           "id": 2
         },
         {
-          "content": "This should be the third slide",
+          "content": "---\nbackground-image: url('https://media.giphy.com/media/wFbI8gwCfCxeo/giphy.gif')\nbackground-size: cover\nbackground-position: center\ncolor: chartreuse\n---\n\n# THIRD SLIDE GET HYPE",
           "id": 3
         },
         {

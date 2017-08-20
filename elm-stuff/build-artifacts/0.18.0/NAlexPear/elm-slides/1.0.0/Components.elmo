@@ -1,16 +1,42 @@
+var _NAlexPear$elm_slides$Components$frontMatter = _elm_lang$core$Regex$regex('^---\n(.|\n)*?---');
+var _NAlexPear$elm_slides$Components$generateContent = function (content) {
+	var visible = A4(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$AtMost(1),
+		_NAlexPear$elm_slides$Components$frontMatter,
+		function (_p0) {
+			return '';
+		},
+		content);
+	return {
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_evancz$elm_markdown$Markdown$toHtml,
+					{ctor: '[]'},
+					visible),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	};
+};
 var _NAlexPear$elm_slides$Components$fields = F2(
-	function (sidebar, _p0) {
-		var _p1 = _p0;
-		var _p3 = _p1.content;
-		var _p2 = sidebar;
-		if (_p2.ctor === 'EditingSlide') {
+	function (sidebar, _p1) {
+		var _p2 = _p1;
+		var _p4 = _p2.content;
+		var _p3 = sidebar;
+		if (_p3.ctor === 'EditingSlide') {
 			return {
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$textarea,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$value(_p3),
+						_0: _elm_lang$html$Html_Attributes$value(_p4),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateSlide),
@@ -21,27 +47,79 @@ var _NAlexPear$elm_slides$Components$fields = F2(
 				_1: {ctor: '[]'}
 			};
 		} else {
-			return {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_evancz$elm_markdown$Markdown$toHtml,
-							{ctor: '[]'},
-							_p3),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			};
+			return _NAlexPear$elm_slides$Components$generateContent(_p4);
 		}
 	});
+var _NAlexPear$elm_slides$Components$mapToConfig = function (pair) {
+	var _p5 = pair;
+	if (_p5.ctor === '::') {
+		return {
+			ctor: '_Tuple2',
+			_0: _p5._0,
+			_1: function () {
+				var _p6 = _elm_lang$core$List$head(_p5._1);
+				if (_p6.ctor === 'Just') {
+					return _p6._0;
+				} else {
+					return '';
+				}
+			}()
+		};
+	} else {
+		return {ctor: '_Tuple2', _0: 'display', _1: 'block'};
+	}
+};
+var _NAlexPear$elm_slides$Components$generateSlide = F3(
+	function (content, position, children) {
+		var configYaml = A3(
+			_elm_lang$core$Regex$find,
+			_elm_lang$core$Regex$AtMost(1),
+			_NAlexPear$elm_slides$Components$frontMatter,
+			content);
+		var dividers = _elm_lang$core$Regex$regex('(^---\n|\n---$)');
+		var config = function () {
+			var _p7 = _elm_lang$core$List$head(configYaml);
+			if (_p7.ctor === 'Just') {
+				return A2(
+					_elm_lang$core$List$map,
+					_NAlexPear$elm_slides$Components$mapToConfig,
+					A2(
+						_elm_lang$core$List$map,
+						A2(
+							_elm_lang$core$Regex$split,
+							_elm_lang$core$Regex$AtMost(1),
+							_elm_lang$core$Regex$regex(':')),
+						_elm_lang$core$String$lines(
+							A4(
+								_elm_lang$core$Regex$replace,
+								_elm_lang$core$Regex$AtMost(2),
+								dividers,
+								function (_p8) {
+									return '';
+								},
+								_p7._0.match))));
+			} else {
+				return {ctor: '[]'};
+			}
+		}();
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('slide'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{ctor: '::', _0: position, _1: config}),
+					_1: {ctor: '[]'}
+				}
+			},
+			children);
+	});
 var _NAlexPear$elm_slides$Components$slide = F3(
-	function (_p4, slide, acc) {
-		var _p5 = _p4;
-		var previousLength = _elm_lang$core$List$length(_p5.decks.current.slides.previous);
+	function (_p9, slide, acc) {
+		var _p10 = _p9;
+		var previousLength = _elm_lang$core$List$length(_p10.decks.current.slides.previous);
 		var currentLength = _elm_lang$core$List$length(acc);
 		var vw = (currentLength - previousLength) * 100;
 		var position = {
@@ -54,29 +132,17 @@ var _NAlexPear$elm_slides$Components$slide = F3(
 		};
 		var next = {
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('slide'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$style(
-							{
-								ctor: '::',
-								_0: position,
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
-				},
-				A2(_NAlexPear$elm_slides$Components$fields, _p5.sidebar, slide)),
+			_0: A3(
+				_NAlexPear$elm_slides$Components$generateSlide,
+				slide.content,
+				position,
+				A2(_NAlexPear$elm_slides$Components$fields, _p10.sidebar, slide)),
 			_1: {ctor: '[]'}
 		};
 		return A2(_elm_lang$core$List$append, acc, next);
 	});
-var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p6) {
-	var _p7 = _p6;
+var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p11) {
+	var _p12 = _p11;
 	var clickHandler = A3(
 		_elm_lang$html$Html_Events$onWithOptions,
 		'click',
@@ -111,7 +177,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p6) {
 							_elm_lang$html$Html$input,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder(_p7.title),
+								_0: _elm_lang$html$Html_Attributes$placeholder(_p12.title),
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$html$Html_Attributes$name('title'),
@@ -148,9 +214,9 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p6) {
 			}
 		});
 };
-var _NAlexPear$elm_slides$Components$deckItem = function (_p8) {
-	var _p9 = _p8;
-	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(_p9.id);
+var _NAlexPear$elm_slides$Components$deckItem = function (_p13) {
+	var _p14 = _p13;
+	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(_p14.id);
 	return A2(
 		_elm_lang$html$Html$li,
 		{
@@ -164,21 +230,21 @@ var _NAlexPear$elm_slides$Components$deckItem = function (_p8) {
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p9.title),
+			_0: _elm_lang$html$Html$text(_p14.title),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Components$deckItems = function (_p10) {
-	var _p11 = _p10;
+var _NAlexPear$elm_slides$Components$deckItems = function (_p15) {
+	var _p16 = _p15;
 	return _elm_lang$core$Array$toList(
-		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, _p11.others));
+		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, _p16.others));
 };
 var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 	return trigger ? '' : ' hidden';
 };
-var _NAlexPear$elm_slides$Components$deckMenu = function (_p12) {
-	var _p13 = _p12;
-	var trigger = _elm_lang$core$Native_Utils.eq(_p13.sidebar, _NAlexPear$elm_slides$Types$ChangingDeck);
+var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
+	var _p18 = _p17;
+	var trigger = _elm_lang$core$Native_Utils.eq(_p18.sidebar, _NAlexPear$elm_slides$Types$ChangingDeck);
 	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
@@ -193,13 +259,13 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (_p12) {
 			_0: A2(
 				_elm_lang$html$Html$ul,
 				{ctor: '[]'},
-				_NAlexPear$elm_slides$Components$deckItems(_p13.decks)),
+				_NAlexPear$elm_slides$Components$deckItems(_p18.decks)),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p14) {
-	var _p15 = _p14;
-	var trigger = _elm_lang$core$Native_Utils.eq(_p15.sidebar, _NAlexPear$elm_slides$Types$EditingDeck);
+var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p19) {
+	var _p20 = _p19;
+	var trigger = _elm_lang$core$Native_Utils.eq(_p20.sidebar, _NAlexPear$elm_slides$Types$EditingDeck);
 	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
 	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
 	return A2(
@@ -211,13 +277,13 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p14) {
 		},
 		{
 			ctor: '::',
-			_0: _NAlexPear$elm_slides$Components$deckSettingsForm(_p15.decks.current),
+			_0: _NAlexPear$elm_slides$Components$deckSettingsForm(_p20.decks.current),
 			_1: {ctor: '[]'}
 		});
 };
 var _NAlexPear$elm_slides$Components$icons = function (model) {
-	var _p16 = model.sidebar;
-	if (_p16.ctor === 'EditingSlide') {
+	var _p21 = model.sidebar;
+	if (_p21.ctor === 'EditingSlide') {
 		return {
 			ctor: '::',
 			_0: A2(
