@@ -120,19 +120,18 @@ var _NAlexPear$elm_slides$Update$update = F2(
 			case 'ToggleEditDeck':
 				return {
 					ctor: '_Tuple2',
-					_0: function () {
-						var newSidebar = function () {
-							var _p6 = model.sidebar;
-							if (_p6.ctor === 'EditingDeck') {
-								return _NAlexPear$elm_slides$Types$Inactive;
-							} else {
-								return _NAlexPear$elm_slides$Types$EditingDeck;
-							}
-						}();
-						return _elm_lang$core$Native_Utils.update(
-							model,
-							{sidebar: newSidebar});
-					}(),
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							sidebar: function () {
+								var _p6 = model.sidebar;
+								if (_p6.ctor === 'EditingDeck') {
+									return _NAlexPear$elm_slides$Types$Inactive;
+								} else {
+									return _NAlexPear$elm_slides$Types$EditingDeck;
+								}
+							}()
+						}),
 					_1: _NAlexPear$elm_slides$Requests$getDecks
 				};
 			case 'AddSlide':

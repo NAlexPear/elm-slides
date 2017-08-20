@@ -104,16 +104,15 @@ update msg model =
             )
 
         ToggleEditDeck ->
-            ( let
-                newSidebar =
+            ( { model
+                | sidebar =
                     case model.sidebar of
                         EditingDeck ->
                             Inactive
 
                         _ ->
                             EditingDeck
-              in
-                { model | sidebar = newSidebar }
+              }
             , getDecks
             )
 
