@@ -37,9 +37,7 @@ deleteSlide { current } =
                     newCurrent
 
                 Nothing ->
-                    { content = "# There are no more slides in this deck! \n Edit this slide to start again"
-                    , id = 1
-                    }
+                    { content = "# There are no more slides in this deck! \n Edit this slide to start again" }
 
         newRemaining =
             case List.tail remaining of
@@ -94,7 +92,6 @@ getInjectedSlides ({ previous, current } as slides) =
         | previous = previous ++ [ current ]
         , current =
             { content = "# This is a new slide \n ...and add some content!"
-            , id = List.length previous
             }
     }
 

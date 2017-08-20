@@ -117,7 +117,7 @@ var _NAlexPear$elm_slides$Main$subscriptions = function (_p4) {
 var _NAlexPear$elm_slides$Main$init = function () {
 	var slides = {
 		previous: {ctor: '[]'},
-		current: {content: '', id: 1},
+		current: {content: ''},
 		remaining: {ctor: '[]'}
 	};
 	return {

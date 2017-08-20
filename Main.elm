@@ -17,10 +17,7 @@ init =
     let
         slides =
             { previous = []
-            , current =
-                { content = ""
-                , id = 1
-                }
+            , current = { content = "" }
             , remaining = []
             }
     in

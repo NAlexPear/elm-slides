@@ -1,7 +1,6 @@
-var _NAlexPear$elm_slides$Types$Slide = F2(
-	function (a, b) {
-		return {content: a, id: b};
-	});
+var _NAlexPear$elm_slides$Types$Slide = function (a) {
+	return {content: a};
+};
 var _NAlexPear$elm_slides$Types$Slides = F3(
 	function (a, b, c) {
 		return {previous: a, current: b, remaining: c};

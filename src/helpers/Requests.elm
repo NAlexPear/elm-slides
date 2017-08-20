@@ -2,12 +2,12 @@ module Requests exposing (getDeck, getDecks, saveDeck)
 
 import Array
 import Array exposing (Array)
-import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
 import Message exposing (Msg(..))
 import Types exposing (..)
+import Http
 
 
 patch : String -> Http.Body -> Decoder a -> Http.Request a
@@ -27,34 +27,32 @@ slideDecoder : Decoder Slide
 slideDecoder =
     decode Slide
         |> required "content" string
-        |> required "id" int
 
 
 slideEncoder : Slide -> Encode.Value
 slideEncoder slide =
     Encode.object
-        [ ( "content", Encode.string slide.content )
-        , ( "id", Encode.int slide.id )
-        ]
+        [ ( "content", Encode.string slide.content ) ]
 
 
-mapSlides slides =
+mapSlides : List Slide -> Slides
+mapSlides slidesList =
     let
-        slide =
+        slides =
             { previous = []
-            , current = Slide "" 1
+            , current = Slide ""
             , remaining = []
             }
     in
-        case slides of
+        case slidesList of
             x :: y ->
-                { slide
+                { slides
                     | current = x
                     , remaining = y
                 }
 
             _ ->
-                slide
+                slides
 
 
 slidesDecoder : Decoder Slides

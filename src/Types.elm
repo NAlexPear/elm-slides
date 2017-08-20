@@ -4,9 +4,7 @@ import Array exposing (Array)
 
 
 type alias Slide =
-    { content : String
-    , id : Int
-    }
+    { content : String }
 
 
 type alias Slides =

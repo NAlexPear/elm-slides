@@ -1,16 +1,16 @@
-var _NAlexPear$elm_slides$Requests$mapSlides = function (slides) {
-	var slide = {
+var _NAlexPear$elm_slides$Requests$mapSlides = function (slidesList) {
+	var slides = {
 		previous: {ctor: '[]'},
-		current: A2(_NAlexPear$elm_slides$Types$Slide, '', 1),
+		current: _NAlexPear$elm_slides$Types$Slide(''),
 		remaining: {ctor: '[]'}
 	};
-	var _p0 = slides;
+	var _p0 = slidesList;
 	if (_p0.ctor === '::') {
 		return _elm_lang$core$Native_Utils.update(
-			slide,
+			slides,
 			{current: _p0._0, remaining: _p0._1});
 	} else {
-		return slide;
+		return slides;
 	}
 };
 var _NAlexPear$elm_slides$Requests$slideEncoder = function (slide) {
@@ -22,15 +22,7 @@ var _NAlexPear$elm_slides$Requests$slideEncoder = function (slide) {
 				_0: 'content',
 				_1: _elm_lang$core$Json_Encode$string(slide.content)
 			},
-			_1: {
-				ctor: '::',
-				_0: {
-					ctor: '_Tuple2',
-					_0: 'id',
-					_1: _elm_lang$core$Json_Encode$int(slide.id)
-				},
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
 };
 var _NAlexPear$elm_slides$Requests$slidesEncoder = function (slides) {
@@ -72,13 +64,9 @@ var _NAlexPear$elm_slides$Requests$deckEncoder = function (_p1) {
 };
 var _NAlexPear$elm_slides$Requests$slideDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'id',
-	_elm_lang$core$Json_Decode$int,
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'content',
-		_elm_lang$core$Json_Decode$string,
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Slide)));
+	'content',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Slide));
 var _NAlexPear$elm_slides$Requests$slidesDecoder = function () {
 	var slides = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Requests$slideDecoder);
 	return A2(_elm_lang$core$Json_Decode$map, _NAlexPear$elm_slides$Requests$mapSlides, slides);

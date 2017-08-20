@@ -28,29 +28,25 @@ var _NAlexPear$elm_slides$Updaters$updateCurrentDeck = F2(
 	});
 var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (_p7) {
 	var _p8 = _p7;
-	var _p9 = _p8.previous;
 	return _elm_lang$core$Native_Utils.update(
 		_p8,
 		{
 			previous: A2(
 				_elm_lang$core$Basics_ops['++'],
-				_p9,
+				_p8.previous,
 				{
 					ctor: '::',
 					_0: _p8.current,
 					_1: {ctor: '[]'}
 				}),
-			current: {
-				content: '# This is a new slide \n ...and add some content!',
-				id: _elm_lang$core$List$length(_p9)
-			}
+			current: {content: '# This is a new slide \n ...and add some content!'}
 		});
 };
 var _NAlexPear$elm_slides$Updaters$updateSlide = F2(
-	function (_p10, newContent) {
-		var _p11 = _p10;
-		var _p12 = _p11.decks;
-		var current = _p12.current;
+	function (_p9, newContent) {
+		var _p10 = _p9;
+		var _p11 = _p10.decks;
+		var current = _p11.current;
 		var slides = current.slides;
 		var slide = slides.current;
 		var newSlide = _elm_lang$core$Native_Utils.update(
@@ -63,28 +59,28 @@ var _NAlexPear$elm_slides$Updaters$updateSlide = F2(
 			current,
 			{slides: newSlides});
 		var newDecks = _elm_lang$core$Native_Utils.update(
-			_p12,
+			_p11,
 			{current: newDeck});
 		return _elm_lang$core$Native_Utils.update(
-			_p11,
+			_p10,
 			{decks: newDecks});
 	});
-var _NAlexPear$elm_slides$Updaters$deleteSlide = function (_p13) {
-	var _p14 = _p13;
-	var _p17 = _p14.current;
-	var remaining = A2(_elm_lang$core$Basics_ops['++'], _p17.slides.previous, _p17.slides.remaining);
+var _NAlexPear$elm_slides$Updaters$deleteSlide = function (_p12) {
+	var _p13 = _p12;
+	var _p16 = _p13.current;
+	var remaining = A2(_elm_lang$core$Basics_ops['++'], _p16.slides.previous, _p16.slides.remaining);
 	var newCurrent = function () {
-		var _p15 = _elm_lang$core$List$head(remaining);
-		if (_p15.ctor === 'Just') {
-			return _p15._0;
+		var _p14 = _elm_lang$core$List$head(remaining);
+		if (_p14.ctor === 'Just') {
+			return _p14._0;
 		} else {
-			return {content: '# There are no more slides in this deck! \n Edit this slide to start again', id: 1};
+			return {content: '# There are no more slides in this deck! \n Edit this slide to start again'};
 		}
 	}();
 	var newRemaining = function () {
-		var _p16 = _elm_lang$core$List$tail(remaining);
-		if (_p16.ctor === 'Just') {
-			return _p16._0;
+		var _p15 = _elm_lang$core$List$tail(remaining);
+		if (_p15.ctor === 'Just') {
+			return _p15._0;
 		} else {
 			return {ctor: '[]'};
 		}
@@ -95,23 +91,23 @@ var _NAlexPear$elm_slides$Updaters$deleteSlide = function (_p13) {
 		remaining: newRemaining
 	};
 	var newDeck = _elm_lang$core$Native_Utils.update(
-		_p17,
+		_p16,
 		{slides: slides});
 	return _NAlexPear$elm_slides$Requests$saveDeck(newDeck);
 };
-var _NAlexPear$elm_slides$Updaters$addSlide = function (_p18) {
-	var _p19 = _p18;
-	var _p20 = _p19.decks;
-	var deck = _p20.current;
+var _NAlexPear$elm_slides$Updaters$addSlide = function (_p17) {
+	var _p18 = _p17;
+	var _p19 = _p18.decks;
+	var deck = _p19.current;
 	var newDeck = _elm_lang$core$Native_Utils.update(
 		deck,
 		{
 			slides: _NAlexPear$elm_slides$Updaters$getInjectedSlides(deck.slides)
 		});
 	var newDecks = _elm_lang$core$Native_Utils.update(
-		_p20,
+		_p19,
 		{current: newDeck});
 	return _elm_lang$core$Native_Utils.update(
-		_p19,
+		_p18,
 		{decks: newDecks, sidebar: _NAlexPear$elm_slides$Types$EditingSlide});
 };
