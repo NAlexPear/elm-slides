@@ -3,7 +3,7 @@
     {
       "slides": [
         {
-          "content": "# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis",
+          "content": "# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis!!",
           "id": 1
         },
         {
@@ -33,7 +33,7 @@
           "id": 1
         },
         {
-          "content": "This should be the second slide",
+          "content": "# SECOND SLIDE Y'ALL\n\nThis should be the second slide",
           "id": 2
         },
         {
@@ -50,7 +50,7 @@
         }
       ],
       "id": 2,
-      "title": "Slide deck the second"
+      "title": "Slide Deck the Second"
     }
   ]
 }

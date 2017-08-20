@@ -13,7 +13,6 @@ type Msg
     | GetDecks (Result Http.Error (Array Deck))
     | QueueSave
     | QueueDelete
-    | QueueSaveDeck
     | AddSlide
     | ChangeDeck Int
     | ToggleChangeDeck

@@ -1,18 +1,32 @@
-var _NAlexPear$elm_slides$Initiators$initiateSlideDelete = function (model) {
-	var deck = model.decks.current;
-	var remaining = A2(_elm_lang$core$Basics_ops['++'], deck.slides.previous, deck.slides.remaining);
+var _NAlexPear$elm_slides$Initiators$initiateSlideDelete = function (_p0) {
+	var _p1 = _p0;
+	var _p4 = _p1.current;
+	var remaining = A2(_elm_lang$core$Basics_ops['++'], _p4.slides.previous, _p4.slides.remaining);
+	var newCurrent = function () {
+		var _p2 = _elm_lang$core$List$head(remaining);
+		if (_p2.ctor === 'Just') {
+			return _p2._0;
+		} else {
+			return {content: '# There are no more slides in this deck! \n Edit this slide to start again', id: 1};
+		}
+	}();
+	var newRemaining = function () {
+		var _p3 = _elm_lang$core$List$tail(remaining);
+		if (_p3.ctor === 'Just') {
+			return _p3._0;
+		} else {
+			return {ctor: '[]'};
+		}
+	}();
 	var slides = {
 		previous: {ctor: '[]'},
-		current: _elm_lang$core$List$head(remaining),
-		remaining: _elm_lang$core$List$tail(remaining)
+		current: newCurrent,
+		remaining: newRemaining
 	};
 	var newDeck = _elm_lang$core$Native_Utils.update(
-		deck,
+		_p4,
 		{slides: slides});
-	return _NAlexPear$elm_slides$Requests$saveDeck(deck);
-};
-var _NAlexPear$elm_slides$Initiators$initiateSlideSave = function (model) {
-	return _NAlexPear$elm_slides$Requests$saveDeck(model.decks.current);
+	return _NAlexPear$elm_slides$Requests$saveDeck(newDeck);
 };
 var _NAlexPear$elm_slides$Initiators$mapIdToIndex = F2(
 	function (index, slide) {

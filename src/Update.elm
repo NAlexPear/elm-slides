@@ -1,17 +1,16 @@
 module Update exposing (update)
 
-import Initiators exposing (initiateSlideSave, initiateSlideDelete)
 import Message exposing (Msg(..))
 import Navigators exposing (navigate)
 import Requests exposing (saveDeck, getDeck, getDecks)
 import Types exposing (..)
-import Updaters exposing (addSlide)
+import Updaters exposing (..)
 
 
 mapKeyToMsg : Model -> Int -> Cmd Msg
-mapKeyToMsg model code =
-    if code == 27 && model.sidebar == EditingSlide then
-        initiateSlideSave model
+mapKeyToMsg { decks, sidebar } code =
+    if code == 27 && sidebar == EditingSlide then
+        saveDeck decks.current
     else
         Cmd.none
 
@@ -35,34 +34,16 @@ update msg model =
             , mapKeyToMsg model code
             )
 
-        GetDeck (Ok current) ->
-            ( let
-                decks =
-                    model.decks
-
-                newDecks =
-                    { decks | current = current }
-              in
-                { model
-                    | decks = newDecks
-                }
+        GetDeck (Ok newCurrentDeck) ->
+            ( updateCurrentDeck model newCurrentDeck
             , Cmd.none
             )
 
         GetDeck (Err _) ->
             ( model, Cmd.none )
 
-        GetDecks (Ok others) ->
-            ( let
-                decks =
-                    model.decks
-
-                newDecks =
-                    { decks | others = others }
-              in
-                { model
-                    | decks = newDecks
-                }
+        GetDecks (Ok newOtherDecks) ->
+            ( updateOtherDecks model newOtherDecks
             , Cmd.none
             )
 
@@ -87,14 +68,11 @@ update msg model =
         SaveDeck (Err _) ->
             ( model, Cmd.none )
 
-        QueueSaveDeck ->
+        QueueSave ->
             ( model, saveDeck model.decks.current )
 
-        QueueSave ->
-            ( model, initiateSlideSave model )
-
         QueueDelete ->
-            ( model, initiateSlideDelete model )
+            ( model, deleteSlide model.decks )
 
         ToggleEdit ->
             ( let

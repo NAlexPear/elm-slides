@@ -43,7 +43,7 @@ init =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     ups KeyPress
 
 
@@ -52,13 +52,10 @@ subscriptions model =
 
 
 view : Model -> Html Msg
-view model =
+view ({ decks, sidebar } as model) =
     let
         renderer =
             slide model
-
-        sidebar =
-            model.sidebar
 
         iconClasses =
             if sidebar == ChangingDeck || sidebar == EditingDeck then
@@ -73,7 +70,7 @@ view model =
                 |> List.singleton
 
         slides =
-            model.decks.current.slides
+            decks.current.slides
     in
         div
             []

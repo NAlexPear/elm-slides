@@ -20,30 +20,30 @@ getHiddenString trigger =
 
 
 deckItem : Deck -> Html Msg
-deckItem deck =
+deckItem { id, title } =
     let
         clickHandler =
-            ChangeDeck deck.id
+            ChangeDeck id
     in
         li
             [ class "pointer"
             , onClick clickHandler
             ]
-            [ text deck.title ]
+            [ text title ]
 
 
 deckItems : Decks -> List (Html Msg)
-deckItems decks =
-    decks.others
+deckItems { others } =
+    others
         |> Array.map deckItem
         |> Array.toList
 
 
 deckMenu : Model -> Html Msg
-deckMenu model =
+deckMenu { decks, sidebar } =
     let
         trigger =
-            model.sidebar == ChangingDeck
+            sidebar == ChangingDeck
 
         hiddenString =
             getHiddenString trigger
@@ -52,14 +52,14 @@ deckMenu model =
             "menu" ++ hiddenString
     in
         div [ class classString ]
-            [ model.decks
+            [ decks
                 |> deckItems
                 |> ul []
             ]
 
 
 deckSettingsForm : Deck -> Html Msg
-deckSettingsForm deck =
+deckSettingsForm { title } =
     let
         clickHandler =
             NoOp
@@ -71,53 +71,39 @@ deckSettingsForm deck =
                 [ for "title" ]
                 [ text "Deck Title:"
                 , input
-                    [ placeholder deck.title
+                    [ placeholder title
                     , name "title"
                     , onInput UpdateTitle
                     ]
                     []
                 ]
             , button
-                [ class "pointer", onClick QueueSaveDeck ]
+                [ class "pointer", onClick QueueSave ]
                 [ text "Save Changes" ]
             ]
 
 
 deckSettingsMenu : Model -> Html Msg
-deckSettingsMenu model =
+deckSettingsMenu { decks, sidebar } =
     let
         trigger =
-            model.sidebar == EditingDeck
+            sidebar == EditingDeck
 
         hiddenString =
             getHiddenString trigger
 
         classString =
             "menu" ++ hiddenString
-
-        index =
-            model.decks.current.id - 1
-
-        maybeDeck =
-            Array.get index model.decks.others
-
-        menu =
-            case maybeDeck of
-                Just deck ->
-                    deckSettingsForm deck
-
-                Nothing ->
-                    text "No deck information found"
     in
-        div [ class classString ] [ menu ]
+        div [ class classString ] [ deckSettingsForm decks.current ]
 
 
 fields : Sidebar -> Slide -> List (Html Msg)
-fields sidebar slide =
+fields sidebar { content } =
     case sidebar of
         EditingSlide ->
             [ textarea
-                [ value slide.content
+                [ value content
                 , onInput UpdateContent
                 ]
                 []
@@ -126,7 +112,7 @@ fields sidebar slide =
         _ ->
             [ div
                 []
-                [ Markdown.toHtml [] slide.content ]
+                [ Markdown.toHtml [] content ]
             ]
 
 
@@ -175,13 +161,13 @@ icons model =
 
 
 slide : Model -> Slide -> List (Html Msg) -> List (Html Msg)
-slide model slide acc =
+slide { decks, sidebar } slide acc =
     let
         currentLength =
             List.length acc
 
         previousLength =
-            List.length model.decks.current.slides.previous
+            List.length decks.current.slides.previous
 
         vw =
             (currentLength - previousLength) * 100
@@ -191,7 +177,7 @@ slide model slide acc =
 
         next =
             [ slide
-                |> fields model.sidebar
+                |> fields sidebar
                 |> div
                     [ class "slide"
                     , style [ position ]

@@ -1,15 +1,3 @@
-var _NAlexPear$elm_slides$Requests$deckEncoder = function (deck) {
-	return _elm_lang$core$Json_Encode$object(
-		{
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: 'title',
-				_1: _elm_lang$core$Json_Encode$string(deck.title)
-			},
-			_1: {ctor: '[]'}
-		});
-};
 var _NAlexPear$elm_slides$Requests$mapSlides = function (slides) {
 	var slide = {
 		previous: {ctor: '[]'},
@@ -46,13 +34,40 @@ var _NAlexPear$elm_slides$Requests$slideEncoder = function (slide) {
 		});
 };
 var _NAlexPear$elm_slides$Requests$slidesEncoder = function (slides) {
-	var slidesList = _elm_lang$core$Json_Encode$list(
+	return _elm_lang$core$Json_Encode$list(
 		A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Requests$slideEncoder, slides));
+};
+var _NAlexPear$elm_slides$Requests$deckEncoder = function (_p1) {
+	var _p2 = _p1;
+	var _p3 = _p2.slides;
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'slides', _1: slidesList},
-			_1: {ctor: '[]'}
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'title',
+				_1: _elm_lang$core$Json_Encode$string(_p2.title)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'slides',
+					_1: _NAlexPear$elm_slides$Requests$slidesEncoder(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_p3.previous,
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								{
+									ctor: '::',
+									_0: _p3.current,
+									_1: {ctor: '[]'}
+								},
+								_p3.remaining)))
+				},
+				_1: {ctor: '[]'}
+			}
 		});
 };
 var _NAlexPear$elm_slides$Requests$slideDecoder = A3(

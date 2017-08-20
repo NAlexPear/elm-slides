@@ -68,13 +68,9 @@ slidesDecoder =
 
 slidesEncoder : List Slide -> Encode.Value
 slidesEncoder slides =
-    let
-        slidesList =
-            slides
-                |> List.map slideEncoder
-                |> Encode.list
-    in
-        Encode.object [ ( "slides", slidesList ) ]
+    slides
+        |> List.map slideEncoder
+        |> Encode.list
 
 
 deckDecoder : Decoder Deck
@@ -91,8 +87,11 @@ decksDecoder =
 
 
 deckEncoder : Deck -> Encode.Value
-deckEncoder deck =
-    Encode.object [ ( "title", Encode.string deck.title ) ]
+deckEncoder { slides, title } =
+    Encode.object
+        [ ( "title", Encode.string title )
+        , ( "slides", slidesEncoder (slides.previous ++ [ slides.current ] ++ slides.remaining) )
+        ]
 
 
 saveDeck : Deck -> Cmd Msg

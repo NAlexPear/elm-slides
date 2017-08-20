@@ -1,36 +1,94 @@
-var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (_p0) {
-	var _p1 = _p0;
-	var _p2 = _p1.previous;
+var _NAlexPear$elm_slides$Updaters$updateOtherDecks = F2(
+	function (_p0, newOtherDecks) {
+		var _p1 = _p0;
+		var _p4 = _p1.decks;
+		var filteredDecks = A2(
+			_elm_lang$core$Array$filter,
+			function (_p2) {
+				var _p3 = _p2;
+				return !_elm_lang$core$Native_Utils.eq(_p3.id, _p4.current.id);
+			},
+			newOtherDecks);
+		var newDecks = _elm_lang$core$Native_Utils.update(
+			_p4,
+			{others: filteredDecks});
+		return _elm_lang$core$Native_Utils.update(
+			_p1,
+			{decks: newDecks});
+	});
+var _NAlexPear$elm_slides$Updaters$updateCurrentDeck = F2(
+	function (_p5, newCurrentDeck) {
+		var _p6 = _p5;
+		var newDecks = _elm_lang$core$Native_Utils.update(
+			_p6.decks,
+			{current: newCurrentDeck});
+		return _elm_lang$core$Native_Utils.update(
+			_p6,
+			{decks: newDecks});
+	});
+var _NAlexPear$elm_slides$Updaters$getInjectedSlides = function (_p7) {
+	var _p8 = _p7;
+	var _p9 = _p8.previous;
 	return _elm_lang$core$Native_Utils.update(
-		_p1,
+		_p8,
 		{
 			previous: A2(
 				_elm_lang$core$Basics_ops['++'],
-				_p2,
+				_p9,
 				{
 					ctor: '::',
-					_0: _p1.current,
+					_0: _p8.current,
 					_1: {ctor: '[]'}
 				}),
 			current: {
 				content: '# This is a new slide \n ...and add some content!',
-				id: _elm_lang$core$List$length(_p2)
+				id: _elm_lang$core$List$length(_p9)
 			}
 		});
 };
-var _NAlexPear$elm_slides$Updaters$addSlide = function (_p3) {
-	var _p4 = _p3;
-	var _p5 = _p4.decks;
-	var deck = _p5.current;
+var _NAlexPear$elm_slides$Updaters$deleteSlide = function (_p10) {
+	var _p11 = _p10;
+	var _p14 = _p11.current;
+	var remaining = A2(_elm_lang$core$Basics_ops['++'], _p14.slides.previous, _p14.slides.remaining);
+	var newCurrent = function () {
+		var _p12 = _elm_lang$core$List$head(remaining);
+		if (_p12.ctor === 'Just') {
+			return _p12._0;
+		} else {
+			return {content: '# There are no more slides in this deck! \n Edit this slide to start again', id: 1};
+		}
+	}();
+	var newRemaining = function () {
+		var _p13 = _elm_lang$core$List$tail(remaining);
+		if (_p13.ctor === 'Just') {
+			return _p13._0;
+		} else {
+			return {ctor: '[]'};
+		}
+	}();
+	var slides = {
+		previous: {ctor: '[]'},
+		current: newCurrent,
+		remaining: newRemaining
+	};
+	var newDeck = _elm_lang$core$Native_Utils.update(
+		_p14,
+		{slides: slides});
+	return _NAlexPear$elm_slides$Requests$saveDeck(newDeck);
+};
+var _NAlexPear$elm_slides$Updaters$addSlide = function (_p15) {
+	var _p16 = _p15;
+	var _p17 = _p16.decks;
+	var deck = _p17.current;
 	var newDeck = _elm_lang$core$Native_Utils.update(
 		deck,
 		{
 			slides: _NAlexPear$elm_slides$Updaters$getInjectedSlides(deck.slides)
 		});
 	var newDecks = _elm_lang$core$Native_Utils.update(
-		_p5,
+		_p17,
 		{current: newDeck});
 	return _elm_lang$core$Native_Utils.update(
-		_p4,
+		_p16,
 		{decks: newDecks, sidebar: _NAlexPear$elm_slides$Types$EditingSlide});
 };
