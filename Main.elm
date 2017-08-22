@@ -71,19 +71,17 @@ view ({ decks, sidebar } as model) =
     in
         div
             []
-            [ node "link" [ rel "stylesheet", href "/src/highlight/styles/github-gist.css" ] []
-            , node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
-            , node "link" [ rel "stylesheet", href "main.css" ] []
+            [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
             , slides.remaining
                 |> List.append [ slides.current ]
                 |> List.append slides.previous
                 |> List.foldl renderer []
                 |> List.append sidebarView
                 |> div [ id "container" ]
-            , node "script" [ src "/src/highlight/highlight.pack.js" ] []
             ]
 
 
+main : Program Never Model Msg
 main =
     program
         { init = init

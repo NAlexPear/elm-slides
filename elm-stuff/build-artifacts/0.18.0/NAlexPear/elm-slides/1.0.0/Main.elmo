@@ -31,83 +31,39 @@ var _NAlexPear$elm_slides$Main$view = function (_p0) {
 					_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href('/src/highlight/styles/github-gist.css'),
+						_0: _elm_lang$html$Html_Attributes$href('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'),
 						_1: {ctor: '[]'}
 					}
 				},
 				{ctor: '[]'}),
 			_1: {
 				ctor: '::',
-				_0: A3(
-					_elm_lang$html$Html$node,
-					'link',
+				_0: A2(
+					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$href('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'),
-							_1: {ctor: '[]'}
-						}
+						_0: _elm_lang$html$Html_Attributes$id('container'),
+						_1: {ctor: '[]'}
 					},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: A3(
-						_elm_lang$html$Html$node,
-						'link',
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href('main.css'),
-								_1: {ctor: '[]'}
-							}
-						},
-						{ctor: '[]'}),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$div,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$id('container'),
-								_1: {ctor: '[]'}
-							},
+					A2(
+						_elm_lang$core$List$append,
+						sidebarView,
+						A3(
+							_elm_lang$core$List$foldl,
+							renderer,
+							{ctor: '[]'},
 							A2(
 								_elm_lang$core$List$append,
-								sidebarView,
-								A3(
-									_elm_lang$core$List$foldl,
-									renderer,
-									{ctor: '[]'},
-									A2(
-										_elm_lang$core$List$append,
-										slides.previous,
-										A2(
-											_elm_lang$core$List$append,
-											{
-												ctor: '::',
-												_0: slides.current,
-												_1: {ctor: '[]'}
-											},
-											slides.remaining))))),
-						_1: {
-							ctor: '::',
-							_0: A3(
-								_elm_lang$html$Html$node,
-								'script',
-								{
-									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$src('/src/highlight/highlight.pack.js'),
-									_1: {ctor: '[]'}
-								},
-								{ctor: '[]'}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
+								slides.previous,
+								A2(
+									_elm_lang$core$List$append,
+									{
+										ctor: '::',
+										_0: slides.current,
+										_1: {ctor: '[]'}
+									},
+									slides.remaining))))),
+				_1: {ctor: '[]'}
 			}
 		});
 };

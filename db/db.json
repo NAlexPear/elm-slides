@@ -3,7 +3,7 @@
     {
       "slides": [
         {
-          "content": "---\nbackground: hotpink\n---\n\n# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis!"
+          "content": "---\nbackground: lightpink\n---\n\n# This _was_ a new slide \n## but now it's pretty well established\n\n...first slide, who dis!"
         },
         {
           "content": "# This is the _new_ second slide\n## The first one was deleted in a terrible accident\n\nHere's an unordered list to make me feel better:\n* What\n* is\n* this!"
