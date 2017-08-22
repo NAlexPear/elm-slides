@@ -1,4 +1,4 @@
-module Requests exposing (getDeck, getDecks, saveDeck)
+module Requests exposing (createDeck, getDeck, getDecks, saveDeck)
 
 import Array
 import Array exposing (Array)
@@ -14,6 +14,19 @@ patch : String -> Http.Body -> Decoder a -> Http.Request a
 patch url body decoder =
     Http.request
         { method = "PATCH"
+        , headers = []
+        , url = url
+        , body = body
+        , expect = Http.expectJson decoder
+        , timeout = Nothing
+        , withCredentials = False
+        }
+
+
+post : String -> Http.Body -> Decoder a -> Http.Request a
+post url body decoder =
+    Http.request
+        { method = "POST"
         , headers = []
         , url = url
         , body = body
@@ -90,6 +103,33 @@ deckEncoder { slides, title } =
         [ ( "title", Encode.string title )
         , ( "slides", slidesEncoder (slides.previous ++ [ slides.current ] ++ slides.remaining) )
         ]
+
+
+createDeck : Cmd Msg
+createDeck =
+    let
+        url =
+            "http://localhost:3000/decks/"
+
+        deck =
+            { slides =
+                { previous = []
+                , current = { content = "# New Slide" }
+                , remaining = []
+                }
+            , title = "New Deck"
+            , id = 0 -- placeholder id
+            }
+
+        body =
+            deck
+                |> deckEncoder
+                |> Http.jsonBody
+
+        request =
+            post url body deckDecoder
+    in
+        Http.send SaveDeck request
 
 
 saveDeck : Deck -> Cmd Msg

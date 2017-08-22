@@ -14,6 +14,7 @@ type Msg
     | QueueSave
     | QueueDelete
     | AddSlide
+    | CreateDeck
     | ChangeDeck Int
     | ToggleChangeDeck
     | ToggleEditDeck

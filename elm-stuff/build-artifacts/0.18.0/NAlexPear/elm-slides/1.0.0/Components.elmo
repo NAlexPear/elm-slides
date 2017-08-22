@@ -381,7 +381,22 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 								},
 								_elm_lang$core$List$singleton(
 									_NAlexPear$elm_slides$Components$deckSettingsMenu(model))),
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$span,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('fa fa-file'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$CreateDeck),
+											_1: {ctor: '[]'}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {ctor: '[]'}
+							}
 						}
 					}
 				}

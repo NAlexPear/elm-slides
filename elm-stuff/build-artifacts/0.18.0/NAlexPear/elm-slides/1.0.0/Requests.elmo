@@ -98,6 +98,35 @@ var _NAlexPear$elm_slides$Requests$getDeck = function (deck) {
 	var request = A2(_elm_lang$http$Http$get, url, _NAlexPear$elm_slides$Requests$deckDecoder);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
 };
+var _NAlexPear$elm_slides$Requests$post = F3(
+	function (url, body, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'POST',
+				headers: {ctor: '[]'},
+				url: url,
+				body: body,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _NAlexPear$elm_slides$Requests$createDeck = function () {
+	var deck = {
+		slides: {
+			previous: {ctor: '[]'},
+			current: {content: '# New Slide'},
+			remaining: {ctor: '[]'}
+		},
+		title: 'New Deck',
+		id: 0
+	};
+	var body = _elm_lang$http$Http$jsonBody(
+		_NAlexPear$elm_slides$Requests$deckEncoder(deck));
+	var url = 'http://localhost:3000/decks/';
+	var request = A3(_NAlexPear$elm_slides$Requests$post, url, body, _NAlexPear$elm_slides$Requests$deckDecoder);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
+}();
 var _NAlexPear$elm_slides$Requests$patch = F3(
 	function (url, body, decoder) {
 		return _elm_lang$http$Http$request(

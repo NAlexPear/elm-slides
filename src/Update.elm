@@ -2,7 +2,7 @@ module Update exposing (update)
 
 import Message exposing (Msg(..))
 import Navigators exposing (navigate)
-import Requests exposing (saveDeck, getDeck, getDecks)
+import Requests exposing (createDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Updaters exposing (..)
 
@@ -118,6 +118,9 @@ update msg model =
 
         AddSlide ->
             ( addSlide model, Cmd.none )
+
+        CreateDeck ->
+            ( model, createDeck )
 
         UpdateSlide newContent ->
             ( updateSlide model newContent

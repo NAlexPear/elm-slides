@@ -217,6 +217,11 @@ icons model =
                     [ class "settings fa fa-gear"
                     , onClick ToggleEditDeck
                     ]
+            , span
+                [ class "fa fa-file"
+                , onClick CreateDeck
+                ]
+                []
             ]
 
 
