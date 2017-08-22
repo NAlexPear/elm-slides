@@ -25,8 +25,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "json-server --watch db/db.json",
-    "dev": "webpack-dev-server --hot --inline --port 8080"
+    "start": "./init.sh && json-server --watch db/db.json",
+    "dev": "webpack-dev-server --hot --inline --port 8080",
+    "prod": "webpack -p",
+    "postinstall": "elm-package install -y"
   },
   "repository": {
     "type": "git",
