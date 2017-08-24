@@ -1,9 +1,9 @@
 const path = require('path');
 const merge = require('webpack-merge');
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const TARGET_ENV = process.env.npm_lifecycle_event === 'prod' ? 'production' : 'development';
 const filename = (TARGET_ENV == 'production') ? '[name]-[hash].js' : 'index.js';
@@ -20,7 +20,8 @@ const common = {
             template: 'index.ejs',
             // inject details of output file at end of body
             inject: 'body'
-        })
+        }),
+        new ExtractTextPlugin("styles.css"),
     ],
     resolve: {
         modules: ["node_modules" ],
@@ -47,13 +48,15 @@ const common = {
                     /elm-stuff/, /node_modules/
                 ],
                 loaders: ["style-loader", "css-loader", "sass-loader"]
-            }, {
-                test: /\.css$/,
-                exclude: [
-                    /elm-stuff/
-                ],
-                loaders: ["style-loader", "css-loader"]
-            }, {
+            },
+            {
+              test: /\.css$/,
+              use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+              })
+            },
+             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 exclude: [
                     /elm-stuff/, /node_modules/
@@ -128,12 +131,7 @@ if (TARGET_ENV === 'production') {
               verbose:  true,
               dry:      false
             }),
-            new CopyWebpackPlugin([
-                {
-                    from: 'src/assets'
-                }
-            ]),
-            new webpack.optimize.UglifyJsPlugin()
+            new webpack.optimize.UglifyJsPlugin(),
         ],
         module: {
             rules: [
