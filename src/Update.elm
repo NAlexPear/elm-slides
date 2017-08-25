@@ -2,6 +2,7 @@ module Update exposing (update)
 
 import Message exposing (Msg(..))
 import Navigators exposing (navigate)
+import Ports exposing (highlight)
 import Requests exposing (createDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Updaters exposing (..)
@@ -40,7 +41,7 @@ update msg model =
                     updateCurrentDeck model newCurrentDeck
               in
                 { newModel | sidebar = Inactive }
-            , Cmd.none
+            , highlight "Starting highlight.js"
             )
 
         GetDeck (Err _) ->

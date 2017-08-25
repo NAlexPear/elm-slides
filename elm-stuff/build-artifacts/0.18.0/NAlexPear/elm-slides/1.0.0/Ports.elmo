@@ -1,0 +1,5 @@
+var _NAlexPear$elm_slides$Ports$highlight = _elm_lang$core$Native_Platform.outgoingPort(
+	'highlight',
+	function (v) {
+		return v;
+	});

@@ -33,7 +33,7 @@ var _NAlexPear$elm_slides$Update$update = F2(
 								newModel,
 								{sidebar: _NAlexPear$elm_slides$Types$Inactive});
 						}(),
-						_1: _elm_lang$core$Platform_Cmd$none
+						_1: _NAlexPear$elm_slides$Ports$highlight('Starting highlight.js')
 					};
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
