@@ -136,7 +136,9 @@ saveDeck : Deck -> Cmd Msg
 saveDeck deck =
     let
         url =
-            "http://localhost:3000/decks/" ++ toString deck.id
+            deck.id
+                |> toString
+                |> (++) "http://localhost:3000/decks/"
 
         body =
             deck
@@ -152,11 +154,8 @@ saveDeck deck =
 getDecks : Cmd Msg
 getDecks =
     let
-        url =
-            "http://localhost:3000/decks"
-
         request =
-            Http.get url decksDecoder
+            Http.get "http://localhost:3000/decks" decksDecoder
     in
         Http.send GetDecks request
 
@@ -165,7 +164,9 @@ getDeck : Int -> Cmd Msg
 getDeck deck =
     let
         url =
-            "http://localhost:3000/decks/" ++ toString deck
+            deck
+                |> toString
+                |> (++) "http://localhost:3000/decks/"
 
         request =
             Http.get url deckDecoder

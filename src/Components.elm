@@ -39,14 +39,11 @@ deckItems { others } =
 deckMenu : Model -> Html Msg
 deckMenu { decks, sidebar } =
     let
-        trigger =
-            sidebar == ChangingDeck
-
-        hiddenString =
-            getHiddenString trigger
-
         classString =
-            "menu" ++ hiddenString
+            sidebar
+                |> (==) ChangingDeck
+                |> getHiddenString
+                |> (++) "menu"
     in
         div [ class classString ]
             [ decks
@@ -83,14 +80,11 @@ deckSettingsForm { title } =
 deckSettingsMenu : Model -> Html Msg
 deckSettingsMenu { decks, sidebar } =
     let
-        trigger =
-            sidebar == EditingDeck
-
-        hiddenString =
-            getHiddenString trigger
-
         classString =
-            "menu" ++ hiddenString
+            sidebar
+                |> (==) EditingDeck
+                |> getHiddenString
+                |> (++) "menu"
     in
         div [ class classString ] [ deckSettingsForm decks.current ]
 

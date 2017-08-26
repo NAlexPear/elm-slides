@@ -10,7 +10,7 @@ import UrlParser as Url exposing ((</>))
 route : Url.Parser (Route -> a) a
 route =
     Url.oneOf
-        [ Url.map Presentation (Url.s "decks" </> Url.int) ]
+        [ Url.map Presentation <| Url.s "decks" </> Url.int ]
 
 
 getDeckId : Navigation.Location -> Int
@@ -86,19 +86,15 @@ stepBackwards ({ current } as decks) =
 
 navigate : Model -> KeyCode -> Decks
 navigate { decks, sidebar } code =
-    let
-        slides =
-            decks.current.slides
-    in
-        if sidebar == EditingSlide then
-            decks
-        else
-            case code of
-                39 ->
-                    stepForwards decks
+    if sidebar == EditingSlide then
+        decks
+    else
+        case code of
+            39 ->
+                stepForwards decks
 
-                37 ->
-                    stepBackwards decks
+            37 ->
+                stepBackwards decks
 
-                _ ->
-                    decks
+            _ ->
+                decks

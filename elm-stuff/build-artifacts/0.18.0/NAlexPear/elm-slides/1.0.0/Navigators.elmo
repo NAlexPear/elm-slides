@@ -59,7 +59,6 @@ var _NAlexPear$elm_slides$Navigators$navigate = F2(
 	function (_p8, code) {
 		var _p9 = _p8;
 		var _p11 = _p9.decks;
-		var slides = _p11.current.slides;
 		if (_elm_lang$core$Native_Utils.eq(_p9.sidebar, _NAlexPear$elm_slides$Types$EditingSlide)) {
 			return _p11;
 		} else {

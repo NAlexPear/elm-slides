@@ -244,9 +244,20 @@ var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 };
 var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
 	var _p18 = _p17;
-	var trigger = _elm_lang$core$Native_Utils.eq(_p18.sidebar, _NAlexPear$elm_slides$Types$ChangingDeck);
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
-	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
+	var classString = A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'menu',
+		_NAlexPear$elm_slides$Components$getHiddenString(
+			A2(
+				F2(
+					function (x, y) {
+						return _elm_lang$core$Native_Utils.eq(x, y);
+					}),
+				_NAlexPear$elm_slides$Types$ChangingDeck,
+				_p18.sidebar)));
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -265,9 +276,20 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
 };
 var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p19) {
 	var _p20 = _p19;
-	var trigger = _elm_lang$core$Native_Utils.eq(_p20.sidebar, _NAlexPear$elm_slides$Types$EditingDeck);
-	var hiddenString = _NAlexPear$elm_slides$Components$getHiddenString(trigger);
-	var classString = A2(_elm_lang$core$Basics_ops['++'], 'menu', hiddenString);
+	var classString = A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'menu',
+		_NAlexPear$elm_slides$Components$getHiddenString(
+			A2(
+				F2(
+					function (x, y) {
+						return _elm_lang$core$Native_Utils.eq(x, y);
+					}),
+				_NAlexPear$elm_slides$Types$EditingDeck,
+				_p20.sidebar)));
 	return A2(
 		_elm_lang$html$Html$div,
 		{

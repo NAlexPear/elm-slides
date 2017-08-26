@@ -105,6 +105,7 @@ update msg model =
             , deckId
                 |> toString
                 |> (++) "/decks/"
+                |> flip (++) "#1"
                 |> newUrl
             )
 

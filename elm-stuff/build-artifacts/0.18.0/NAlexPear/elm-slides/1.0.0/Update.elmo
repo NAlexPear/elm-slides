@@ -116,13 +116,20 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						model,
 						{sidebar: _NAlexPear$elm_slides$Types$Inactive}),
 					_1: _elm_lang$navigation$Navigation$newUrl(
-						A2(
+						A3(
+							_elm_lang$core$Basics$flip,
 							F2(
 								function (x, y) {
 									return A2(_elm_lang$core$Basics_ops['++'], x, y);
 								}),
-							'/decks/',
-							_elm_lang$core$Basics$toString(_p2._0)))
+							'#1',
+							A2(
+								F2(
+									function (x, y) {
+										return A2(_elm_lang$core$Basics_ops['++'], x, y);
+									}),
+								'/decks/',
+								_elm_lang$core$Basics$toString(_p2._0))))
 				};
 			case 'ToggleEditDeck':
 				return {
