@@ -6,13 +6,15 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const TARGET_ENV = process.env.npm_lifecycle_event === 'prod' ? 'production' : 'development';
-const filename = (TARGET_ENV == 'production') ? '[name]-[hash].js' : 'index.js';
+const script = (TARGET_ENV == 'production') ? '[name]-[hash].js' : 'index.js';
+const style = (TARGET_ENV == 'production') ? '[name]-[hash].css' : 'style.css';
 
 const common = {
     entry: './index.js',
     output: {
         path: path.join(__dirname, "dist"),
-        filename: filename
+        publicPath: "/",
+        filename: script
     },
     plugins: [
         new HTMLWebpackPlugin({
@@ -21,10 +23,13 @@ const common = {
             // inject details of output file at end of body
             inject: 'body'
         }),
-        new ExtractTextPlugin("styles.css"),
+        new ExtractTextPlugin({
+          filename: style,
+          allChunks: true
+        }),
     ],
     resolve: {
-        modules: ["node_modules" ],
+        modules: ["node_modules"],
         extensions: ['.js', '.elm', '.scss', '.css', '.png']
     },
     module: {
@@ -84,9 +89,7 @@ if (TARGET_ENV === 'development') {
     console.log('Building for dev...');
     module.exports = merge(common, {
         plugins: [
-            // Suggested for hot-loading
             new webpack.NamedModulesPlugin(),
-            // Prevents compilation errors causing the hot loader to lose state
             new webpack.NoEmitOnErrorsPlugin()
         ],
         module: {
@@ -114,8 +117,6 @@ if (TARGET_ENV === 'development') {
         devServer: {
             inline: true,
             stats: 'errors-only',
-            contentBase: path.join(__dirname, "src/assets"),
-            // For SPAs: serve index.html in place of 404 responses
             historyApiFallback: true
         }
     });

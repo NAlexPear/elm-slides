@@ -22,15 +22,11 @@ getHiddenString trigger =
 
 deckItem : Deck -> Html Msg
 deckItem { id, title } =
-    let
-        clickHandler =
-            ChangeDeck id
-    in
-        li
-            [ class "pointer"
-            , onClick clickHandler
-            ]
-            [ text title ]
+    li
+        [ class "pointer"
+        , onClick <| ChangeDeck id
+        ]
+        [ text title ]
 
 
 deckItems : Decks -> List (Html Msg)

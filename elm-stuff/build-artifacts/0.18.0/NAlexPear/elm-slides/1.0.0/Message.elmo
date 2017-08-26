@@ -1,4 +1,7 @@
 var _NAlexPear$elm_slides$Message$NoOp = {ctor: 'NoOp'};
+var _NAlexPear$elm_slides$Message$UrlChange = function (a) {
+	return {ctor: 'UrlChange', _0: a};
+};
 var _NAlexPear$elm_slides$Message$UpdateDeckTitle = function (a) {
 	return {ctor: 'UpdateDeckTitle', _0: a};
 };

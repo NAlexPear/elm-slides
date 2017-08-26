@@ -7,13 +7,16 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Keyboard exposing (ups)
 import Message exposing (Msg(..))
+import Navigation
+import Navigators exposing (getDeckId, route)
+import Regex exposing (Regex, find, regex)
 import Requests exposing (getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Update exposing (update)
 
 
-init : ( Model, Cmd Msg )
-init =
+init : Navigation.Location -> ( Model, Cmd Msg )
+init location =
     let
         slides =
             { previous = []
@@ -30,8 +33,11 @@ init =
                 , others = Array.empty
                 }
           , sidebar = Inactive
+          , history = [ location ]
           }
-        , getDeck 1
+        , location
+            |> getDeckId
+            |> getDeck
         )
 
 
@@ -83,7 +89,7 @@ view ({ decks, sidebar } as model) =
 
 main : Program Never Model Msg
 main =
-    program
+    Navigation.program UrlChange
         { init = init
         , view = view
         , update = update

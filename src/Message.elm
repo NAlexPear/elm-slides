@@ -1,9 +1,10 @@
 module Message exposing (Msg(..))
 
 import Array exposing (Array)
-import Keyboard exposing (KeyCode)
-import Types exposing (..)
 import Http
+import Keyboard exposing (KeyCode)
+import Navigation exposing (Location)
+import Types exposing (..)
 
 
 type Msg
@@ -21,4 +22,5 @@ type Msg
     | ToggleEdit
     | UpdateSlide String
     | UpdateDeckTitle String
+    | UrlChange Location
     | NoOp

@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Array exposing (Array)
+import Navigation exposing (Location)
 
 
 type alias Slide =
@@ -27,6 +28,14 @@ type alias Decks =
     }
 
 
+type alias History =
+    List Location
+
+
+type Route
+    = Presentation Int
+
+
 type Sidebar
     = EditingSlide
     | ChangingDeck
@@ -37,4 +46,5 @@ type Sidebar
 type alias Model =
     { decks : Decks
     , sidebar : Sidebar
+    , history : History
     }

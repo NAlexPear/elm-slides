@@ -74,3 +74,23 @@ var _NAlexPear$elm_slides$Navigators$navigate = F2(
 			}
 		}
 	});
+var _NAlexPear$elm_slides$Navigators$route = _evancz$url_parser$UrlParser$oneOf(
+	{
+		ctor: '::',
+		_0: A2(
+			_evancz$url_parser$UrlParser$map,
+			_NAlexPear$elm_slides$Types$Presentation,
+			A2(
+				_evancz$url_parser$UrlParser_ops['</>'],
+				_evancz$url_parser$UrlParser$s('decks'),
+				_evancz$url_parser$UrlParser$int)),
+		_1: {ctor: '[]'}
+	});
+var _NAlexPear$elm_slides$Navigators$getDeckId = function (location) {
+	var _p12 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
+	if (_p12.ctor === 'Just') {
+		return _p12._0._0;
+	} else {
+		return 1;
+	}
+};

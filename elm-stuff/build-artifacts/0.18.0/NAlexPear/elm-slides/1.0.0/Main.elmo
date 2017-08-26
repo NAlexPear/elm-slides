@@ -70,7 +70,7 @@ var _NAlexPear$elm_slides$Main$view = function (_p0) {
 var _NAlexPear$elm_slides$Main$subscriptions = function (_p4) {
 	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
 };
-var _NAlexPear$elm_slides$Main$init = function () {
+var _NAlexPear$elm_slides$Main$init = function (location) {
 	var slides = {
 		previous: {ctor: '[]'},
 		current: {content: ''},
@@ -83,10 +83,18 @@ var _NAlexPear$elm_slides$Main$init = function () {
 				current: {title: '', id: 1, slides: slides},
 				others: _elm_lang$core$Array$empty
 			},
-			sidebar: _NAlexPear$elm_slides$Types$Inactive
+			sidebar: _NAlexPear$elm_slides$Types$Inactive,
+			history: {
+				ctor: '::',
+				_0: location,
+				_1: {ctor: '[]'}
+			}
 		},
-		_1: _NAlexPear$elm_slides$Requests$getDeck(1)
+		_1: _NAlexPear$elm_slides$Requests$getDeck(
+			_NAlexPear$elm_slides$Navigators$getDeckId(location))
 	};
-}();
-var _NAlexPear$elm_slides$Main$main = _elm_lang$html$Html$program(
+};
+var _NAlexPear$elm_slides$Main$main = A2(
+	_elm_lang$navigation$Navigation$program,
+	_NAlexPear$elm_slides$Message$UrlChange,
 	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Update$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();

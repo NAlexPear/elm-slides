@@ -1,7 +1,8 @@
 module Update exposing (update)
 
 import Message exposing (Msg(..))
-import Navigators exposing (navigate)
+import Navigation exposing (newUrl)
+import Navigators exposing (navigate, getDeckId)
 import Ports exposing (highlight)
 import Requests exposing (createDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
@@ -99,9 +100,12 @@ update msg model =
             , getDecks
             )
 
-        ChangeDeck deck ->
+        ChangeDeck deckId ->
             ( { model | sidebar = Inactive }
-            , getDeck deck
+            , deckId
+                |> toString
+                |> (++) "/decks/"
+                |> newUrl
             )
 
         ToggleEditDeck ->
@@ -135,6 +139,13 @@ update msg model =
               in
                 updateCurrentDeck model { deck | title = newTitle }
             , Cmd.none
+            )
+
+        UrlChange location ->
+            ( { model | history = location :: model.history }
+            , location
+                |> getDeckId
+                |> getDeck
             )
 
         NoOp ->

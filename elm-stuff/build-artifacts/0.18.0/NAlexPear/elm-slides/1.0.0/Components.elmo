@@ -216,7 +216,6 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p11) {
 };
 var _NAlexPear$elm_slides$Components$deckItem = function (_p13) {
 	var _p14 = _p13;
-	var clickHandler = _NAlexPear$elm_slides$Message$ChangeDeck(_p14.id);
 	return A2(
 		_elm_lang$html$Html$li,
 		{
@@ -224,7 +223,8 @@ var _NAlexPear$elm_slides$Components$deckItem = function (_p13) {
 			_0: _elm_lang$html$Html_Attributes$class('pointer'),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(clickHandler),
+				_0: _elm_lang$html$Html_Events$onClick(
+					_NAlexPear$elm_slides$Message$ChangeDeck(_p14.id)),
 				_1: {ctor: '[]'}
 			}
 		},

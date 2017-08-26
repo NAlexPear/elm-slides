@@ -1,8 +1,26 @@
-module Navigators exposing (navigate)
+module Navigators exposing (navigate, route, getDeckId)
 
 import Array
 import Keyboard exposing (KeyCode)
+import Navigation
 import Types exposing (..)
+import UrlParser as Url exposing ((</>))
+
+
+route : Url.Parser (Route -> a) a
+route =
+    Url.oneOf
+        [ Url.map Presentation (Url.s "decks" </> Url.int) ]
+
+
+getDeckId : Navigation.Location -> Int
+getDeckId location =
+    case Url.parsePath route location of
+        Just (Presentation id) ->
+            id
+
+        Nothing ->
+            1
 
 
 stepForwards : Decks -> Decks

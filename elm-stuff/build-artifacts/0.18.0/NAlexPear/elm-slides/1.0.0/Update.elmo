@@ -115,7 +115,14 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{sidebar: _NAlexPear$elm_slides$Types$Inactive}),
-					_1: _NAlexPear$elm_slides$Requests$getDeck(_p2._0)
+					_1: _elm_lang$navigation$Navigation$newUrl(
+						A2(
+							F2(
+								function (x, y) {
+									return A2(_elm_lang$core$Basics_ops['++'], x, y);
+								}),
+							'/decks/',
+							_elm_lang$core$Basics$toString(_p2._0)))
 				};
 			case 'ToggleEditDeck':
 				return {
@@ -161,6 +168,18 @@ var _NAlexPear$elm_slides$Update$update = F2(
 								{title: _p2._0}));
 					}(),
 					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UrlChange':
+				var _p7 = _p2._0;
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							history: {ctor: '::', _0: _p7, _1: model.history}
+						}),
+					_1: _NAlexPear$elm_slides$Requests$getDeck(
+						_NAlexPear$elm_slides$Navigators$getDeckId(_p7))
 				};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
