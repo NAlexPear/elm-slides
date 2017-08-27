@@ -11,11 +11,6 @@ const style = (TARGET_ENV == 'production') ? '[name]-[hash].css' : 'style.css';
 
 const common = {
     entry: './index.js',
-    output: {
-        path: path.join(__dirname, "dist"),
-        publicPath: "/",
-        filename: script
-    },
     plugins: [
         new HTMLWebpackPlugin({
             // using .ejs prevents other loaders causing errors
@@ -88,6 +83,11 @@ const common = {
 if (TARGET_ENV === 'development') {
     console.log('Building for dev...');
     module.exports = merge(common, {
+        output: {
+            path: path.join(__dirname, "dist"),
+            publicPath: "/",
+            filename: script
+        },
         plugins: [
             new webpack.NamedModulesPlugin(),
             new webpack.NoEmitOnErrorsPlugin()
@@ -124,6 +124,10 @@ if (TARGET_ENV === 'development') {
 
 if (TARGET_ENV === 'production') {
     module.exports = merge(common, {
+        output: {
+            path: path.join(__dirname, "dist"),
+            filename: script
+        },
         plugins: [
             // Delete everything from output directory and report to user
             new CleanWebpackPlugin(['dist'], {
