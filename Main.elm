@@ -9,7 +9,6 @@ import Keyboard exposing (ups)
 import Message exposing (Msg(..))
 import Navigation
 import Navigators exposing (getDeckId, route)
-import Regex exposing (Regex, find, regex)
 import Requests exposing (getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Update exposing (update)
