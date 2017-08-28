@@ -109,7 +109,7 @@ createDeck : Cmd Msg
 createDeck =
     let
         url =
-            "http://localhost:3000/decks/"
+            "/api/decks/"
 
         deck =
             { slides =
@@ -138,7 +138,7 @@ saveDeck deck =
         url =
             deck.id
                 |> toString
-                |> (++) "http://localhost:3000/decks/"
+                |> (++) "/api/decks/"
 
         body =
             deck
@@ -155,7 +155,7 @@ getDecks : Cmd Msg
 getDecks =
     let
         request =
-            Http.get "http://localhost:3000/decks" decksDecoder
+            Http.get "/api/decks" decksDecoder
     in
         Http.send GetDecks request
 
@@ -166,7 +166,7 @@ getDeck deck =
         url =
             deck
                 |> toString
-                |> (++) "http://localhost:3000/decks/"
+                |> (++) "/api/decks/"
 
         request =
             Http.get url deckDecoder
