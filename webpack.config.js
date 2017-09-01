@@ -118,6 +118,9 @@ if (TARGET_ENV === 'development') {
             inline: true,
             stats: 'errors-only',
             historyApiFallback: true
+        },
+        watchOptions: {
+            poll: true
         }
     });
 }
