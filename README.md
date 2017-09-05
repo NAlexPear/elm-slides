@@ -8,10 +8,8 @@ All slides are written and styled with Markdown, editable in place from a conven
 ## Installation
 
 1. Clone the repository with `git@github.com:NAlexPear/elm-slides.git`
-2. Make sure you've installed `elm` globally with `npm install -g elm`
-3. Install dependencies inside the cloned repo with `npm install`
-4. The API is run with `json-server`, a very simple API based on JSON files. To scaffold and run the API, run `npm start`.
-5. For development, run `npm run dev`, and navigate to `localhost:8080` to see your first slide.
+2. Development services are managed through Dockerized services, so be sure to download and install [Docker Engine](https://docs.docker.com/engine/installation/) and [Docker Compose](https://docs.docker.com/compose/install/) for your OS.
+3. To spin up a development environment, run `docker-compose up --build`. You should be able to see a starter slide deck at `localhost:9000`.
 
 
 ## Usage
