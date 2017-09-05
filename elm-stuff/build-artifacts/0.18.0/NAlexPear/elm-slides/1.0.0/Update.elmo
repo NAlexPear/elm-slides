@@ -52,12 +52,9 @@ var _NAlexPear$elm_slides$Update$update = F2(
 				if (_p2._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
-						_0: function () {
-							var newModel = A2(_NAlexPear$elm_slides$Updaters$updateCurrentDeck, model, _p2._0._0);
-							return _elm_lang$core$Native_Utils.update(
-								newModel,
-								{sidebar: _NAlexPear$elm_slides$Types$Inactive});
-						}(),
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{sidebar: _NAlexPear$elm_slides$Types$Inactive}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {

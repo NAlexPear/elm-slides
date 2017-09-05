@@ -57,11 +57,7 @@ update msg model =
             ( model, Cmd.none )
 
         SaveDeck (Ok newCurrentDeck) ->
-            ( let
-                newModel =
-                    updateCurrentDeck model newCurrentDeck
-              in
-                { newModel | sidebar = Inactive }
+            ( { model | sidebar = Inactive }
             , Cmd.none
             )
 
