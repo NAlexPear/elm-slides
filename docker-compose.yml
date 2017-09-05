@@ -3,7 +3,7 @@ services:
   proxy:
     restart: always
     build:
-      context: ./proxy
+      context: ./services/proxy
       dockerfile: Dockerfile
     ports:
       - "9000:80"
@@ -20,11 +20,11 @@ services:
       POSTGRES_USER: web_anon
       POSTGRES_PASSWORD: mysecretpassword
     volumes:
-      - ./api/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
     build:
-      context: ./api
+      context: ./services/api
       dockerfile: Dockerfile
     expose:
       - "3000"
@@ -38,8 +38,8 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.dev
-    command: ./scripts/await-modules.sh -- npm run dev
+      dockerfile: ./services/app/Dockerfile
+    command: ./services/app/await-modules.sh -- npm run dev
     depends_on:
       - npm
     expose:
@@ -55,7 +55,7 @@ services:
   npm:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: ./services/app/Dockerfile
     command: /bin/bash -c "rm node_modules/.ready; npm install && touch node_modules/.ready"
     volumes:
       - source: .
