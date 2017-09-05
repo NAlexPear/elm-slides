@@ -58,7 +58,7 @@ update msg model =
 
         SaveDeck (Ok newCurrentDeck) ->
             ( { model | sidebar = Inactive }
-            , Cmd.none
+            , highlight "Reloading highlight.js"
             )
 
         SaveDeck (Err _) ->
