@@ -1,11 +1,15 @@
 version: '3.3'
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
+  proxy:
+    restart: always
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile.nginx
     ports:
-      - "8081:8081"
-    volumes:
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - "9000:80"
+    links:
+      - frontend
+      - api
 
   frontend:
     build:
@@ -14,8 +18,8 @@ services:
     command: ./scripts/await-modules.sh -- npm run dev
     depends_on:
       - npm
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     volumes:
       - source: .
         target: /usr/src/elm-slides
@@ -23,6 +27,7 @@ services:
       - source: node_modules
         target: /usr/src/elm-slides/node_modules
         type: volume
+
   api:
     build:
       context: .
@@ -30,8 +35,8 @@ services:
     command: ./scripts/await-modules.sh -- npm start
     depends_on:
       - npm
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     volumes:
       - source: .
         target: /usr/src/elm-slides
@@ -39,6 +44,7 @@ services:
       - source: node_modules
         target: /usr/src/elm-slides/node_modules
         type: volume
+
   npm:
     build:
       context: .
@@ -51,5 +57,6 @@ services:
       - source: node_modules
         target: /usr/src/elm-slides/node_modules
         type: volume
+
 volumes:
   node_modules:

@@ -117,10 +117,11 @@ if (TARGET_ENV === 'development') {
         devServer: {
             inline: true,
             stats: 'errors-only',
-            historyApiFallback: true
+            historyApiFallback: true,
+            public: '0.0.0.0:9000'
         },
         watchOptions: {
-            poll: true
+            poll: true,
         }
     });
 }

@@ -33,5 +33,3 @@ RUN curl -sS https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add 
   && apt-get clean \
   && rm -rf /var/apt/lists \
   && npm install --global npm node-gyp delegates
-
-EXPOSE: 3000
