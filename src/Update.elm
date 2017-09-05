@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import Debug
 import Message exposing (Msg(..))
 import Navigation exposing (newUrl)
 import Navigators exposing (navigate, getDeckId)
@@ -45,8 +46,8 @@ update msg model =
             , highlight "Starting highlight.js"
             )
 
-        GetDeck (Err _) ->
-            ( model, Cmd.none )
+        GetDeck (Err error) ->
+            ( Debug.crash <| toString error, Cmd.none )
 
         GetDecks (Ok newOtherDecks) ->
             ( updateOtherDecks model newOtherDecks

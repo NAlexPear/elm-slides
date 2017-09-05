@@ -4,12 +4,36 @@ services:
     restart: always
     build:
       context: ./proxy
-      dockerfile: Dockerfile.nginx
+      dockerfile: Dockerfile
     ports:
       - "9000:80"
     links:
       - frontend
       - api
+
+  postgres:
+    image: postgres
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: web_anon
+      POSTGRES_PASSWORD: mysecretpassword
+    volumes:
+      - ./api/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    links:
+      - postgres
+    environment:
+      PGRST_DB_URI: postgres://web_anon:mysecretpassword@postgres:5432/app_db
+      PGRST_DB_SCHEMA: api
+      PGRST_DB_ANON_ROLE: web_anon
 
   frontend:
     build:
@@ -20,23 +44,6 @@ services:
       - npm
     expose:
       - "8080"
-    volumes:
-      - source: .
-        target: /usr/src/elm-slides
-        type: bind
-      - source: node_modules
-        target: /usr/src/elm-slides/node_modules
-        type: volume
-
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    command: ./scripts/await-modules.sh -- npm start
-    depends_on:
-      - npm
-    expose:
-      - "3000"
     volumes:
       - source: .
         target: /usr/src/elm-slides
