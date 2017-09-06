@@ -20,6 +20,7 @@ services:
       POSTGRES_USER: web_anon
       POSTGRES_PASSWORD: mysecretpassword
     volumes:
+      - db-data:/var/lib/postgresql/data
       - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
@@ -66,4 +67,5 @@ services:
         type: volume
 
 volumes:
+  db-data:
   node_modules:
