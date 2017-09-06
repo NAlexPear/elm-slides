@@ -16,8 +16,12 @@ var _NAlexPear$elm_slides$Message$ChangeDeck = function (a) {
 };
 var _NAlexPear$elm_slides$Message$CreateDeck = {ctor: 'CreateDeck'};
 var _NAlexPear$elm_slides$Message$AddSlide = {ctor: 'AddSlide'};
-var _NAlexPear$elm_slides$Message$QueueDelete = {ctor: 'QueueDelete'};
+var _NAlexPear$elm_slides$Message$QueueDeckDelete = {ctor: 'QueueDeckDelete'};
+var _NAlexPear$elm_slides$Message$QueueSlideDelete = {ctor: 'QueueSlideDelete'};
 var _NAlexPear$elm_slides$Message$QueueSave = {ctor: 'QueueSave'};
+var _NAlexPear$elm_slides$Message$DeleteDeck = function (a) {
+	return {ctor: 'DeleteDeck', _0: a};
+};
 var _NAlexPear$elm_slides$Message$GetDecks = function (a) {
 	return {ctor: 'GetDecks', _0: a};
 };

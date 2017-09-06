@@ -12,8 +12,10 @@ type Msg
     | GetDeck (Result Http.Error Deck)
     | SaveDeck (Result Http.Error String)
     | GetDecks (Result Http.Error (Array Deck))
+    | DeleteDeck (Result Http.Error String)
     | QueueSave
-    | QueueDelete
+    | QueueSlideDelete
+    | QueueDeckDelete
     | AddSlide
     | CreateDeck
     | ChangeDeck Int

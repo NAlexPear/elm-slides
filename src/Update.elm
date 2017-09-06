@@ -1,11 +1,12 @@
 module Update exposing (update)
 
+import Array
 import Debug
 import Message exposing (Msg(..))
 import Navigation exposing (newUrl)
 import Navigators exposing (navigate, getDeckId)
 import Ports exposing (highlight)
-import Requests exposing (createDeck, getDeck, getDecks, saveDeck)
+import Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Updaters exposing (..)
 
@@ -24,6 +25,32 @@ handleEditHotkey sidebar code =
         EditingSlide
     else
         sidebar
+
+
+changeDeck : Int -> Cmd Msg
+changeDeck id =
+    id
+        |> toString
+        |> (++) "/decks/"
+        |> flip (++) "#1"
+        |> newUrl
+
+
+moveToLastDeck : Decks -> Cmd Msg
+moveToLastDeck { others } =
+    let
+        last =
+            others
+                |> Array.length
+                |> flip (-) 1
+                |> flip Array.get others
+    in
+        case last of
+            Just { id } ->
+                changeDeck id
+
+            Nothing ->
+                Cmd.none
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -65,11 +92,29 @@ update msg model =
         SaveDeck (Err error) ->
             ( Debug.crash <| toString error, Cmd.none )
 
+        DeleteDeck (Ok _) ->
+            ( { model | sidebar = Inactive }
+            , moveToLastDeck model.decks
+            )
+
+        DeleteDeck (Err error) ->
+            ( Debug.crash <| toString error
+            , Cmd.none
+            )
+
         QueueSave ->
             ( model, saveDeck model.decks.current )
 
-        QueueDelete ->
+        QueueSlideDelete ->
             ( model, deleteSlide model.decks )
+
+        QueueDeckDelete ->
+            ( model
+            , if Array.length model.decks.others > 0 then
+                deleteDeck model.decks.current.id
+              else
+                Cmd.none
+            )
 
         ToggleEdit ->
             ( { model
@@ -97,13 +142,9 @@ update msg model =
             , getDecks
             )
 
-        ChangeDeck deckId ->
+        ChangeDeck id ->
             ( { model | sidebar = Inactive }
-            , deckId
-                |> toString
-                |> (++) "/decks/"
-                |> flip (++) "#1"
-                |> newUrl
+            , changeDeck id
             )
 
         ToggleEditDeck ->

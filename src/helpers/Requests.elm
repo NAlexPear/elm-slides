@@ -1,4 +1,4 @@
-module Requests exposing (createDeck, getDeck, getDecks, saveDeck)
+module Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
 
 import Array
 import Array exposing (Array)
@@ -31,6 +31,11 @@ patch url body =
 post : String -> Http.Body -> Http.Request String
 post url body =
     insert url body "POST"
+
+
+delete : String -> Http.Request String
+delete url =
+    insert url Http.emptyBody "DELETE"
 
 
 slideDecoder : Decoder Slide
@@ -127,6 +132,20 @@ createDeck =
             post url body
     in
         Http.send SaveDeck request
+
+
+deleteDeck : Int -> Cmd Msg
+deleteDeck id =
+    let
+        url =
+            id
+                |> toString
+                |> (++) "/api/decks/"
+
+        request =
+            delete url
+    in
+        Http.send DeleteDeck request
 
 
 saveDeck : Deck -> Cmd Msg

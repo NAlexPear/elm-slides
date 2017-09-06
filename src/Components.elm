@@ -192,7 +192,7 @@ icons model =
                 []
             , span
                 [ class "fa fa-trash"
-                , onClick QueueDelete
+                , onClick QueueSlideDelete
                 ]
                 []
             , deckMenu model
@@ -210,6 +210,11 @@ icons model =
             , span
                 [ class "fa fa-file"
                 , onClick CreateDeck
+                ]
+                []
+            , span
+                [ class "fa fa-window-close"
+                , onClick QueueDeckDelete
                 ]
                 []
             ]

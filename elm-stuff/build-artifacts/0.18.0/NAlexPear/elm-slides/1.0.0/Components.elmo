@@ -368,7 +368,7 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 							_0: _elm_lang$html$Html_Attributes$class('fa fa-trash'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDelete),
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSlideDelete),
 								_1: {ctor: '[]'}
 							}
 						},
@@ -417,7 +417,22 @@ var _NAlexPear$elm_slides$Components$icons = function (model) {
 										}
 									},
 									{ctor: '[]'}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$span,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('fa fa-window-close'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDeckDelete),
+												_1: {ctor: '[]'}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
