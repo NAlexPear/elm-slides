@@ -2,35 +2,22 @@ module Requests exposing (createDeck, getDeck, getDecks, saveDeck)
 
 import Array
 import Array exposing (Array)
+import Http
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
 import Message exposing (Msg(..))
 import Types exposing (..)
-import Http
 
 
-patch : String -> Http.Body -> Decoder a -> Http.Request a
-patch url body decoder =
+patch : String -> Http.Body -> Http.Request String
+patch url body =
     Http.request
         { method = "PATCH"
         , headers = []
         , url = url
         , body = body
-        , expect = Http.expectJson decoder
-        , timeout = Nothing
-        , withCredentials = False
-        }
-
-
-post : String -> Http.Body -> Decoder a -> Http.Request a
-post url body decoder =
-    Http.request
-        { method = "POST"
-        , headers = []
-        , url = url
-        , body = body
-        , expect = Http.expectJson decoder
+        , expect = Http.expectString
         , timeout = Nothing
         , withCredentials = False
         }
@@ -127,7 +114,7 @@ createDeck =
                 |> Http.jsonBody
 
         request =
-            post url body deckDecoder
+            Http.post url body <| succeed "Deck created!"
     in
         Http.send SaveDeck request
 
@@ -146,7 +133,7 @@ saveDeck deck =
                 |> Http.jsonBody
 
         request =
-            patch url body deckDecoder
+            patch url body
     in
         Http.send SaveDeck request
 

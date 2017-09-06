@@ -10,7 +10,7 @@ import Types exposing (..)
 type Msg
     = KeyPress KeyCode
     | GetDeck (Result Http.Error Deck)
-    | SaveDeck (Result Http.Error Deck)
+    | SaveDeck (Result Http.Error String)
     | GetDecks (Result Http.Error (Array Deck))
     | QueueSave
     | QueueDelete

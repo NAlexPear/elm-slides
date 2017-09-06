@@ -57,13 +57,13 @@ update msg model =
         GetDecks (Err _) ->
             ( model, Cmd.none )
 
-        SaveDeck (Ok newCurrentDeck) ->
+        SaveDeck (Ok _) ->
             ( { model | sidebar = Inactive }
             , highlight "Reloading highlight.js"
             )
 
-        SaveDeck (Err _) ->
-            ( model, Cmd.none )
+        SaveDeck (Err error) ->
+            ( Debug.crash <| toString error, Cmd.none )
 
         QueueSave ->
             ( model, saveDeck model.decks.current )

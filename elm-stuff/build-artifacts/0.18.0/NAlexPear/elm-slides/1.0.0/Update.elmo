@@ -68,7 +68,17 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						_1: _NAlexPear$elm_slides$Ports$highlight('Reloading highlight.js')
 					};
 				} else {
-					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.crash(
+							'Update',
+							{
+								start: {line: 66, column: 15},
+								end: {line: 66, column: 26}
+							})(
+							_elm_lang$core$Basics$toString(_p2._0._0)),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			case 'QueueSave':
 				return {
