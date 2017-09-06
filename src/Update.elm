@@ -36,14 +36,11 @@ changeDeck id =
         |> newUrl
 
 
-moveToLastDeck : Decks -> Cmd Msg
-moveToLastDeck { others } =
+moveToFirstDeck : Decks -> Cmd Msg
+moveToFirstDeck { others } =
     let
         last =
-            others
-                |> Array.length
-                |> flip (-) 1
-                |> flip Array.get others
+            Array.get 0 others
     in
         case last of
             Just { id } ->
@@ -74,7 +71,7 @@ update msg model =
             )
 
         GetDeck (Err error) ->
-            ( Debug.crash <| toString error, Cmd.none )
+            ( model, moveToFirstDeck model.decks )
 
         GetDecks (Ok newOtherDecks) ->
             ( updateOtherDecks model newOtherDecks
@@ -94,7 +91,7 @@ update msg model =
 
         DeleteDeck (Ok _) ->
             ( { model | sidebar = Inactive }
-            , moveToLastDeck model.decks
+            , moveToFirstDeck model.decks
             )
 
         DeleteDeck (Err error) ->
