@@ -10,10 +10,10 @@ import Message exposing (Msg(..))
 import Types exposing (..)
 
 
-patch : String -> Http.Body -> Http.Request String
-patch url body =
+insert : String -> Http.Body -> String -> Http.Request String
+insert url body method =
     Http.request
-        { method = "PATCH"
+        { method = method
         , headers = []
         , url = url
         , body = body
@@ -21,6 +21,16 @@ patch url body =
         , timeout = Nothing
         , withCredentials = False
         }
+
+
+patch : String -> Http.Body -> Http.Request String
+patch url body =
+    insert url body "PATCH"
+
+
+post : String -> Http.Body -> Http.Request String
+post url body =
+    insert url body "POST"
 
 
 slideDecoder : Decoder Slide
@@ -96,7 +106,7 @@ createDeck : Cmd Msg
 createDeck =
     let
         url =
-            "/api/decks/"
+            "/api/decks"
 
         deck =
             { slides =
@@ -114,7 +124,7 @@ createDeck =
                 |> Http.jsonBody
 
         request =
-            Http.post url body <| succeed "Deck created!"
+            post url body
     in
         Http.send SaveDeck request
 

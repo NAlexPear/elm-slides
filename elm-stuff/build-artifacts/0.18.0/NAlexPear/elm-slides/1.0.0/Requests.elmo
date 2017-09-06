@@ -62,26 +62,6 @@ var _NAlexPear$elm_slides$Requests$deckEncoder = function (_p1) {
 			}
 		});
 };
-var _NAlexPear$elm_slides$Requests$createDeck = function () {
-	var deck = {
-		slides: {
-			previous: {ctor: '[]'},
-			current: {content: '# New Slide'},
-			remaining: {ctor: '[]'}
-		},
-		title: 'New Deck',
-		id: 0
-	};
-	var body = _elm_lang$http$Http$jsonBody(
-		_NAlexPear$elm_slides$Requests$deckEncoder(deck));
-	var url = '/api/decks/';
-	var request = A3(
-		_elm_lang$http$Http$post,
-		url,
-		body,
-		_elm_lang$core$Json_Decode$succeed('Deck created!'));
-	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
-}();
 var _NAlexPear$elm_slides$Requests$slideDecoder = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'content',
@@ -120,11 +100,11 @@ var _NAlexPear$elm_slides$Requests$getDeck = function (deck) {
 	var request = A2(_elm_lang$http$Http$get, url, _NAlexPear$elm_slides$Requests$deckDecoder);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
 };
-var _NAlexPear$elm_slides$Requests$patch = F2(
-	function (url, body) {
+var _NAlexPear$elm_slides$Requests$insert = F3(
+	function (url, body, method) {
 		return _elm_lang$http$Http$request(
 			{
-				method: 'PATCH',
+				method: method,
 				headers: {ctor: '[]'},
 				url: url,
 				body: body,
@@ -132,6 +112,10 @@ var _NAlexPear$elm_slides$Requests$patch = F2(
 				timeout: _elm_lang$core$Maybe$Nothing,
 				withCredentials: false
 			});
+	});
+var _NAlexPear$elm_slides$Requests$patch = F2(
+	function (url, body) {
+		return A3(_NAlexPear$elm_slides$Requests$insert, url, body, 'PATCH');
 	});
 var _NAlexPear$elm_slides$Requests$saveDeck = function (deck) {
 	var body = _elm_lang$http$Http$jsonBody(
@@ -146,3 +130,23 @@ var _NAlexPear$elm_slides$Requests$saveDeck = function (deck) {
 	var request = A2(_NAlexPear$elm_slides$Requests$patch, url, body);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
 };
+var _NAlexPear$elm_slides$Requests$post = F2(
+	function (url, body) {
+		return A3(_NAlexPear$elm_slides$Requests$insert, url, body, 'POST');
+	});
+var _NAlexPear$elm_slides$Requests$createDeck = function () {
+	var deck = {
+		slides: {
+			previous: {ctor: '[]'},
+			current: {content: '# New Slide'},
+			remaining: {ctor: '[]'}
+		},
+		title: 'New Deck',
+		id: 0
+	};
+	var body = _elm_lang$http$Http$jsonBody(
+		_NAlexPear$elm_slides$Requests$deckEncoder(deck));
+	var url = '/api/decks';
+	var request = A2(_NAlexPear$elm_slides$Requests$post, url, body);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
+}();
