@@ -7,7 +7,6 @@ import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
 import Message exposing (Msg(..))
-import Regex exposing (Regex, regex, replace)
 import Types exposing (..)
 
 
@@ -154,7 +153,6 @@ deleteDeck deck =
         url =
             deck.title
                 |> String.toLower
-                |> replace (Regex.All) (regex " ") (\_ -> "-")
                 |> (++) "/api/decks?title=ilike."
 
         request =
@@ -169,7 +167,6 @@ saveDeck deck =
         url =
             deck.title
                 |> String.toLower
-                |> replace (Regex.All) (regex " ") (\_ -> "-")
                 |> (++) "/api/decks?title=ilike."
 
         body =
@@ -196,8 +193,7 @@ getDeck : String -> Cmd Msg
 getDeck title =
     let
         url =
-            title
-                |> (++) "/api/decks?title=ilike."
+            "/api/decks?title=ilike." ++ title
 
         request =
             getSingle url deckDecoder

@@ -115,14 +115,7 @@ var _NAlexPear$elm_slides$Requests$saveDeck = function (deck) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
 		'/api/decks?title=ilike.',
-		A4(
-			_elm_lang$core$Regex$replace,
-			_elm_lang$core$Regex$All,
-			_elm_lang$core$Regex$regex(' '),
-			function (_p4) {
-				return '-';
-			},
-			_elm_lang$core$String$toLower(deck.title)));
+		_elm_lang$core$String$toLower(deck.title));
 	var request = A2(_NAlexPear$elm_slides$Requests$patch, url, body);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
 };
@@ -156,14 +149,7 @@ var _NAlexPear$elm_slides$Requests$deleteDeck = function (deck) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
 		'/api/decks?title=ilike.',
-		A4(
-			_elm_lang$core$Regex$replace,
-			_elm_lang$core$Regex$All,
-			_elm_lang$core$Regex$regex(' '),
-			function (_p5) {
-				return '-';
-			},
-			_elm_lang$core$String$toLower(deck.title)));
+		_elm_lang$core$String$toLower(deck.title));
 	var request = _NAlexPear$elm_slides$Requests$delete(url);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$DeleteDeck, request);
 };
@@ -185,13 +171,7 @@ var _NAlexPear$elm_slides$Requests$getSingle = F2(
 			});
 	});
 var _NAlexPear$elm_slides$Requests$getDeck = function (title) {
-	var url = A2(
-		F2(
-			function (x, y) {
-				return A2(_elm_lang$core$Basics_ops['++'], x, y);
-			}),
-		'/api/decks?title=ilike.',
-		title);
+	var url = A2(_elm_lang$core$Basics_ops['++'], '/api/decks?title=ilike.', title);
 	var request = A2(_NAlexPear$elm_slides$Requests$getSingle, url, _NAlexPear$elm_slides$Requests$deckDecoder);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
 };
