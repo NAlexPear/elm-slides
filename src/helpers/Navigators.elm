@@ -2,7 +2,7 @@ module Navigators exposing (navigate, route, getDeckTitle)
 
 import Keyboard exposing (KeyCode)
 import Navigation
-import Regex exposing (Regex, find, regex, replace)
+import Regex exposing (Regex, regex, replace)
 import Types exposing (..)
 import UrlParser as Url exposing ((</>))
 
