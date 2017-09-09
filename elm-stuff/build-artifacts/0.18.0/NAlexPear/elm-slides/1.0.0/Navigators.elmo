@@ -82,14 +82,21 @@ var _NAlexPear$elm_slides$Navigators$route = _evancz$url_parser$UrlParser$oneOf(
 			A2(
 				_evancz$url_parser$UrlParser_ops['</>'],
 				_evancz$url_parser$UrlParser$s('decks'),
-				_evancz$url_parser$UrlParser$int)),
+				_evancz$url_parser$UrlParser$string)),
 		_1: {ctor: '[]'}
 	});
-var _NAlexPear$elm_slides$Navigators$getDeckId = function (location) {
+var _NAlexPear$elm_slides$Navigators$getDeckTitle = function (location) {
 	var _p12 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
 	if (_p12.ctor === 'Just') {
-		return _p12._0._0;
+		return A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_elm_lang$core$Regex$regex('-'),
+			function (_p13) {
+				return ' ';
+			},
+			_p12._0._0);
 	} else {
-		return 1;
+		return '';
 	}
 };

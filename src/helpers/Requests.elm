@@ -7,7 +7,21 @@ import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
 import Json.Encode as Encode
 import Message exposing (Msg(..))
+import Regex exposing (Regex, regex, replace)
 import Types exposing (..)
+
+
+getSingle : String -> Decoder a -> Http.Request a
+getSingle url decoder =
+    Http.request
+        { method = "GET"
+        , headers = [ (Http.header "Accept" "application/vnd.pgrst.object+json") ]
+        , url = url
+        , body = Http.emptyBody
+        , expect = Http.expectJson decoder
+        , timeout = Nothing
+        , withCredentials = False
+        }
 
 
 insert : String -> Http.Body -> String -> Http.Request String
@@ -134,13 +148,14 @@ createDeck =
         Http.send SaveDeck request
 
 
-deleteDeck : Int -> Cmd Msg
-deleteDeck id =
+deleteDeck : Deck -> Cmd Msg
+deleteDeck deck =
     let
         url =
-            id
-                |> toString
-                |> (++) "/api/decks/"
+            deck.title
+                |> String.toLower
+                |> replace (Regex.All) (regex " ") (\_ -> "-")
+                |> (++) "/api/decks?title=ilike."
 
         request =
             delete url
@@ -152,9 +167,10 @@ saveDeck : Deck -> Cmd Msg
 saveDeck deck =
     let
         url =
-            deck.id
-                |> toString
-                |> (++) "/api/decks/"
+            deck.title
+                |> String.toLower
+                |> replace (Regex.All) (regex " ") (\_ -> "-")
+                |> (++) "/api/decks?title=ilike."
 
         body =
             deck
@@ -176,15 +192,14 @@ getDecks =
         Http.send GetDecks request
 
 
-getDeck : Int -> Cmd Msg
-getDeck deck =
+getDeck : String -> Cmd Msg
+getDeck title =
     let
         url =
-            deck
-                |> toString
-                |> (++) "/api/decks/"
+            title
+                |> (++) "/api/decks?title=ilike."
 
         request =
-            Http.get url deckDecoder
+            getSingle url deckDecoder
     in
         Http.send GetDeck request

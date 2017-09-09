@@ -1,8 +1,8 @@
-module Navigators exposing (navigate, route, getDeckId)
+module Navigators exposing (navigate, route, getDeckTitle)
 
-import Array
 import Keyboard exposing (KeyCode)
 import Navigation
+import Regex exposing (Regex, find, regex, replace)
 import Types exposing (..)
 import UrlParser as Url exposing ((</>))
 
@@ -10,17 +10,17 @@ import UrlParser as Url exposing ((</>))
 route : Url.Parser (Route -> a) a
 route =
     Url.oneOf
-        [ Url.map Presentation <| Url.s "decks" </> Url.int ]
+        [ Url.map Presentation <| Url.s "decks" </> Url.string ]
 
 
-getDeckId : Navigation.Location -> Int
-getDeckId location =
+getDeckTitle : Navigation.Location -> String
+getDeckTitle location =
     case Url.parsePath route location of
-        Just (Presentation id) ->
-            id
+        Just (Presentation title) ->
+            replace (Regex.All) (regex "-") (\_ -> " ") title
 
         Nothing ->
-            1
+            ""
 
 
 stepForwards : Decks -> Decks

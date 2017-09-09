@@ -89,17 +89,6 @@ var _NAlexPear$elm_slides$Requests$getDecks = function () {
 	var request = A2(_elm_lang$http$Http$get, '/api/decks', _NAlexPear$elm_slides$Requests$decksDecoder);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDecks, request);
 }();
-var _NAlexPear$elm_slides$Requests$getDeck = function (deck) {
-	var url = A2(
-		F2(
-			function (x, y) {
-				return A2(_elm_lang$core$Basics_ops['++'], x, y);
-			}),
-		'/api/decks/',
-		_elm_lang$core$Basics$toString(deck));
-	var request = A2(_elm_lang$http$Http$get, url, _NAlexPear$elm_slides$Requests$deckDecoder);
-	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
-};
 var _NAlexPear$elm_slides$Requests$insert = F3(
 	function (url, body, method) {
 		return _elm_lang$http$Http$request(
@@ -125,8 +114,15 @@ var _NAlexPear$elm_slides$Requests$saveDeck = function (deck) {
 			function (x, y) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
-		'/api/decks/',
-		_elm_lang$core$Basics$toString(deck.id));
+		'/api/decks?title=ilike.',
+		A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_elm_lang$core$Regex$regex(' '),
+			function (_p4) {
+				return '-';
+			},
+			_elm_lang$core$String$toLower(deck.title)));
 	var request = A2(_NAlexPear$elm_slides$Requests$patch, url, body);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
 };
@@ -153,14 +149,49 @@ var _NAlexPear$elm_slides$Requests$createDeck = function () {
 var _NAlexPear$elm_slides$Requests$delete = function (url) {
 	return A3(_NAlexPear$elm_slides$Requests$insert, url, _elm_lang$http$Http$emptyBody, 'DELETE');
 };
-var _NAlexPear$elm_slides$Requests$deleteDeck = function (id) {
+var _NAlexPear$elm_slides$Requests$deleteDeck = function (deck) {
 	var url = A2(
 		F2(
 			function (x, y) {
 				return A2(_elm_lang$core$Basics_ops['++'], x, y);
 			}),
-		'/api/decks/',
-		_elm_lang$core$Basics$toString(id));
+		'/api/decks?title=ilike.',
+		A4(
+			_elm_lang$core$Regex$replace,
+			_elm_lang$core$Regex$All,
+			_elm_lang$core$Regex$regex(' '),
+			function (_p5) {
+				return '-';
+			},
+			_elm_lang$core$String$toLower(deck.title)));
 	var request = _NAlexPear$elm_slides$Requests$delete(url);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$DeleteDeck, request);
+};
+var _NAlexPear$elm_slides$Requests$getSingle = F2(
+	function (url, decoder) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'GET',
+				headers: {
+					ctor: '::',
+					_0: A2(_elm_lang$http$Http$header, 'Accept', 'application/vnd.pgrst.object+json'),
+					_1: {ctor: '[]'}
+				},
+				url: url,
+				body: _elm_lang$http$Http$emptyBody,
+				expect: _elm_lang$http$Http$expectJson(decoder),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
+	});
+var _NAlexPear$elm_slides$Requests$getDeck = function (title) {
+	var url = A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'/api/decks?title=ilike.',
+		title);
+	var request = A2(_NAlexPear$elm_slides$Requests$getSingle, url, _NAlexPear$elm_slides$Requests$deckDecoder);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
 };

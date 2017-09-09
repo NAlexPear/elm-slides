@@ -216,6 +216,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsForm = function (_p11) {
 };
 var _NAlexPear$elm_slides$Components$deckItem = function (_p13) {
 	var _p14 = _p13;
+	var _p15 = _p14.title;
 	return A2(
 		_elm_lang$html$Html$li,
 		{
@@ -224,26 +225,26 @@ var _NAlexPear$elm_slides$Components$deckItem = function (_p13) {
 			_1: {
 				ctor: '::',
 				_0: _elm_lang$html$Html_Events$onClick(
-					_NAlexPear$elm_slides$Message$ChangeDeck(_p14.id)),
+					_NAlexPear$elm_slides$Message$ChangeDeck(_p15)),
 				_1: {ctor: '[]'}
 			}
 		},
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(_p14.title),
+			_0: _elm_lang$html$Html$text(_p15),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Components$deckItems = function (_p15) {
-	var _p16 = _p15;
+var _NAlexPear$elm_slides$Components$deckItems = function (_p16) {
+	var _p17 = _p16;
 	return _elm_lang$core$Array$toList(
-		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, _p16.others));
+		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$Components$deckItem, _p17.others));
 };
 var _NAlexPear$elm_slides$Components$getHiddenString = function (trigger) {
 	return trigger ? '' : ' hidden';
 };
-var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
-	var _p18 = _p17;
+var _NAlexPear$elm_slides$Components$deckMenu = function (_p18) {
+	var _p19 = _p18;
 	var classString = A2(
 		F2(
 			function (x, y) {
@@ -257,7 +258,7 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
 						return _elm_lang$core$Native_Utils.eq(x, y);
 					}),
 				_NAlexPear$elm_slides$Types$ChangingDeck,
-				_p18.sidebar)));
+				_p19.sidebar)));
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -270,12 +271,12 @@ var _NAlexPear$elm_slides$Components$deckMenu = function (_p17) {
 			_0: A2(
 				_elm_lang$html$Html$ul,
 				{ctor: '[]'},
-				_NAlexPear$elm_slides$Components$deckItems(_p18.decks)),
+				_NAlexPear$elm_slides$Components$deckItems(_p19.decks)),
 			_1: {ctor: '[]'}
 		});
 };
-var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p19) {
-	var _p20 = _p19;
+var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p20) {
+	var _p21 = _p20;
 	var classString = A2(
 		F2(
 			function (x, y) {
@@ -289,7 +290,7 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p19) {
 						return _elm_lang$core$Native_Utils.eq(x, y);
 					}),
 				_NAlexPear$elm_slides$Types$EditingDeck,
-				_p20.sidebar)));
+				_p21.sidebar)));
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -299,13 +300,13 @@ var _NAlexPear$elm_slides$Components$deckSettingsMenu = function (_p19) {
 		},
 		{
 			ctor: '::',
-			_0: _NAlexPear$elm_slides$Components$deckSettingsForm(_p20.decks.current),
+			_0: _NAlexPear$elm_slides$Components$deckSettingsForm(_p21.decks.current),
 			_1: {ctor: '[]'}
 		});
 };
 var _NAlexPear$elm_slides$Components$icons = function (model) {
-	var _p21 = model.sidebar;
-	if (_p21.ctor === 'EditingSlide') {
+	var _p22 = model.sidebar;
+	if (_p22.ctor === 'EditingSlide') {
 		return {
 			ctor: '::',
 			_0: A2(

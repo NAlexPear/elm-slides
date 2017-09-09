@@ -33,7 +33,7 @@ type alias History =
 
 
 type Route
-    = Presentation Int
+    = Presentation String
 
 
 type Sidebar

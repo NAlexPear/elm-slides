@@ -8,7 +8,7 @@ import Html.Attributes exposing (..)
 import Keyboard exposing (ups)
 import Message exposing (Msg(..))
 import Navigation
-import Navigators exposing (getDeckId, route)
+import Navigators exposing (getDeckTitle, route)
 import Requests exposing (getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Update exposing (update)
@@ -35,7 +35,7 @@ init location =
           , history = [ location ]
           }
         , location
-            |> getDeckId
+            |> getDeckTitle
             |> getDeck
         )
 

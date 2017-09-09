@@ -91,7 +91,7 @@ var _NAlexPear$elm_slides$Main$init = function (location) {
 			}
 		},
 		_1: _NAlexPear$elm_slides$Requests$getDeck(
-			_NAlexPear$elm_slides$Navigators$getDeckId(location))
+			_NAlexPear$elm_slides$Navigators$getDeckTitle(location))
 	};
 };
 var _NAlexPear$elm_slides$Main$main = A2(

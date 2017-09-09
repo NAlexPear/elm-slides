@@ -4,8 +4,9 @@ import Array
 import Debug
 import Message exposing (Msg(..))
 import Navigation exposing (newUrl)
-import Navigators exposing (navigate, getDeckId)
+import Navigators exposing (navigate, getDeckTitle)
 import Ports exposing (highlight)
+import Regex exposing (Regex, regex, replace)
 import Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Updaters exposing (..)
@@ -27,12 +28,12 @@ handleEditHotkey sidebar code =
         sidebar
 
 
-changeDeck : Int -> Cmd Msg
-changeDeck id =
-    id
-        |> toString
+changeDeck : String -> Cmd Msg
+changeDeck title =
+    title
+        |> String.toLower
+        |> replace (Regex.All) (regex " ") (\_ -> "-")
         |> (++) "/decks/"
-        |> flip (++) "#1"
         |> newUrl
 
 
@@ -43,8 +44,8 @@ moveToFirstDeck { others } =
             Array.get 0 others
     in
         case last of
-            Just { id } ->
-                changeDeck id
+            Just { title } ->
+                changeDeck title
 
             Nothing ->
                 Cmd.none
@@ -108,7 +109,7 @@ update msg model =
         QueueDeckDelete ->
             ( model
             , if Array.length model.decks.others > 0 then
-                deleteDeck model.decks.current.id
+                deleteDeck model.decks.current
               else
                 Cmd.none
             )
@@ -139,9 +140,9 @@ update msg model =
             , getDecks
             )
 
-        ChangeDeck id ->
+        ChangeDeck title ->
             ( { model | sidebar = Inactive }
-            , changeDeck id
+            , changeDeck title
             )
 
         ToggleEditDeck ->
@@ -180,7 +181,7 @@ update msg model =
         UrlChange location ->
             ( { model | history = location :: model.history }
             , location
-                |> getDeckId
+                |> getDeckTitle
                 |> getDeck
             )
 
