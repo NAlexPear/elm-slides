@@ -1,81 +1,4 @@
-var _NAlexPear$elm_slides$Main$view = function (_p0) {
-	var _p1 = _p0;
-	var _p3 = _p1.sidebar;
-	var _p2 = _p1;
-	var slides = _p1.decks.current.slides;
-	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p3, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p3, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
-	var sidebarView = _elm_lang$core$List$singleton(
-		A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$id('icons'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(iconClasses),
-					_1: {ctor: '[]'}
-				}
-			},
-			_NAlexPear$elm_slides$Components$icons(_p2)));
-	var renderer = _NAlexPear$elm_slides$Components$slide(_p2);
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _mpizenberg$elm_touch_events$SingleTouch$onStart(_NAlexPear$elm_slides$Message$SwipeStart),
-			_1: {
-				ctor: '::',
-				_0: _mpizenberg$elm_touch_events$SingleTouch$onEnd(_NAlexPear$elm_slides$Message$SwipeEnd),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			ctor: '::',
-			_0: A3(
-				_elm_lang$html$Html$node,
-				'link',
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$href('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'),
-						_1: {ctor: '[]'}
-					}
-				},
-				{ctor: '[]'}),
-			_1: {
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$id('container'),
-						_1: {ctor: '[]'}
-					},
-					A2(
-						_elm_lang$core$List$append,
-						sidebarView,
-						A3(
-							_elm_lang$core$List$foldl,
-							renderer,
-							{ctor: '[]'},
-							A2(
-								_elm_lang$core$List$append,
-								slides.previous,
-								A2(
-									_elm_lang$core$List$append,
-									{
-										ctor: '::',
-										_0: slides.current,
-										_1: {ctor: '[]'}
-									},
-									slides.remaining))))),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _NAlexPear$elm_slides$Main$subscriptions = function (_p4) {
+var _NAlexPear$elm_slides$Main$subscriptions = function (_p0) {
 	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
 };
 var _NAlexPear$elm_slides$Main$init = function (location) {
@@ -106,4 +29,4 @@ var _NAlexPear$elm_slides$Main$init = function (location) {
 var _NAlexPear$elm_slides$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
 	_NAlexPear$elm_slides$Message$UrlChange,
-	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$Main$view, update: _NAlexPear$elm_slides$Update$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();
+	{init: _NAlexPear$elm_slides$Main$init, view: _NAlexPear$elm_slides$View$view, update: _NAlexPear$elm_slides$Update$update, subscriptions: _NAlexPear$elm_slides$Main$subscriptions})();

@@ -1,4 +1,4 @@
-module Components exposing (slide, icons)
+module View exposing (view)
 
 import Array
 import Array exposing (Array)
@@ -9,6 +9,7 @@ import Json.Decode as Decode
 import Markdown
 import Message exposing (Msg(..))
 import Regex exposing (Regex, find, regex, replace)
+import SingleTouch exposing (onStart, onEnd)
 import Types exposing (..)
 
 
@@ -242,3 +243,36 @@ slide { decks, sidebar } slide acc =
             ]
     in
         List.append acc next
+
+
+view : Model -> Html Msg
+view ({ decks, sidebar } as model) =
+    let
+        renderer =
+            slide model
+
+        iconClasses =
+            if sidebar == ChangingDeck || sidebar == EditingDeck then
+                "active"
+            else
+                ""
+
+        sidebarView =
+            model
+                |> icons
+                |> div [ id "icons", class iconClasses ]
+                |> List.singleton
+
+        slides =
+            decks.current.slides
+    in
+        div
+            [ onStart SwipeStart, onEnd SwipeEnd ]
+            [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
+            , slides.remaining
+                |> List.append [ slides.current ]
+                |> List.append slides.previous
+                |> List.foldl renderer []
+                |> List.append sidebarView
+                |> div [ id "container" ]
+            ]

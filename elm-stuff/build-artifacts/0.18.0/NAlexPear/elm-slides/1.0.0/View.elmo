@@ -1,0 +1,521 @@
+var _NAlexPear$elm_slides$View$frontMatter = _elm_lang$core$Regex$regex('^---\n(.|\n)*?---');
+var _NAlexPear$elm_slides$View$generateContent = function (content) {
+	var visible = A4(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$AtMost(1),
+		_NAlexPear$elm_slides$View$frontMatter,
+		function (_p0) {
+			return '';
+		},
+		content);
+	return {
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: A2(
+					_evancz$elm_markdown$Markdown$toHtml,
+					{ctor: '[]'},
+					visible),
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	};
+};
+var _NAlexPear$elm_slides$View$fields = F2(
+	function (sidebar, _p1) {
+		var _p2 = _p1;
+		var _p4 = _p2.content;
+		var _p3 = sidebar;
+		if (_p3.ctor === 'EditingSlide') {
+			return {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$textarea,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$value(_p4),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateSlide),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			};
+		} else {
+			return _NAlexPear$elm_slides$View$generateContent(_p4);
+		}
+	});
+var _NAlexPear$elm_slides$View$mapToConfig = function (pair) {
+	var _p5 = pair;
+	if (_p5.ctor === '::') {
+		return {
+			ctor: '_Tuple2',
+			_0: _p5._0,
+			_1: function () {
+				var _p6 = _elm_lang$core$List$head(_p5._1);
+				if (_p6.ctor === 'Just') {
+					return _p6._0;
+				} else {
+					return '';
+				}
+			}()
+		};
+	} else {
+		return {ctor: '_Tuple2', _0: 'display', _1: 'block'};
+	}
+};
+var _NAlexPear$elm_slides$View$generateSlide = F3(
+	function (content, position, children) {
+		var configYaml = A3(
+			_elm_lang$core$Regex$find,
+			_elm_lang$core$Regex$AtMost(1),
+			_NAlexPear$elm_slides$View$frontMatter,
+			content);
+		var dividers = _elm_lang$core$Regex$regex('(^---\n|\n---$)');
+		var config = function () {
+			var _p7 = _elm_lang$core$List$head(configYaml);
+			if (_p7.ctor === 'Just') {
+				return A2(
+					_elm_lang$core$List$map,
+					_NAlexPear$elm_slides$View$mapToConfig,
+					A2(
+						_elm_lang$core$List$map,
+						A2(
+							_elm_lang$core$Regex$split,
+							_elm_lang$core$Regex$AtMost(1),
+							_elm_lang$core$Regex$regex(':')),
+						_elm_lang$core$String$lines(
+							A4(
+								_elm_lang$core$Regex$replace,
+								_elm_lang$core$Regex$AtMost(2),
+								dividers,
+								function (_p8) {
+									return '';
+								},
+								_p7._0.match))));
+			} else {
+				return {ctor: '[]'};
+			}
+		}();
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$class('slide'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{ctor: '::', _0: position, _1: config}),
+					_1: {ctor: '[]'}
+				}
+			},
+			children);
+	});
+var _NAlexPear$elm_slides$View$slide = F3(
+	function (_p9, slide, acc) {
+		var _p10 = _p9;
+		var previousLength = _elm_lang$core$List$length(_p10.decks.current.slides.previous);
+		var currentLength = _elm_lang$core$List$length(acc);
+		var vw = (currentLength - previousLength) * 100;
+		var position = {
+			ctor: '_Tuple2',
+			_0: 'left',
+			_1: A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Basics$toString(vw),
+				'vw')
+		};
+		var next = {
+			ctor: '::',
+			_0: A3(
+				_NAlexPear$elm_slides$View$generateSlide,
+				slide.content,
+				position,
+				A2(_NAlexPear$elm_slides$View$fields, _p10.sidebar, slide)),
+			_1: {ctor: '[]'}
+		};
+		return A2(_elm_lang$core$List$append, acc, next);
+	});
+var _NAlexPear$elm_slides$View$deckSettingsForm = function (_p11) {
+	var _p12 = _p11;
+	var clickHandler = A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'click',
+		{stopPropagation: true, preventDefault: true},
+		_elm_lang$core$Json_Decode$succeed(_NAlexPear$elm_slides$Message$NoOp));
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$id('settings'),
+			_1: {
+				ctor: '::',
+				_0: clickHandler,
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$label,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$for('title'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Deck Title:'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder(_p12.title),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$name('title'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_NAlexPear$elm_slides$Message$UpdateDeckTitle),
+										_1: {ctor: '[]'}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('pointer'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
+							_1: {ctor: '[]'}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Save Changes'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _NAlexPear$elm_slides$View$deckItem = function (_p13) {
+	var _p14 = _p13;
+	var _p15 = _p14.title;
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('pointer'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(
+					_NAlexPear$elm_slides$Message$ChangeDeck(_p15)),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(_p15),
+			_1: {ctor: '[]'}
+		});
+};
+var _NAlexPear$elm_slides$View$deckItems = function (_p16) {
+	var _p17 = _p16;
+	return _elm_lang$core$Array$toList(
+		A2(_elm_lang$core$Array$map, _NAlexPear$elm_slides$View$deckItem, _p17.others));
+};
+var _NAlexPear$elm_slides$View$getHiddenString = function (trigger) {
+	return trigger ? '' : ' hidden';
+};
+var _NAlexPear$elm_slides$View$deckMenu = function (_p18) {
+	var _p19 = _p18;
+	var classString = A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'menu',
+		_NAlexPear$elm_slides$View$getHiddenString(
+			A2(
+				F2(
+					function (x, y) {
+						return _elm_lang$core$Native_Utils.eq(x, y);
+					}),
+				_NAlexPear$elm_slides$Types$ChangingDeck,
+				_p19.sidebar)));
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(classString),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$ul,
+				{ctor: '[]'},
+				_NAlexPear$elm_slides$View$deckItems(_p19.decks)),
+			_1: {ctor: '[]'}
+		});
+};
+var _NAlexPear$elm_slides$View$deckSettingsMenu = function (_p20) {
+	var _p21 = _p20;
+	var classString = A2(
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'menu',
+		_NAlexPear$elm_slides$View$getHiddenString(
+			A2(
+				F2(
+					function (x, y) {
+						return _elm_lang$core$Native_Utils.eq(x, y);
+					}),
+				_NAlexPear$elm_slides$Types$EditingDeck,
+				_p21.sidebar)));
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class(classString),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _NAlexPear$elm_slides$View$deckSettingsForm(_p21.decks.current),
+			_1: {ctor: '[]'}
+		});
+};
+var _NAlexPear$elm_slides$View$icons = function (model) {
+	var _p22 = model.sidebar;
+	if (_p22.ctor === 'EditingSlide') {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt('Save Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSave),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		};
+	} else {
+		return {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('edit fa fa-pencil-square-o'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$alt('Edit Slides'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEdit),
+							_1: {ctor: '[]'}
+						}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$span,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('add fa fa-plus'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$AddSlide),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$span,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('fa fa-trash'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueSlideDelete),
+								_1: {ctor: '[]'}
+							}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('change fa fa-exchange'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleChangeDeck),
+									_1: {ctor: '[]'}
+								}
+							},
+							_elm_lang$core$List$singleton(
+								_NAlexPear$elm_slides$View$deckMenu(model))),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('settings fa fa-gear'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$ToggleEditDeck),
+										_1: {ctor: '[]'}
+									}
+								},
+								_elm_lang$core$List$singleton(
+									_NAlexPear$elm_slides$View$deckSettingsMenu(model))),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$span,
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$class('fa fa-file'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$CreateDeck),
+											_1: {ctor: '[]'}
+										}
+									},
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$span,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('fa fa-window-close'),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$QueueDeckDelete),
+												_1: {ctor: '[]'}
+											}
+										},
+										{ctor: '[]'}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+	}
+};
+var _NAlexPear$elm_slides$View$view = function (_p23) {
+	var _p24 = _p23;
+	var _p26 = _p24.sidebar;
+	var _p25 = _p24;
+	var slides = _p24.decks.current.slides;
+	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p26, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p26, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
+	var sidebarView = _elm_lang$core$List$singleton(
+		A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$id('icons'),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(iconClasses),
+					_1: {ctor: '[]'}
+				}
+			},
+			_NAlexPear$elm_slides$View$icons(_p25)));
+	var renderer = _NAlexPear$elm_slides$View$slide(_p25);
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _mpizenberg$elm_touch_events$SingleTouch$onStart(_NAlexPear$elm_slides$Message$SwipeStart),
+			_1: {
+				ctor: '::',
+				_0: _mpizenberg$elm_touch_events$SingleTouch$onEnd(_NAlexPear$elm_slides$Message$SwipeEnd),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A3(
+				_elm_lang$html$Html$node,
+				'link',
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$rel('stylesheet'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href('//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'),
+						_1: {ctor: '[]'}
+					}
+				},
+				{ctor: '[]'}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('container'),
+						_1: {ctor: '[]'}
+					},
+					A2(
+						_elm_lang$core$List$append,
+						sidebarView,
+						A3(
+							_elm_lang$core$List$foldl,
+							renderer,
+							{ctor: '[]'},
+							A2(
+								_elm_lang$core$List$append,
+								slides.previous,
+								A2(
+									_elm_lang$core$List$append,
+									{
+										ctor: '::',
+										_0: slides.current,
+										_1: {ctor: '[]'}
+									},
+									slides.remaining))))),
+				_1: {ctor: '[]'}
+			}
+		});
+};
