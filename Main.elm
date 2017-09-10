@@ -7,9 +7,11 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Keyboard exposing (ups)
 import Message exposing (Msg(..))
+import SingleTouch exposing (onStart, onEnd)
 import Navigation
 import Navigators exposing (getDeckTitle, route)
 import Requests exposing (getDeck, getDecks, saveDeck)
+import Touch exposing (..)
 import Types exposing (..)
 import Update exposing (update)
 
@@ -33,6 +35,7 @@ init location =
                 }
           , sidebar = Inactive
           , history = [ location ]
+          , swipe = { clientX = 0, clientY = 0 }
           }
         , location
             |> getDeckTitle
@@ -75,7 +78,7 @@ view ({ decks, sidebar } as model) =
             decks.current.slides
     in
         div
-            []
+            [ onStart SwipeStart, onEnd SwipeEnd ]
             [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
             , slides.remaining
                 |> List.append [ slides.current ]

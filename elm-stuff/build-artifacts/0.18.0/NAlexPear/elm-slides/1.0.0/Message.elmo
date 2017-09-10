@@ -11,6 +11,12 @@ var _NAlexPear$elm_slides$Message$UpdateSlide = function (a) {
 var _NAlexPear$elm_slides$Message$ToggleEdit = {ctor: 'ToggleEdit'};
 var _NAlexPear$elm_slides$Message$ToggleEditDeck = {ctor: 'ToggleEditDeck'};
 var _NAlexPear$elm_slides$Message$ToggleChangeDeck = {ctor: 'ToggleChangeDeck'};
+var _NAlexPear$elm_slides$Message$SwipeEnd = function (a) {
+	return {ctor: 'SwipeEnd', _0: a};
+};
+var _NAlexPear$elm_slides$Message$SwipeStart = function (a) {
+	return {ctor: 'SwipeStart', _0: a};
+};
 var _NAlexPear$elm_slides$Message$ChangeDeck = function (a) {
 	return {ctor: 'ChangeDeck', _0: a};
 };

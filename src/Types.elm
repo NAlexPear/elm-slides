@@ -2,6 +2,7 @@ module Types exposing (..)
 
 import Array exposing (Array)
 import Navigation exposing (Location)
+import Touch exposing (Coordinates)
 
 
 type alias Slide =
@@ -47,4 +48,5 @@ type alias Model =
     { decks : Decks
     , sidebar : Sidebar
     , history : History
+    , swipe : Coordinates
     }

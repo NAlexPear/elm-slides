@@ -20,7 +20,15 @@ var _NAlexPear$elm_slides$Main$view = function (_p0) {
 	var renderer = _NAlexPear$elm_slides$Components$slide(_p2);
 	return A2(
 		_elm_lang$html$Html$div,
-		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _mpizenberg$elm_touch_events$SingleTouch$onStart(_NAlexPear$elm_slides$Message$SwipeStart),
+			_1: {
+				ctor: '::',
+				_0: _mpizenberg$elm_touch_events$SingleTouch$onEnd(_NAlexPear$elm_slides$Message$SwipeEnd),
+				_1: {ctor: '[]'}
+			}
+		},
 		{
 			ctor: '::',
 			_0: A3(
@@ -88,7 +96,8 @@ var _NAlexPear$elm_slides$Main$init = function (location) {
 				ctor: '::',
 				_0: location,
 				_1: {ctor: '[]'}
-			}
+			},
+			swipe: {clientX: 0, clientY: 0}
 		},
 		_1: _NAlexPear$elm_slides$Requests$getDeck(
 			_NAlexPear$elm_slides$Navigators$getDeckTitle(location))

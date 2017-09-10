@@ -62,6 +62,26 @@ update msg model =
             , mapKeyToMsg model code
             )
 
+        SwipeStart coordinates ->
+            ( { model | swipe = coordinates }, Cmd.none )
+
+        SwipeEnd { clientX } ->
+            ( let
+                previousX =
+                    model.swipe.clientX
+
+                keyCode =
+                    if previousX > clientX then
+                        39
+                    else
+                        37
+              in
+                { model
+                    | decks = navigate model keyCode
+                }
+            , Cmd.none
+            )
+
         GetDeck (Ok newCurrentDeck) ->
             ( let
                 newModel =

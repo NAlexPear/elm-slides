@@ -4,6 +4,7 @@ import Array exposing (Array)
 import Http
 import Keyboard exposing (KeyCode)
 import Navigation exposing (Location)
+import Touch
 import Types exposing (..)
 
 
@@ -19,6 +20,8 @@ type Msg
     | AddSlide
     | CreateDeck
     | ChangeDeck String
+    | SwipeStart Touch.Coordinates
+    | SwipeEnd Touch.Coordinates
     | ToggleChangeDeck
     | ToggleEditDeck
     | ToggleEdit

@@ -13,9 +13,9 @@ var _NAlexPear$elm_slides$Types$Decks = F2(
 	function (a, b) {
 		return {current: a, others: b};
 	});
-var _NAlexPear$elm_slides$Types$Model = F3(
-	function (a, b, c) {
-		return {decks: a, sidebar: b, history: c};
+var _NAlexPear$elm_slides$Types$Model = F4(
+	function (a, b, c, d) {
+		return {decks: a, sidebar: b, history: c, swipe: d};
 	});
 var _NAlexPear$elm_slides$Types$Presentation = function (a) {
 	return {ctor: 'Presentation', _0: a};

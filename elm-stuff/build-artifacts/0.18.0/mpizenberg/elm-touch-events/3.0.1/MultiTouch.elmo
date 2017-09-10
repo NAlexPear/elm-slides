@@ -1,0 +1,51 @@
+var _mpizenberg$elm_touch_events$MultiTouch$decodeTouch = function (n) {
+	return A2(
+		_elm_lang$core$Json_Decode$field,
+		_elm_lang$core$Basics$toString(n),
+		_mpizenberg$elm_touch_events$Private_Touch$decode);
+};
+var _mpizenberg$elm_touch_events$MultiTouch$decodeTouches = function (nbTouches) {
+	return A2(
+		_elm_lang$core$Json_Decode$map,
+		_elm_lang$core$Dict$fromList,
+		_mpizenberg$elm_touch_events$Private_Decode$all(
+			A2(
+				_elm_lang$core$List$map,
+				function (_p0) {
+					return A2(
+						_elm_lang$core$Json_Decode$map,
+						_mpizenberg$elm_touch_events$Private_Touch$toTuple,
+						_mpizenberg$elm_touch_events$MultiTouch$decodeTouch(_p0));
+				},
+				A2(_elm_lang$core$List$range, 0, nbTouches - 1))));
+};
+var _mpizenberg$elm_touch_events$MultiTouch$decodeTouchList = A2(
+	_elm_lang$core$Json_Decode$andThen,
+	_mpizenberg$elm_touch_events$MultiTouch$decodeTouches,
+	A2(_elm_lang$core$Json_Decode$field, 'length', _elm_lang$core$Json_Decode$int));
+var _mpizenberg$elm_touch_events$MultiTouch$decodeTouchEvent = A4(
+	_elm_lang$core$Json_Decode$map3,
+	_mpizenberg$elm_touch_events$Private_Touch$Event,
+	A2(_elm_lang$core$Json_Decode$field, 'changedTouches', _mpizenberg$elm_touch_events$MultiTouch$decodeTouchList),
+	A2(_elm_lang$core$Json_Decode$field, 'targetTouches', _mpizenberg$elm_touch_events$MultiTouch$decodeTouchList),
+	A2(_elm_lang$core$Json_Decode$field, 'touches', _mpizenberg$elm_touch_events$MultiTouch$decodeTouchList));
+var _mpizenberg$elm_touch_events$MultiTouch$on = F2(
+	function (event, tag) {
+		return A3(
+			_elm_lang$html$Html_Events$onWithOptions,
+			event,
+			_mpizenberg$elm_touch_events$Private_Touch$stopOptions,
+			A2(_elm_lang$core$Json_Decode$map, tag, _mpizenberg$elm_touch_events$MultiTouch$decodeTouchEvent));
+	});
+var _mpizenberg$elm_touch_events$MultiTouch$onCancel = function (tag) {
+	return A2(_mpizenberg$elm_touch_events$MultiTouch$on, 'touchcancel', tag);
+};
+var _mpizenberg$elm_touch_events$MultiTouch$onEnd = function (tag) {
+	return A2(_mpizenberg$elm_touch_events$MultiTouch$on, 'touchend', tag);
+};
+var _mpizenberg$elm_touch_events$MultiTouch$onMove = function (tag) {
+	return A2(_mpizenberg$elm_touch_events$MultiTouch$on, 'touchmove', tag);
+};
+var _mpizenberg$elm_touch_events$MultiTouch$onStart = function (tag) {
+	return A2(_mpizenberg$elm_touch_events$MultiTouch$on, 'touchstart', tag);
+};
