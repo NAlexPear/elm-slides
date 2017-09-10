@@ -3,52 +3,11 @@ module Update exposing (update)
 import Array
 import Debug
 import Message exposing (Msg(..))
-import Navigation exposing (newUrl)
 import Navigators exposing (navigate, getDeckTitle)
 import Ports exposing (highlight)
-import Regex exposing (Regex, regex, replace)
 import Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Updaters exposing (..)
-
-
-mapKeyToMsg : Model -> Int -> Cmd Msg
-mapKeyToMsg { decks, sidebar } code =
-    if code == 27 && sidebar == EditingSlide then
-        saveDeck decks.current
-    else
-        Cmd.none
-
-
-handleEditHotkey : Sidebar -> Int -> Sidebar
-handleEditHotkey sidebar code =
-    if code == 69 && sidebar /= EditingDeck then
-        EditingSlide
-    else
-        sidebar
-
-
-changeDeck : String -> Cmd Msg
-changeDeck title =
-    title
-        |> String.toLower
-        |> replace (Regex.All) (regex " ") (\_ -> "-")
-        |> (++) "/decks/"
-        |> newUrl
-
-
-moveToFirstDeck : Decks -> Cmd Msg
-moveToFirstDeck { others } =
-    let
-        last =
-            Array.get 0 others
-    in
-        case last of
-            Just { title } ->
-                changeDeck title
-
-            Nothing ->
-                Cmd.none
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

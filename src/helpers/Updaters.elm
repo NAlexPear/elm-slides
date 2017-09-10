@@ -1,10 +1,39 @@
-module Updaters exposing (addSlide, deleteSlide, updateSlide, updateCurrentDeck, updateOtherDecks)
+module Updaters
+    exposing
+        ( addSlide
+        , changeDeck
+        , deleteSlide
+        , handleEditHotkey
+        , mapKeyToMsg
+        , moveToFirstDeck
+        , updateSlide
+        , updateCurrentDeck
+        , updateOtherDecks
+        )
 
 import Array
 import Array exposing (Array)
 import Message exposing (Msg)
+import Navigation exposing (newUrl)
+import Regex exposing (Regex, regex, replace)
 import Requests exposing (saveDeck)
 import Types exposing (..)
+
+
+mapKeyToMsg : Model -> Int -> Cmd Msg
+mapKeyToMsg { decks, sidebar } code =
+    if code == 27 && sidebar == EditingSlide then
+        saveDeck decks.current
+    else
+        Cmd.none
+
+
+handleEditHotkey : Sidebar -> Int -> Sidebar
+handleEditHotkey sidebar code =
+    if code == 69 && sidebar /= EditingDeck then
+        EditingSlide
+    else
+        sidebar
 
 
 addSlide : Model -> Model
@@ -115,3 +144,26 @@ updateOtherDecks ({ decks } as model) newOtherDecks =
             { decks | others = filteredDecks }
     in
         { model | decks = newDecks }
+
+
+changeDeck : String -> Cmd Msg
+changeDeck title =
+    title
+        |> String.toLower
+        |> replace (Regex.All) (regex " ") (\_ -> "-")
+        |> (++) "/decks/"
+        |> newUrl
+
+
+moveToFirstDeck : Decks -> Cmd Msg
+moveToFirstDeck { others } =
+    let
+        last =
+            Array.get 0 others
+    in
+        case last of
+            Just { title } ->
+                changeDeck title
+
+            Nothing ->
+                Cmd.none
