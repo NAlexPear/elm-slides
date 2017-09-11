@@ -14,10 +14,19 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         KeyPress code ->
-            ( { model
-                | decks = navigate model code
-                , sidebar = handleEditHotkey model.sidebar code
-              }
+            ( let
+                sidebar =
+                    case model.sidebar of
+                        Disabled ->
+                            model.sidebar
+
+                        _ ->
+                            handleEditHotkey model.sidebar code
+              in
+                { model
+                    | decks = navigate model code
+                    , sidebar = sidebar
+                }
             , mapKeyToMsg model code
             )
 
@@ -45,8 +54,16 @@ update msg model =
             ( let
                 newModel =
                     updateCurrentDeck model newCurrentDeck
+
+                sidebar =
+                    case model.sidebar of
+                        Disabled ->
+                            Disabled
+
+                        _ ->
+                            Inactive
               in
-                { newModel | sidebar = Inactive }
+                { newModel | sidebar = sidebar }
             , highlight "Starting highlight.js"
             )
 
@@ -62,7 +79,16 @@ update msg model =
             ( model, Cmd.none )
 
         SaveDeck (Ok _) ->
-            ( { model | sidebar = Inactive }
+            ( let
+                sidebar =
+                    case model.sidebar of
+                        Disabled ->
+                            Disabled
+
+                        _ ->
+                            Inactive
+              in
+                { model | sidebar = sidebar }
             , highlight "Reloading highlight.js"
             )
 
@@ -70,7 +96,16 @@ update msg model =
             ( Debug.crash <| toString error, Cmd.none )
 
         DeleteDeck (Ok _) ->
-            ( { model | sidebar = Inactive }
+            ( let
+                sidebar =
+                    case model.sidebar of
+                        Disabled ->
+                            Disabled
+
+                        _ ->
+                            Inactive
+              in
+                { model | sidebar = sidebar }
             , moveToFirstDeck model.decks
             )
 

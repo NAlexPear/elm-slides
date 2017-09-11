@@ -34,7 +34,7 @@ type alias History =
 
 
 type Route
-    = Presentation String
+    = Presentation String (Maybe String)
 
 
 type Sidebar
@@ -42,6 +42,11 @@ type Sidebar
     | ChangingDeck
     | EditingDeck
     | Inactive
+    | Disabled
+
+
+type alias Params =
+    { edit : Bool }
 
 
 type alias Model =

@@ -444,24 +444,35 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 };
 var _NAlexPear$elm_slides$View$view = function (_p23) {
 	var _p24 = _p23;
-	var _p26 = _p24.sidebar;
-	var _p25 = _p24;
+	var _p27 = _p24.sidebar;
+	var _p26 = _p24;
 	var slides = _p24.decks.current.slides;
-	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p26, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p26, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
-	var sidebarView = _elm_lang$core$List$singleton(
-		A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$id('icons'),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(iconClasses),
-					_1: {ctor: '[]'}
-				}
-			},
-			_NAlexPear$elm_slides$View$icons(_p25)));
-	var renderer = _NAlexPear$elm_slides$View$slide(_p25);
+	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p27, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p27, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
+	var sidebarView = function () {
+		var _p25 = _p27;
+		if (_p25.ctor === 'Disabled') {
+			return _elm_lang$core$List$singleton(
+				A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{ctor: '[]'}));
+		} else {
+			return _elm_lang$core$List$singleton(
+				A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$id('icons'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class(iconClasses),
+							_1: {ctor: '[]'}
+						}
+					},
+					_NAlexPear$elm_slides$View$icons(_p26)));
+		}
+	}();
+	var renderer = _NAlexPear$elm_slides$View$slide(_p26);
 	return A2(
 		_elm_lang$html$Html$div,
 		{

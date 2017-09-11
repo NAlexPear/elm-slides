@@ -2,6 +2,13 @@ var _NAlexPear$elm_slides$Main$subscriptions = function (_p0) {
 	return _elm_lang$keyboard$Keyboard$ups(_NAlexPear$elm_slides$Message$KeyPress);
 };
 var _NAlexPear$elm_slides$Main$init = function (location) {
+	var sidebar = A2(
+		_elm_lang$core$Debug$log,
+		'editing?',
+		function (_) {
+			return _.edit;
+		}(
+			_NAlexPear$elm_slides$Navigators$getQueryParams(location))) ? _NAlexPear$elm_slides$Types$Inactive : _NAlexPear$elm_slides$Types$Disabled;
 	var slides = {
 		previous: {ctor: '[]'},
 		current: {content: ''},
@@ -14,7 +21,7 @@ var _NAlexPear$elm_slides$Main$init = function (location) {
 				current: {title: '', id: 1, slides: slides},
 				others: _elm_lang$core$Array$empty
 			},
-			sidebar: _NAlexPear$elm_slides$Types$Inactive,
+			sidebar: sidebar,
 			history: {
 				ctor: '::',
 				_0: location,

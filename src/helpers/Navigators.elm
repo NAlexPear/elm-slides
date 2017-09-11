@@ -1,23 +1,38 @@
-module Navigators exposing (navigate, route, getDeckTitle)
+module Navigators exposing (navigate, getDeckTitle, getQueryParams)
 
 import Keyboard exposing (KeyCode)
-import Navigation
+import Navigation exposing (Location)
 import Regex exposing (Regex, regex, replace)
 import Types exposing (..)
-import UrlParser as Url exposing ((</>))
+import UrlParser as Url exposing ((</>), (<?>))
+
+
+unhyphenate : String -> String
+unhyphenate string =
+    replace (Regex.All) (regex "-") (\_ -> " ") string
 
 
 route : Url.Parser (Route -> a) a
 route =
     Url.oneOf
-        [ Url.map Presentation <| Url.s "decks" </> Url.string ]
+        [ Url.map Presentation <| Url.s "decks" </> Url.string <?> Url.stringParam "edit" ]
 
 
-getDeckTitle : Navigation.Location -> String
+getQueryParams : Location -> Params
+getQueryParams location =
+    case Url.parsePath route location of
+        Just (Presentation _ (Just "true")) ->
+            { edit = True }
+
+        _ ->
+            { edit = False }
+
+
+getDeckTitle : Location -> String
 getDeckTitle location =
     case Url.parsePath route location of
-        Just (Presentation title) ->
-            replace (Regex.All) (regex "-") (\_ -> " ") title
+        Just (Presentation title _) ->
+            unhyphenate title
 
         Nothing ->
             ""

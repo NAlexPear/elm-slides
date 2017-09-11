@@ -3,16 +3,26 @@ var _NAlexPear$elm_slides$Update$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'KeyPress':
-				var _p1 = _p0._0;
+				var _p2 = _p0._0;
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							decks: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p1),
-							sidebar: A2(_NAlexPear$elm_slides$Updaters$handleEditHotkey, model.sidebar, _p1)
-						}),
-					_1: A2(_NAlexPear$elm_slides$Updaters$mapKeyToMsg, model, _p1)
+					_0: function () {
+						var sidebar = function () {
+							var _p1 = model.sidebar;
+							if (_p1.ctor === 'Disabled') {
+								return model.sidebar;
+							} else {
+								return A2(_NAlexPear$elm_slides$Updaters$handleEditHotkey, model.sidebar, _p2);
+							}
+						}();
+						return _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								decks: A2(_NAlexPear$elm_slides$Navigators$navigate, model, _p2),
+								sidebar: sidebar
+							});
+					}(),
+					_1: A2(_NAlexPear$elm_slides$Updaters$mapKeyToMsg, model, _p2)
 				};
 			case 'SwipeStart':
 				return {
@@ -41,10 +51,18 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					return {
 						ctor: '_Tuple2',
 						_0: function () {
+							var sidebar = function () {
+								var _p3 = model.sidebar;
+								if (_p3.ctor === 'Disabled') {
+									return _NAlexPear$elm_slides$Types$Disabled;
+								} else {
+									return _NAlexPear$elm_slides$Types$Inactive;
+								}
+							}();
 							var newModel = A2(_NAlexPear$elm_slides$Updaters$updateCurrentDeck, model, _p0._0._0);
 							return _elm_lang$core$Native_Utils.update(
 								newModel,
-								{sidebar: _NAlexPear$elm_slides$Types$Inactive});
+								{sidebar: sidebar});
 						}(),
 						_1: _NAlexPear$elm_slides$Ports$highlight('Starting highlight.js')
 					};
@@ -69,9 +87,19 @@ var _NAlexPear$elm_slides$Update$update = F2(
 				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{sidebar: _NAlexPear$elm_slides$Types$Inactive}),
+						_0: function () {
+							var sidebar = function () {
+								var _p4 = model.sidebar;
+								if (_p4.ctor === 'Disabled') {
+									return _NAlexPear$elm_slides$Types$Disabled;
+								} else {
+									return _NAlexPear$elm_slides$Types$Inactive;
+								}
+							}();
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{sidebar: sidebar});
+						}(),
 						_1: _NAlexPear$elm_slides$Ports$highlight('Reloading highlight.js')
 					};
 				} else {
@@ -80,8 +108,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						_0: _elm_lang$core$Native_Utils.crash(
 							'Update',
 							{
-								start: {line: 70, column: 15},
-								end: {line: 70, column: 26}
+								start: {line: 96, column: 15},
+								end: {line: 96, column: 26}
 							})(
 							_elm_lang$core$Basics$toString(_p0._0._0)),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -91,9 +119,19 @@ var _NAlexPear$elm_slides$Update$update = F2(
 				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{sidebar: _NAlexPear$elm_slides$Types$Inactive}),
+						_0: function () {
+							var sidebar = function () {
+								var _p5 = model.sidebar;
+								if (_p5.ctor === 'Disabled') {
+									return _NAlexPear$elm_slides$Types$Disabled;
+								} else {
+									return _NAlexPear$elm_slides$Types$Inactive;
+								}
+							}();
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{sidebar: sidebar});
+						}(),
 						_1: _NAlexPear$elm_slides$Updaters$moveToFirstDeck(model.decks)
 					};
 				} else {
@@ -102,8 +140,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						_0: _elm_lang$core$Native_Utils.crash(
 							'Update',
 							{
-								start: {line: 78, column: 15},
-								end: {line: 78, column: 26}
+								start: {line: 113, column: 15},
+								end: {line: 113, column: 26}
 							})(
 							_elm_lang$core$Basics$toString(_p0._0._0)),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -136,8 +174,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						model,
 						{
 							sidebar: function () {
-								var _p2 = model.sidebar;
-								if (_p2.ctor === 'EditingSlide') {
+								var _p6 = model.sidebar;
+								if (_p6.ctor === 'EditingSlide') {
 									return _NAlexPear$elm_slides$Types$Inactive;
 								} else {
 									return _NAlexPear$elm_slides$Types$EditingSlide;
@@ -153,8 +191,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						model,
 						{
 							sidebar: function () {
-								var _p3 = model.sidebar;
-								if (_p3.ctor === 'ChangingDeck') {
+								var _p7 = model.sidebar;
+								if (_p7.ctor === 'ChangingDeck') {
 									return _NAlexPear$elm_slides$Types$Inactive;
 								} else {
 									return _NAlexPear$elm_slides$Types$ChangingDeck;
@@ -178,8 +216,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						model,
 						{
 							sidebar: function () {
-								var _p4 = model.sidebar;
-								if (_p4.ctor === 'EditingDeck') {
+								var _p8 = model.sidebar;
+								if (_p8.ctor === 'EditingDeck') {
 									return _NAlexPear$elm_slides$Types$Inactive;
 								} else {
 									return _NAlexPear$elm_slides$Types$EditingDeck;
@@ -217,16 +255,16 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'UrlChange':
-				var _p5 = _p0._0;
+				var _p9 = _p0._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							history: {ctor: '::', _0: _p5, _1: model.history}
+							history: {ctor: '::', _0: _p9, _1: model.history}
 						}),
 					_1: _NAlexPear$elm_slides$Requests$getDeck(
-						_NAlexPear$elm_slides$Navigators$getDeckTitle(_p5))
+						_NAlexPear$elm_slides$Navigators$getDeckTitle(_p9))
 				};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};

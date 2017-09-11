@@ -1,11 +1,12 @@
 module Main exposing (..)
 
+import Debug
 import Array
 import Array exposing (Array)
 import Keyboard exposing (ups)
 import Message exposing (Msg(..))
 import Navigation
-import Navigators exposing (getDeckTitle, route)
+import Navigators exposing (getDeckTitle, getQueryParams)
 import Requests exposing (getDeck, getDecks, saveDeck)
 import Types exposing (..)
 import Update exposing (update)
@@ -20,6 +21,12 @@ init location =
             , current = { content = "" }
             , remaining = []
             }
+
+        sidebar =
+            if Debug.log "editing?" (.edit <| getQueryParams location) then
+                Inactive
+            else
+                Disabled
     in
         ( { decks =
                 { current =
@@ -29,7 +36,7 @@ init location =
                     }
                 , others = Array.empty
                 }
-          , sidebar = Inactive
+          , sidebar = sidebar
           , history = [ location ]
           , swipe = { clientX = 0, clientY = 0 }
           }

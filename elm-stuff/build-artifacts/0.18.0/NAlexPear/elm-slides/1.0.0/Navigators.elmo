@@ -82,20 +82,34 @@ var _NAlexPear$elm_slides$Navigators$route = _evancz$url_parser$UrlParser$oneOf(
 			A2(
 				_evancz$url_parser$UrlParser_ops['</>'],
 				_evancz$url_parser$UrlParser$s('decks'),
-				_evancz$url_parser$UrlParser$string)),
+				A2(
+					_evancz$url_parser$UrlParser_ops['<?>'],
+					_evancz$url_parser$UrlParser$string,
+					_evancz$url_parser$UrlParser$stringParam('edit')))),
 		_1: {ctor: '[]'}
 	});
-var _NAlexPear$elm_slides$Navigators$getDeckTitle = function (location) {
+var _NAlexPear$elm_slides$Navigators$getQueryParams = function (location) {
 	var _p12 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
-	if (_p12.ctor === 'Just') {
-		return A4(
-			_elm_lang$core$Regex$replace,
-			_elm_lang$core$Regex$All,
-			_elm_lang$core$Regex$regex('-'),
-			function (_p13) {
-				return ' ';
-			},
-			_p12._0._0);
+	if (((_p12.ctor === 'Just') && (_p12._0._1.ctor === 'Just')) && (_p12._0._1._0 === 'true')) {
+		return {edit: true};
+	} else {
+		return {edit: false};
+	}
+};
+var _NAlexPear$elm_slides$Navigators$unhyphenate = function (string) {
+	return A4(
+		_elm_lang$core$Regex$replace,
+		_elm_lang$core$Regex$All,
+		_elm_lang$core$Regex$regex('-'),
+		function (_p13) {
+			return ' ';
+		},
+		string);
+};
+var _NAlexPear$elm_slides$Navigators$getDeckTitle = function (location) {
+	var _p14 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
+	if (_p14.ctor === 'Just') {
+		return _NAlexPear$elm_slides$Navigators$unhyphenate(_p14._0._0);
 	} else {
 		return '';
 	}

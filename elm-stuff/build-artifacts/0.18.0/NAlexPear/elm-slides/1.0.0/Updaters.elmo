@@ -1,19 +1,26 @@
 var _NAlexPear$elm_slides$Updaters$changeDeck = function (title) {
 	return _elm_lang$navigation$Navigation$newUrl(
-		A2(
+		A3(
+			_elm_lang$core$Basics$flip,
 			F2(
 				function (x, y) {
 					return A2(_elm_lang$core$Basics_ops['++'], x, y);
 				}),
-			'/decks/',
-			A4(
-				_elm_lang$core$Regex$replace,
-				_elm_lang$core$Regex$All,
-				_elm_lang$core$Regex$regex(' '),
-				function (_p0) {
-					return '-';
-				},
-				_elm_lang$core$String$toLower(title))));
+			'?edit=true',
+			A2(
+				F2(
+					function (x, y) {
+						return A2(_elm_lang$core$Basics_ops['++'], x, y);
+					}),
+				'/decks/',
+				A4(
+					_elm_lang$core$Regex$replace,
+					_elm_lang$core$Regex$All,
+					_elm_lang$core$Regex$regex(' '),
+					function (_p0) {
+						return '-';
+					},
+					_elm_lang$core$String$toLower(title)))));
 };
 var _NAlexPear$elm_slides$Updaters$moveToFirstDeck = function (_p1) {
 	var _p2 = _p1;

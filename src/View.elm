@@ -258,10 +258,15 @@ view ({ decks, sidebar } as model) =
                 ""
 
         sidebarView =
-            model
-                |> icons
-                |> div [ id "icons", class iconClasses ]
-                |> List.singleton
+            case sidebar of
+                Disabled ->
+                    List.singleton <| div [] []
+
+                _ ->
+                    model
+                        |> icons
+                        |> div [ id "icons", class iconClasses ]
+                        |> List.singleton
 
         slides =
             decks.current.slides

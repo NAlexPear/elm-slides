@@ -152,6 +152,7 @@ changeDeck title =
         |> String.toLower
         |> replace (Regex.All) (regex " ") (\_ -> "-")
         |> (++) "/decks/"
+        |> flip (++) "?edit=true"
         |> newUrl
 
 
