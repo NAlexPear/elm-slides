@@ -14,14 +14,8 @@ RUN apt-get update -q \
     build-essential \
     ca-certificates \
     curl \
-    git \
-    libpng-dev \
-    libtool \
-    nasm \
     pkg-config \
-    python \
     software-properties-common \
-    wget \
   && apt-get clean \
   && rm -rf /var/apt/lists
 

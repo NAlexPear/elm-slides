@@ -40,24 +40,9 @@ services:
     build:
       context: .
       dockerfile: ./services/app/Dockerfile
-    command: ./services/app/await-modules.sh -- npm run dev
-    depends_on:
-      - npm
+    command: /bin/bash -c "npm install && npm run dev"
     expose:
       - "8080"
-    volumes:
-      - source: .
-        target: /usr/src/elm-slides
-        type: bind
-      - source: node_modules
-        target: /usr/src/elm-slides/node_modules
-        type: volume
-
-  npm:
-    build:
-      context: .
-      dockerfile: ./services/app/Dockerfile
-    command: /bin/bash -c "rm node_modules/.ready; npm install && touch node_modules/.ready"
     volumes:
       - source: .
         target: /usr/src/elm-slides
