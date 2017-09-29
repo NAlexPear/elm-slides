@@ -29,8 +29,18 @@ type alias Decks =
     }
 
 
+type alias Params =
+    { edit : Bool }
+
+
 type alias History =
     List Location
+
+
+type alias AuthUser =
+    { name : String
+    , id : Int
+    }
 
 
 type Route
@@ -45,8 +55,9 @@ type Sidebar
     | Disabled
 
 
-type alias Params =
-    { edit : Bool }
+type User
+    = Anonymous
+    | Authorized AuthUser
 
 
 type alias Model =
@@ -54,4 +65,5 @@ type alias Model =
     , sidebar : Sidebar
     , history : History
     , swipe : Coordinates
+    , user : User
     }

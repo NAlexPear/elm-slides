@@ -274,7 +274,7 @@ slide { decks, sidebar } slide acc =
 
 
 view : Model -> Html Msg
-view ({ decks, sidebar } as model) =
+view ({ decks, sidebar, user } as model) =
     let
         renderer =
             slide model
@@ -284,6 +284,20 @@ view ({ decks, sidebar } as model) =
                 "active"
             else
                 ""
+
+        userPrompt =
+            case user of
+                Anonymous ->
+                    [ span
+                        [ class "fa fa-user" ]
+                        [ label [] [ text "SIGN IN" ] ]
+                    ]
+
+                Authorized { name } ->
+                    [ span
+                        [ class "fa fa-logout" ]
+                        [ label [] [ text <| "HI, " ++ name ] ]
+                    ]
 
         sidebarView =
             case sidebar of
@@ -295,6 +309,7 @@ view ({ decks, sidebar } as model) =
                         |> icons
                         |> div [ id "icons", class iconClasses ]
                         |> List.singleton
+                        |> List.append [ button [ id "user-prompt" ] userPrompt ]
 
         slides =
             decks.current.slides

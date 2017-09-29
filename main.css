@@ -61,7 +61,7 @@ textarea{
     align-items: center;
     height: 100%;
     width: 5rem;
-    padding-top: 0.25rem;
+    padding-top: 6rem;
     z-index: 1;
 }
 
@@ -114,6 +114,20 @@ textarea{
 #settings button{
   margin: 0.5rem auto 0 auto;
   width: 100%;
+}
+
+#user-prompt {
+  position: absolute;
+  margin: 1rem;
+  right: 0;
+  z-index: 10;
+}
+
+#user-prompt label {
+  display: inline;
+  font-size: 1.2rem;
+  font-family: sans-serif;
+  margin-left: 0.5rem;
 }
 
 .menu {

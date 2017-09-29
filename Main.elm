@@ -39,6 +39,7 @@ init location =
           , sidebar = sidebar
           , history = [ location ]
           , swipe = { clientX = 0, clientY = 0 }
+          , user = Anonymous
           }
         , location
             |> getDeckTitle
