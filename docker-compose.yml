@@ -37,10 +37,10 @@ services:
       PGRST_DB_ANON_ROLE: web_anon
 
   frontend:
-    build:
-      context: .
-      dockerfile: ./services/app/Dockerfile
+    tty: true
+    image: node
     command: /bin/bash -c "npm install && npm run dev"
+    working_dir: /usr/src/elm-slides
     expose:
       - "8080"
     volumes:
