@@ -176,7 +176,10 @@ icons model =
                 , alt "Save Slides"
                 , onClick QueueSave
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "save" ]
+                ]
             ]
 
         _ ->
@@ -185,25 +188,44 @@ icons model =
                 , alt "Edit Slides"
                 , onClick ToggleEdit
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "edit" ]
+                ]
             , span
                 [ class "add fa fa-plus"
                 , onClick AddSlide
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "add slide" ]
+                ]
             , span
                 [ class "fa fa-trash"
                 , onClick QueueSlideDelete
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "delete slide" ]
+                ]
             , deckMenu model
                 |> List.singleton
+                |> (++)
+                    [ label
+                        [ class "icon-label" ]
+                        [ text "switch deck" ]
+                    ]
                 |> span
                     [ class "change fa fa-exchange"
                     , onClick ToggleChangeDeck
                     ]
             , deckSettingsMenu model
                 |> List.singleton
+                |> (++)
+                    [ label
+                        [ class "icon-label" ]
+                        [ text "deck settings" ]
+                    ]
                 |> span
                     [ class "settings fa fa-gear"
                     , onClick ToggleEditDeck
@@ -212,12 +234,18 @@ icons model =
                 [ class "fa fa-file"
                 , onClick CreateDeck
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "new deck" ]
+                ]
             , span
                 [ class "fa fa-window-close"
                 , onClick QueueDeckDelete
                 ]
-                []
+                [ label
+                    [ class "icon-label" ]
+                    [ text "delete deck" ]
+                ]
             ]
 
 

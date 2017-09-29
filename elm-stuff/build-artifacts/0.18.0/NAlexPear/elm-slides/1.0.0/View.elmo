@@ -324,7 +324,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 						}
 					}
 				},
-				{ctor: '[]'}),
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('save'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
 			_1: {ctor: '[]'}
 		};
 	} else {
@@ -345,7 +360,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 						}
 					}
 				},
-				{ctor: '[]'}),
+				{
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$label,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text('edit'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -359,7 +389,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 							_1: {ctor: '[]'}
 						}
 					},
-					{ctor: '[]'}),
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$label,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('add slide'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}),
 				_1: {
 					ctor: '::',
 					_0: A2(
@@ -373,7 +418,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 								_1: {ctor: '[]'}
 							}
 						},
-						{ctor: '[]'}),
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$label,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('delete slide'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -387,8 +447,29 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 									_1: {ctor: '[]'}
 								}
 							},
-							_elm_lang$core$List$singleton(
-								_NAlexPear$elm_slides$View$deckMenu(model))),
+							A2(
+								F2(
+									function (x, y) {
+										return A2(_elm_lang$core$Basics_ops['++'], x, y);
+									}),
+								{
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$label,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('switch deck'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								},
+								_elm_lang$core$List$singleton(
+									_NAlexPear$elm_slides$View$deckMenu(model)))),
 						_1: {
 							ctor: '::',
 							_0: A2(
@@ -402,8 +483,29 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 										_1: {ctor: '[]'}
 									}
 								},
-								_elm_lang$core$List$singleton(
-									_NAlexPear$elm_slides$View$deckSettingsMenu(model))),
+								A2(
+									F2(
+										function (x, y) {
+											return A2(_elm_lang$core$Basics_ops['++'], x, y);
+										}),
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('deck settings'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									},
+									_elm_lang$core$List$singleton(
+										_NAlexPear$elm_slides$View$deckSettingsMenu(model)))),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -417,7 +519,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 											_1: {ctor: '[]'}
 										}
 									},
-									{ctor: '[]'}),
+									{
+										ctor: '::',
+										_0: A2(
+											_elm_lang$html$Html$label,
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+												_1: {ctor: '[]'}
+											},
+											{
+												ctor: '::',
+												_0: _elm_lang$html$Html$text('new deck'),
+												_1: {ctor: '[]'}
+											}),
+										_1: {ctor: '[]'}
+									}),
 								_1: {
 									ctor: '::',
 									_0: A2(
@@ -431,7 +548,22 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 												_1: {ctor: '[]'}
 											}
 										},
-										{ctor: '[]'}),
+										{
+											ctor: '::',
+											_0: A2(
+												_elm_lang$html$Html$label,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Attributes$class('icon-label'),
+													_1: {ctor: '[]'}
+												},
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html$text('delete deck'),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}),
 									_1: {ctor: '[]'}
 								}
 							}
