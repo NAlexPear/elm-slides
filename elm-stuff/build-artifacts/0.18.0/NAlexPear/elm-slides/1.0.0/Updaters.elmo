@@ -152,5 +152,11 @@ var _NAlexPear$elm_slides$Updaters$handleEditHotkey = F2(
 var _NAlexPear$elm_slides$Updaters$mapKeyToMsg = F2(
 	function (_p24, code) {
 		var _p25 = _p24;
-		return (_elm_lang$core$Native_Utils.eq(code, 27) && _elm_lang$core$Native_Utils.eq(_p25.sidebar, _NAlexPear$elm_slides$Types$EditingSlide)) ? _NAlexPear$elm_slides$Requests$saveDeck(_p25.decks.current) : _elm_lang$core$Platform_Cmd$none;
+		var input = {ctor: '_Tuple2', _0: code, _1: _p25.sidebar};
+		var _p26 = input;
+		if (((_p26.ctor === '_Tuple2') && (_p26._0 === 27)) && (_p26._1.ctor === 'EditingSlide')) {
+			return _NAlexPear$elm_slides$Requests$saveDeck(_p25.decks.current);
+		} else {
+			return _elm_lang$core$Platform_Cmd$none;
+		}
 	});

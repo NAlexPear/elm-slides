@@ -108,8 +108,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						_0: _elm_lang$core$Native_Utils.crash(
 							'Update',
 							{
-								start: {line: 96, column: 15},
-								end: {line: 96, column: 26}
+								start: {line: 114, column: 15},
+								end: {line: 114, column: 26}
 							})(
 							_elm_lang$core$Basics$toString(_p0._0._0)),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -140,8 +140,8 @@ var _NAlexPear$elm_slides$Update$update = F2(
 						_0: _elm_lang$core$Native_Utils.crash(
 							'Update',
 							{
-								start: {line: 113, column: 15},
-								end: {line: 113, column: 26}
+								start: {line: 131, column: 15},
+								end: {line: 131, column: 26}
 							})(
 							_elm_lang$core$Basics$toString(_p0._0._0)),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -266,6 +266,40 @@ var _NAlexPear$elm_slides$Update$update = F2(
 					_1: _NAlexPear$elm_slides$Requests$getDeck(
 						_NAlexPear$elm_slides$Navigators$getDeckTitle(_p9))
 				};
+			case 'Authenticate':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _NAlexPear$elm_slides$Ports$authorize('Delegating to auth0')
+				};
+			case 'Login':
+				if (_p0._0.ctor === 'Ok') {
+					return {
+						ctor: '_Tuple2',
+						_0: function () {
+							var newUser = A3(_NAlexPear$elm_slides$Types$AuthUser, 1, 'test', _p0._0._0.token);
+							return _elm_lang$core$Native_Utils.update(
+								model,
+								{
+									user: _NAlexPear$elm_slides$Types$Authorized(newUser),
+									sidebar: _NAlexPear$elm_slides$Types$Inactive
+								});
+						}(),
+						_1: _elm_lang$navigation$Navigation$modifyUrl(
+							A2(_elm_lang$core$Basics_ops['++'], _p0._0._0.previousDeck, '?edit=true'))
+					};
+				} else {
+					return {
+						ctor: '_Tuple2',
+						_0: model,
+						_1: _elm_lang$core$Native_Utils.crash(
+							'Update',
+							{
+								start: {line: 237, column: 15},
+								end: {line: 237, column: 26}
+							})(_p0._0._0)
+					};
+				}
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}

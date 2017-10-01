@@ -1,5 +1,16 @@
+var _NAlexPear$elm_slides$Ports$authorize = _elm_lang$core$Native_Platform.outgoingPort(
+	'authorize',
+	function (v) {
+		return v;
+	});
 var _NAlexPear$elm_slides$Ports$highlight = _elm_lang$core$Native_Platform.outgoingPort(
 	'highlight',
 	function (v) {
 		return v;
 	});
+var _NAlexPear$elm_slides$Ports$getToken = _elm_lang$core$Native_Platform.outgoingPort(
+	'getToken',
+	function (v) {
+		return v;
+	});
+var _NAlexPear$elm_slides$Ports$newToken = _elm_lang$core$Native_Platform.incomingPort('newToken', _elm_lang$core$Json_Decode$value);

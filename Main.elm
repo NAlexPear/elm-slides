@@ -19,9 +19,7 @@ import Requests
         )
 import Array
 import Array exposing (Array)
-import Debug
-import Json.Decode exposing (..)
-import Json.Decode.Pipeline exposing (..)
+import Decoders exposing (decodeLogin)
 import Keyboard exposing (ups)
 import Message exposing (Msg(..))
 import Navigation
@@ -29,14 +27,6 @@ import Types exposing (..)
 import Update exposing (update)
 import View exposing (view)
 import UrlParser as Url
-
-
-decodeLogin : Value -> Result String AuthPayload
-decodeLogin =
-    decode AuthPayload
-        |> required "previousDeck" string
-        |> required "token" string
-        |> decodeValue
 
 
 init : Navigation.Location -> ( Model, Cmd Msg )
@@ -49,7 +39,7 @@ init location =
             }
 
         sidebar =
-            if Debug.log "editing?" (.edit <| getQueryParams location) then
+            if .edit <| getQueryParams location then
                 Inactive
             else
                 Disabled

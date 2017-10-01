@@ -1,11 +1,22 @@
-module Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
+module Requests
+    exposing
+        ( createDeck
+        , deleteDeck
+        , getDeck
+        , getDecks
+        , saveDeck
+        )
 
+import Decoders
+    exposing
+        ( decodeDeck
+        , decodeDecks
+        )
 import Array
 import Array exposing (Array)
+import Encoders exposing (encodeDeck)
 import Http
-import Json.Decode exposing (..)
-import Json.Decode.Pipeline exposing (..)
-import Json.Encode as Encode
+import Json.Decode exposing (Decoder)
 import Message exposing (Msg(..))
 import Types exposing (..)
 
@@ -51,18 +62,6 @@ delete url =
     insert url Http.emptyBody "DELETE"
 
 
-slideDecoder : Decoder Slide
-slideDecoder =
-    decode Slide
-        |> required "content" string
-
-
-slideEncoder : Slide -> Encode.Value
-slideEncoder slide =
-    Encode.object
-        [ ( "content", Encode.string slide.content ) ]
-
-
 mapSlides : List Slide -> Slides
 mapSlides slidesList =
     let
@@ -83,43 +82,6 @@ mapSlides slidesList =
                 slides
 
 
-slidesDecoder : Decoder Slides
-slidesDecoder =
-    let
-        slides =
-            list slideDecoder
-    in
-        map mapSlides slides
-
-
-slidesEncoder : List Slide -> Encode.Value
-slidesEncoder slides =
-    slides
-        |> List.map slideEncoder
-        |> Encode.list
-
-
-deckDecoder : Decoder Deck
-deckDecoder =
-    decode Deck
-        |> required "title" string
-        |> required "id" int
-        |> required "slides" slidesDecoder
-
-
-decksDecoder : Decoder (Array Deck)
-decksDecoder =
-    array deckDecoder
-
-
-deckEncoder : Deck -> Encode.Value
-deckEncoder { slides, title } =
-    Encode.object
-        [ ( "title", Encode.string title )
-        , ( "slides", slidesEncoder (slides.previous ++ [ slides.current ] ++ slides.remaining) )
-        ]
-
-
 createDeck : Cmd Msg
 createDeck =
     let
@@ -138,7 +100,7 @@ createDeck =
 
         body =
             deck
-                |> deckEncoder
+                |> encodeDeck
                 |> Http.jsonBody
 
         request =
@@ -171,7 +133,7 @@ saveDeck deck =
 
         body =
             deck
-                |> deckEncoder
+                |> encodeDeck
                 |> Http.jsonBody
 
         request =
@@ -184,7 +146,7 @@ getDecks : Cmd Msg
 getDecks =
     let
         request =
-            Http.get "/api/decks" decksDecoder
+            Http.get "/api/decks" decodeDecks
     in
         Http.send GetDecks request
 
@@ -196,6 +158,6 @@ getDeck title =
             "/api/decks?title=ilike." ++ title
 
         request =
-            getSingle url deckDecoder
+            getSingle url decodeDeck
     in
         Http.send GetDeck request

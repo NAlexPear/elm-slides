@@ -1,3 +1,7 @@
+var _NAlexPear$elm_slides$Requests$getDecks = function () {
+	var request = A2(_elm_lang$http$Http$get, '/api/decks', _NAlexPear$elm_slides$Decoders$decodeDecks);
+	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDecks, request);
+}();
 var _NAlexPear$elm_slides$Requests$mapSlides = function (slidesList) {
 	var slides = {
 		previous: {ctor: '[]'},
@@ -13,82 +17,6 @@ var _NAlexPear$elm_slides$Requests$mapSlides = function (slidesList) {
 		return slides;
 	}
 };
-var _NAlexPear$elm_slides$Requests$slideEncoder = function (slide) {
-	return _elm_lang$core$Json_Encode$object(
-		{
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: 'content',
-				_1: _elm_lang$core$Json_Encode$string(slide.content)
-			},
-			_1: {ctor: '[]'}
-		});
-};
-var _NAlexPear$elm_slides$Requests$slidesEncoder = function (slides) {
-	return _elm_lang$core$Json_Encode$list(
-		A2(_elm_lang$core$List$map, _NAlexPear$elm_slides$Requests$slideEncoder, slides));
-};
-var _NAlexPear$elm_slides$Requests$deckEncoder = function (_p1) {
-	var _p2 = _p1;
-	var _p3 = _p2.slides;
-	return _elm_lang$core$Json_Encode$object(
-		{
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: 'title',
-				_1: _elm_lang$core$Json_Encode$string(_p2.title)
-			},
-			_1: {
-				ctor: '::',
-				_0: {
-					ctor: '_Tuple2',
-					_0: 'slides',
-					_1: _NAlexPear$elm_slides$Requests$slidesEncoder(
-						A2(
-							_elm_lang$core$Basics_ops['++'],
-							_p3.previous,
-							A2(
-								_elm_lang$core$Basics_ops['++'],
-								{
-									ctor: '::',
-									_0: _p3.current,
-									_1: {ctor: '[]'}
-								},
-								_p3.remaining)))
-				},
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _NAlexPear$elm_slides$Requests$slideDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'content',
-	_elm_lang$core$Json_Decode$string,
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Slide));
-var _NAlexPear$elm_slides$Requests$slidesDecoder = function () {
-	var slides = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Requests$slideDecoder);
-	return A2(_elm_lang$core$Json_Decode$map, _NAlexPear$elm_slides$Requests$mapSlides, slides);
-}();
-var _NAlexPear$elm_slides$Requests$deckDecoder = A3(
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'slides',
-	_NAlexPear$elm_slides$Requests$slidesDecoder,
-	A3(
-		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'id',
-		_elm_lang$core$Json_Decode$int,
-		A3(
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'title',
-			_elm_lang$core$Json_Decode$string,
-			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Deck))));
-var _NAlexPear$elm_slides$Requests$decksDecoder = _elm_lang$core$Json_Decode$array(_NAlexPear$elm_slides$Requests$deckDecoder);
-var _NAlexPear$elm_slides$Requests$getDecks = function () {
-	var request = A2(_elm_lang$http$Http$get, '/api/decks', _NAlexPear$elm_slides$Requests$decksDecoder);
-	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDecks, request);
-}();
 var _NAlexPear$elm_slides$Requests$insert = F3(
 	function (url, body, method) {
 		return _elm_lang$http$Http$request(
@@ -108,7 +36,7 @@ var _NAlexPear$elm_slides$Requests$patch = F2(
 	});
 var _NAlexPear$elm_slides$Requests$saveDeck = function (deck) {
 	var body = _elm_lang$http$Http$jsonBody(
-		_NAlexPear$elm_slides$Requests$deckEncoder(deck));
+		_NAlexPear$elm_slides$Encoders$encodeDeck(deck));
 	var url = A2(
 		F2(
 			function (x, y) {
@@ -134,7 +62,7 @@ var _NAlexPear$elm_slides$Requests$createDeck = function () {
 		id: 0
 	};
 	var body = _elm_lang$http$Http$jsonBody(
-		_NAlexPear$elm_slides$Requests$deckEncoder(deck));
+		_NAlexPear$elm_slides$Encoders$encodeDeck(deck));
 	var url = '/api/decks';
 	var request = A2(_NAlexPear$elm_slides$Requests$post, url, body);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$SaveDeck, request);
@@ -172,6 +100,6 @@ var _NAlexPear$elm_slides$Requests$getSingle = F2(
 	});
 var _NAlexPear$elm_slides$Requests$getDeck = function (title) {
 	var url = A2(_elm_lang$core$Basics_ops['++'], '/api/decks?title=ilike.', title);
-	var request = A2(_NAlexPear$elm_slides$Requests$getSingle, url, _NAlexPear$elm_slides$Requests$deckDecoder);
+	var request = A2(_NAlexPear$elm_slides$Requests$getSingle, url, _NAlexPear$elm_slides$Decoders$decodeDeck);
 	return A2(_elm_lang$http$Http$send, _NAlexPear$elm_slides$Message$GetDeck, request);
 };

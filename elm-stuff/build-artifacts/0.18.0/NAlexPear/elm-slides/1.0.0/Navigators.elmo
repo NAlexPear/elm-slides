@@ -1,7 +1,7 @@
 var _NAlexPear$elm_slides$Navigators$stepBackwards = function (_p0) {
 	var _p1 = _p0;
-	var _p3 = _p1.current;
-	var slides = _p3.slides;
+	var _p4 = _p1.current;
+	var slides = _p4.slides;
 	var penultimate = _elm_lang$core$List$length(slides.previous) - 1;
 	var newCurrent = function () {
 		var _p2 = _elm_lang$core$List$head(
@@ -12,64 +12,79 @@ var _NAlexPear$elm_slides$Navigators$stepBackwards = function (_p0) {
 			return slides.current;
 		}
 	}();
-	var newSlides = _elm_lang$core$List$isEmpty(slides.previous) ? slides : {
-		previous: A2(_elm_lang$core$List$take, penultimate, slides.previous),
-		current: newCurrent,
-		remaining: {ctor: '::', _0: slides.current, _1: slides.remaining}
-	};
+	var newSlides = function () {
+		var _p3 = slides.previous;
+		if (_p3.ctor === '[]') {
+			return slides;
+		} else {
+			return {
+				previous: A2(_elm_lang$core$List$take, penultimate, slides.previous),
+				current: newCurrent,
+				remaining: {ctor: '::', _0: slides.current, _1: slides.remaining}
+			};
+		}
+	}();
 	var newDeck = _elm_lang$core$Native_Utils.update(
-		_p3,
+		_p4,
 		{slides: newSlides});
 	return _elm_lang$core$Native_Utils.update(
 		_p1,
 		{current: newDeck});
 };
-var _NAlexPear$elm_slides$Navigators$stepForwards = function (_p4) {
-	var _p5 = _p4;
-	var _p7 = _p5.current;
-	var slides = _p7.slides;
+var _NAlexPear$elm_slides$Navigators$stepForwards = function (_p5) {
+	var _p6 = _p5;
+	var _p9 = _p6.current;
+	var slides = _p9.slides;
 	var newCurrent = function () {
-		var _p6 = _elm_lang$core$List$head(slides.remaining);
-		if (_p6.ctor === 'Just') {
-			return _p6._0;
+		var _p7 = _elm_lang$core$List$head(slides.remaining);
+		if (_p7.ctor === 'Just') {
+			return _p7._0;
 		} else {
 			return slides.current;
 		}
 	}();
-	var newSlides = _elm_lang$core$List$isEmpty(slides.remaining) ? slides : {
-		previous: A2(
-			_elm_lang$core$Basics_ops['++'],
-			slides.previous,
-			{
-				ctor: '::',
-				_0: slides.current,
-				_1: {ctor: '[]'}
-			}),
-		current: newCurrent,
-		remaining: A2(_elm_lang$core$List$drop, 1, slides.remaining)
-	};
+	var newSlides = function () {
+		var _p8 = slides.remaining;
+		if (_p8.ctor === '[]') {
+			return slides;
+		} else {
+			return {
+				previous: A2(
+					_elm_lang$core$Basics_ops['++'],
+					slides.previous,
+					{
+						ctor: '::',
+						_0: slides.current,
+						_1: {ctor: '[]'}
+					}),
+				current: newCurrent,
+				remaining: A2(_elm_lang$core$List$drop, 1, slides.remaining)
+			};
+		}
+	}();
 	var newDeck = _elm_lang$core$Native_Utils.update(
-		_p7,
+		_p9,
 		{slides: newSlides});
 	return _elm_lang$core$Native_Utils.update(
-		_p5,
+		_p6,
 		{current: newDeck});
 };
 var _NAlexPear$elm_slides$Navigators$navigate = F2(
-	function (_p8, code) {
-		var _p9 = _p8;
-		var _p11 = _p9.decks;
-		if (_elm_lang$core$Native_Utils.eq(_p9.sidebar, _NAlexPear$elm_slides$Types$EditingSlide)) {
-			return _p11;
+	function (_p10, code) {
+		var _p11 = _p10;
+		var _p14 = _p11.decks;
+		var _p12 = _p11.sidebar;
+		if (_p12.ctor === 'EditingSlide') {
+			return _p14;
 		} else {
-			var _p10 = code;
-			switch (_p10) {
+			var _p13 = code;
+			switch (_p13) {
 				case 39:
-					return _NAlexPear$elm_slides$Navigators$stepForwards(_p11);
+					return _NAlexPear$elm_slides$Navigators$stepForwards(_p14);
 				case 37:
-					return _NAlexPear$elm_slides$Navigators$stepBackwards(_p11);
+					return _NAlexPear$elm_slides$Navigators$stepBackwards(_p14);
 				default:
-					return _p11;
+					return _p14;
 			}
 		}
 	});
@@ -86,30 +101,40 @@ var _NAlexPear$elm_slides$Navigators$route = _evancz$url_parser$UrlParser$oneOf(
 					_evancz$url_parser$UrlParser_ops['<?>'],
 					_evancz$url_parser$UrlParser$string,
 					_evancz$url_parser$UrlParser$stringParam('edit')))),
-		_1: {ctor: '[]'}
+		_1: {
+			ctor: '::',
+			_0: A2(
+				_evancz$url_parser$UrlParser$map,
+				_NAlexPear$elm_slides$Types$Verify,
+				_evancz$url_parser$UrlParser$s('verify')),
+			_1: {ctor: '[]'}
+		}
 	});
 var _NAlexPear$elm_slides$Navigators$getQueryParams = function (location) {
-	var _p12 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
-	if (((_p12.ctor === 'Just') && (_p12._0._1.ctor === 'Just')) && (_p12._0._1._0 === 'true')) {
+	var _p15 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
+	if ((((_p15.ctor === 'Just') && (_p15._0.ctor === 'Presentation')) && (_p15._0._1.ctor === 'Just')) && (_p15._0._1._0 === 'true')) {
 		return {edit: true};
 	} else {
 		return {edit: false};
 	}
+};
+var _NAlexPear$elm_slides$Navigators$getRoute = function (location) {
+	return A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
 };
 var _NAlexPear$elm_slides$Navigators$unhyphenate = function (string) {
 	return A4(
 		_elm_lang$core$Regex$replace,
 		_elm_lang$core$Regex$All,
 		_elm_lang$core$Regex$regex('-'),
-		function (_p13) {
+		function (_p16) {
 			return ' ';
 		},
 		string);
 };
 var _NAlexPear$elm_slides$Navigators$getDeckTitle = function (location) {
-	var _p14 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
-	if (_p14.ctor === 'Just') {
-		return _NAlexPear$elm_slides$Navigators$unhyphenate(_p14._0._0);
+	var _p17 = A2(_evancz$url_parser$UrlParser$parsePath, _NAlexPear$elm_slides$Navigators$route, location);
+	if ((_p17.ctor === 'Just') && (_p17._0.ctor === 'Presentation')) {
+		return _NAlexPear$elm_slides$Navigators$unhyphenate(_p17._0._0);
 	} else {
 		return '';
 	}

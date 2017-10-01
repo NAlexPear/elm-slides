@@ -1,0 +1,48 @@
+var _NAlexPear$elm_slides$Decoders$mapSlides = function (slidesList) {
+	var slides = {
+		previous: {ctor: '[]'},
+		current: _NAlexPear$elm_slides$Types$Slide(''),
+		remaining: {ctor: '[]'}
+	};
+	var _p0 = slidesList;
+	if (_p0.ctor === '::') {
+		return _elm_lang$core$Native_Utils.update(
+			slides,
+			{current: _p0._0, remaining: _p0._1});
+	} else {
+		return slides;
+	}
+};
+var _NAlexPear$elm_slides$Decoders$decodeSlide = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'content',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Slide));
+var _NAlexPear$elm_slides$Decoders$decodeSlides = function () {
+	var slides = _elm_lang$core$Json_Decode$list(_NAlexPear$elm_slides$Decoders$decodeSlide);
+	return A2(_elm_lang$core$Json_Decode$map, _NAlexPear$elm_slides$Decoders$mapSlides, slides);
+}();
+var _NAlexPear$elm_slides$Decoders$decodeLogin = _elm_lang$core$Json_Decode$decodeValue(
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'token',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'previousDeck',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$AuthPayload))));
+var _NAlexPear$elm_slides$Decoders$decodeDeck = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'slides',
+	_NAlexPear$elm_slides$Decoders$decodeSlides,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'id',
+		_elm_lang$core$Json_Decode$int,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'title',
+			_elm_lang$core$Json_Decode$string,
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_NAlexPear$elm_slides$Types$Deck))));
+var _NAlexPear$elm_slides$Decoders$decodeDecks = _elm_lang$core$Json_Decode$array(_NAlexPear$elm_slides$Decoders$decodeDeck);
