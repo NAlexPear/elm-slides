@@ -299,10 +299,18 @@ view ({ decks, sidebar, user } as model) =
                         [ label [] [ text <| "SIGN OUT @" ++ name ] ]
                     ]
 
+        userAction =
+            case user of
+                Anonymous ->
+                    Authenticate
+
+                Authorized _ ->
+                    Logout
+
         userButton =
             [ button
                 [ id "user-prompt"
-                , onClick Authenticate
+                , onClick userAction
                 ]
                 userPrompt
             ]

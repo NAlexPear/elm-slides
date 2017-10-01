@@ -576,13 +576,21 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 };
 var _NAlexPear$elm_slides$View$view = function (_p23) {
 	var _p24 = _p23;
-	var _p28 = _p24.user;
-	var _p27 = _p24.sidebar;
-	var _p26 = _p24;
+	var _p29 = _p24.user;
+	var _p28 = _p24.sidebar;
+	var _p27 = _p24;
 	var slides = _p24.decks.current.slides;
-	var userPrompt = function () {
-		var _p25 = _p28;
+	var userAction = function () {
+		var _p25 = _p29;
 		if (_p25.ctor === 'Anonymous') {
+			return _NAlexPear$elm_slides$Message$Authenticate;
+		} else {
+			return _NAlexPear$elm_slides$Message$Logout;
+		}
+	}();
+	var userPrompt = function () {
+		var _p26 = _p29;
+		if (_p26.ctor === 'Anonymous') {
 			return {
 				ctor: '::',
 				_0: A2(
@@ -624,7 +632,7 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 							{
 								ctor: '::',
 								_0: _elm_lang$html$Html$text(
-									A2(_elm_lang$core$Basics_ops['++'], 'SIGN OUT @', _p25._0.name)),
+									A2(_elm_lang$core$Basics_ops['++'], 'SIGN OUT @', _p26._0.name)),
 								_1: {ctor: '[]'}
 							}),
 						_1: {ctor: '[]'}
@@ -642,15 +650,15 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 				_0: _elm_lang$html$Html_Attributes$id('user-prompt'),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onClick(_NAlexPear$elm_slides$Message$Authenticate),
+					_0: _elm_lang$html$Html_Events$onClick(userAction),
 					_1: {ctor: '[]'}
 				}
 			},
 			userPrompt),
 		_1: {ctor: '[]'}
 	};
-	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p27, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p27, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
-	var sidebarView = (_elm_lang$core$Native_Utils.eq(_p27, _NAlexPear$elm_slides$Types$Disabled) || _elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$Anonymous)) ? _elm_lang$core$List$singleton(
+	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
+	var sidebarView = (_elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$Disabled) || _elm_lang$core$Native_Utils.eq(_p29, _NAlexPear$elm_slides$Types$Anonymous)) ? _elm_lang$core$List$singleton(
 		A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
@@ -666,8 +674,8 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 					_1: {ctor: '[]'}
 				}
 			},
-			_NAlexPear$elm_slides$View$icons(_p26)));
-	var renderer = _NAlexPear$elm_slides$View$slide(_p26);
+			_NAlexPear$elm_slides$View$icons(_p27)));
+	var renderer = _NAlexPear$elm_slides$View$slide(_p27);
 	return A2(
 		_elm_lang$html$Html$div,
 		{

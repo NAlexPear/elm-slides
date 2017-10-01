@@ -31,4 +31,5 @@ type Msg
     | UrlChange Location
     | Authenticate
     | Login (Result String AuthPayload)
+    | Logout
     | NoOp

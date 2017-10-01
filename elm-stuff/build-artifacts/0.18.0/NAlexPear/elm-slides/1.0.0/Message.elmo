@@ -1,4 +1,5 @@
 var _NAlexPear$elm_slides$Message$NoOp = {ctor: 'NoOp'};
+var _NAlexPear$elm_slides$Message$Logout = {ctor: 'Logout'};
 var _NAlexPear$elm_slides$Message$Login = function (a) {
 	return {ctor: 'Login', _0: a};
 };

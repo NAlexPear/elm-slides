@@ -237,5 +237,8 @@ update msg model =
             , Debug.crash error
             )
 
+        Logout ->
+            ( { model | user = Anonymous }, Cmd.none )
+
         NoOp ->
             ( model, Cmd.none )

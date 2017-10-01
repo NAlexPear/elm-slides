@@ -300,6 +300,14 @@ var _NAlexPear$elm_slides$Update$update = F2(
 							})(_p0._0._0)
 					};
 				}
+			case 'Logout':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{user: _NAlexPear$elm_slides$Types$Anonymous}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 			default:
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
