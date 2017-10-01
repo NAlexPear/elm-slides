@@ -2,6 +2,7 @@ module Message exposing (Msg(..))
 
 import Array exposing (Array)
 import Http
+import Json.Decode exposing (Value)
 import Keyboard exposing (KeyCode)
 import Navigation exposing (Location)
 import Touch
@@ -28,4 +29,6 @@ type Msg
     | UpdateSlide String
     | UpdateDeckTitle String
     | UrlChange Location
+    | Authenticate
+    | Login (Result String AuthPayload)
     | NoOp

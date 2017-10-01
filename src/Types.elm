@@ -38,13 +38,21 @@ type alias History =
 
 
 type alias AuthUser =
-    { name : String
-    , id : Int
+    { id : Int
+    , name : String
+    , token : String
+    }
+
+
+type alias AuthPayload =
+    { previousDeck : String
+    , token : String
     }
 
 
 type Route
     = Presentation String (Maybe String)
+    | Verify
 
 
 type Sidebar

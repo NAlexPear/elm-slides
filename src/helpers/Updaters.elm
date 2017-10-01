@@ -22,10 +22,16 @@ import Types exposing (..)
 
 mapKeyToMsg : Model -> Int -> Cmd Msg
 mapKeyToMsg { decks, sidebar } code =
-    if code == 27 && sidebar == EditingSlide then
-        saveDeck decks.current
-    else
-        Cmd.none
+    let
+        input =
+            ( code, sidebar )
+    in
+        case input of
+            ( 27, EditingSlide ) ->
+                saveDeck decks.current
+
+            _ ->
+                Cmd.none
 
 
 handleEditHotkey : Sidebar -> Int -> Sidebar

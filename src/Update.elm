@@ -1,13 +1,31 @@
 module Update exposing (update)
 
+import Navigators
+    exposing
+        ( getDeckTitle
+        , navigate
+        )
+import Ports
+    exposing
+        ( authorize
+        , highlight
+        , getToken
+        )
+import Requests
+    exposing
+        ( createDeck
+        , deleteDeck
+        , getDeck
+        , getDecks
+        , saveDeck
+        )
 import Array
 import Debug
 import Message exposing (Msg(..))
-import Navigators exposing (navigate, getDeckTitle)
-import Ports exposing (highlight)
-import Requests exposing (createDeck, deleteDeck, getDeck, getDecks, saveDeck)
+import Navigation
 import Types exposing (..)
 import Updaters exposing (..)
+import UrlParser as Url
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -197,6 +215,26 @@ update msg model =
             , location
                 |> getDeckTitle
                 |> getDeck
+            )
+
+        Authenticate ->
+            ( model, authorize "Delegating to auth0" )
+
+        Login (Ok { token, previousDeck }) ->
+            ( let
+                newUser =
+                    AuthUser 1 "test" token
+              in
+                { model
+                    | user = Authorized newUser
+                    , sidebar = Inactive
+                }
+            , Navigation.modifyUrl <| previousDeck ++ "?edit=true"
+            )
+
+        Login (Err error) ->
+            ( model
+            , Debug.crash error
             )
 
         NoOp ->

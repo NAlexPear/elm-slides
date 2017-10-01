@@ -295,21 +295,26 @@ view ({ decks, sidebar, user } as model) =
 
                 Authorized { name } ->
                     [ span
-                        [ class "fa fa-logout" ]
-                        [ label [] [ text <| "HI, " ++ name ] ]
+                        [ class "fa fa-sign-out" ]
+                        [ label [] [ text <| "SIGN OUT @" ++ name ] ]
                     ]
 
-        sidebarView =
-            case sidebar of
-                Disabled ->
-                    List.singleton <| div [] []
+        userButton =
+            [ button
+                [ id "user-prompt"
+                , onClick Authenticate
+                ]
+                userPrompt
+            ]
 
-                _ ->
-                    model
-                        |> icons
-                        |> div [ id "icons", class iconClasses ]
-                        |> List.singleton
-                        |> List.append [ button [ id "user-prompt" ] userPrompt ]
+        sidebarView =
+            if sidebar == Disabled || user == Anonymous then
+                List.singleton <| div [] []
+            else
+                model
+                    |> icons
+                    |> div [ id "icons", class iconClasses ]
+                    |> List.singleton
 
         slides =
             decks.current.slides
@@ -321,6 +326,6 @@ view ({ decks, sidebar, user } as model) =
                 |> List.append [ slides.current ]
                 |> List.append slides.previous
                 |> List.foldl renderer []
-                |> List.append sidebarView
+                |> List.append (userButton ++ sidebarView)
                 |> div [ id "container" ]
             ]
