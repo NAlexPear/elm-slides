@@ -574,12 +574,10 @@ var _NAlexPear$elm_slides$View$icons = function (model) {
 		};
 	}
 };
-var _NAlexPear$elm_slides$View$view = function (_p23) {
+var _NAlexPear$elm_slides$View$overlay = function (_p23) {
 	var _p24 = _p23;
 	var _p29 = _p24.user;
 	var _p28 = _p24.sidebar;
-	var _p27 = _p24;
-	var slides = _p24.decks.current.slides;
 	var userAction = function () {
 		var _p25 = _p29;
 		if (_p25.ctor === 'Anonymous') {
@@ -658,11 +656,7 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 		_1: {ctor: '[]'}
 	};
 	var iconClasses = (_elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$ChangingDeck) || _elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$EditingDeck)) ? 'active' : '';
-	var sidebarView = (_elm_lang$core$Native_Utils.eq(_p28, _NAlexPear$elm_slides$Types$Disabled) || _elm_lang$core$Native_Utils.eq(_p29, _NAlexPear$elm_slides$Types$Anonymous)) ? _elm_lang$core$List$singleton(
-		A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{ctor: '[]'})) : _elm_lang$core$List$singleton(
+	var sidebarView = _elm_lang$core$List$singleton(
 		A2(
 			_elm_lang$html$Html$div,
 			{
@@ -674,8 +668,37 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 					_1: {ctor: '[]'}
 				}
 			},
-			_NAlexPear$elm_slides$View$icons(_p27)));
-	var renderer = _NAlexPear$elm_slides$View$slide(_p27);
+			_NAlexPear$elm_slides$View$icons(_p24)));
+	var _p27 = {ctor: '_Tuple2', _0: _p28, _1: _p29};
+	_v15_2:
+	do {
+		if (_p27.ctor === '_Tuple2') {
+			if (_p27._0.ctor === 'Disabled') {
+				return {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				};
+			} else {
+				if (_p27._1.ctor === 'Anonymous') {
+					return userButton;
+				} else {
+					break _v15_2;
+				}
+			}
+		} else {
+			break _v15_2;
+		}
+	} while(false);
+	return A2(_elm_lang$core$Basics_ops['++'], userButton, sidebarView);
+};
+var _NAlexPear$elm_slides$View$view = function (_p30) {
+	var _p31 = _p30;
+	var _p32 = _p31;
+	var slides = _p31.decks.current.slides;
 	return A2(
 		_elm_lang$html$Html$div,
 		{
@@ -712,17 +735,26 @@ var _NAlexPear$elm_slides$View$view = function (_p23) {
 						_1: {ctor: '[]'}
 					},
 					A2(
-						_elm_lang$core$List$append,
-						A2(_elm_lang$core$Basics_ops['++'], userButton, sidebarView),
+						F2(
+							function (x, y) {
+								return A2(_elm_lang$core$Basics_ops['++'], x, y);
+							}),
+						_NAlexPear$elm_slides$View$overlay(_p32),
 						A3(
 							_elm_lang$core$List$foldl,
-							renderer,
+							_NAlexPear$elm_slides$View$slide(_p32),
 							{ctor: '[]'},
 							A2(
-								_elm_lang$core$List$append,
+								F2(
+									function (x, y) {
+										return A2(_elm_lang$core$Basics_ops['++'], x, y);
+									}),
 								slides.previous,
 								A2(
-									_elm_lang$core$List$append,
+									F2(
+										function (x, y) {
+											return A2(_elm_lang$core$Basics_ops['++'], x, y);
+										}),
 									{
 										ctor: '::',
 										_0: slides.current,

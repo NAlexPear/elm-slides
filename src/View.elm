@@ -59,7 +59,10 @@ deckSettingsForm { title } =
         clickHandler =
             NoOp
                 |> Decode.succeed
-                |> onWithOptions "click" { stopPropagation = True, preventDefault = True }
+                |> onWithOptions "click"
+                    { stopPropagation = True
+                    , preventDefault = True
+                    }
     in
         div [ id "settings", clickHandler ]
             [ label
@@ -273,12 +276,9 @@ slide { decks, sidebar } slide acc =
         List.append acc next
 
 
-view : Model -> Html Msg
-view ({ decks, sidebar, user } as model) =
+overlay : Model -> List (Html Msg)
+overlay ({ sidebar, user } as model) =
     let
-        renderer =
-            slide model
-
         iconClasses =
             if sidebar == ChangingDeck || sidebar == EditingDeck then
                 "active"
@@ -316,14 +316,25 @@ view ({ decks, sidebar, user } as model) =
             ]
 
         sidebarView =
-            if sidebar == Disabled || user == Anonymous then
-                List.singleton <| div [] []
-            else
-                model
-                    |> icons
-                    |> div [ id "icons", class iconClasses ]
-                    |> List.singleton
+            model
+                |> icons
+                |> div [ id "icons", class iconClasses ]
+                |> List.singleton
+    in
+        case ( sidebar, user ) of
+            ( Disabled, _ ) ->
+                [ div [] [] ]
 
+            ( _, Anonymous ) ->
+                userButton
+
+            _ ->
+                userButton ++ sidebarView
+
+
+view : Model -> Html Msg
+view ({ decks, sidebar, user } as model) =
+    let
         slides =
             decks.current.slides
     in
@@ -331,9 +342,9 @@ view ({ decks, sidebar, user } as model) =
             [ onStart SwipeStart, onEnd SwipeEnd ]
             [ node "link" [ rel "stylesheet", href "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" ] []
             , slides.remaining
-                |> List.append [ slides.current ]
-                |> List.append slides.previous
-                |> List.foldl renderer []
-                |> List.append (userButton ++ sidebarView)
+                |> (++) [ slides.current ]
+                |> (++) slides.previous
+                |> List.foldl (slide model) []
+                |> (++) (overlay model)
                 |> div [ id "container" ]
             ]
