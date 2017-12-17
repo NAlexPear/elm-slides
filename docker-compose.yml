@@ -39,7 +39,7 @@ services:
   frontend:
     tty: true
     image: node
-    command: /bin/bash -c "npm install && npm run dev"
+    command: /bin/bash -c "npm install && npm run dev --unsafe-perm"
     working_dir: /usr/src/elm-slides
     expose:
       - "8080"
