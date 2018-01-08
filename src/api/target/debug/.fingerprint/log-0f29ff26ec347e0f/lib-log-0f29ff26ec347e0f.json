@@ -1,1 +1,0 @@
-{"rustc":5190010269457199862,"features":"[\"default\", \"log\", \"use_std\"]","target":12280514342930726563,"profile":731176819336294830,"deps":[["log v0.4.1",13767180087068311281]],"local":[{"Precalculated":"0.3.9"}],"rustflags":[]}

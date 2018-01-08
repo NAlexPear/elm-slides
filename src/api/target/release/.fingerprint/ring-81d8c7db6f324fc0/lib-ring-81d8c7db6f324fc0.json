@@ -1,1 +1,0 @@
-{"rustc":5190010269457199862,"features":"[\"default\", \"dev_urandom_fallback\", \"use_heap\"]","target":16557699893914351745,"profile":8410117760005530537,"deps":[["lazy_static v0.2.11",5622352311525552435],["libc v0.2.35",14433812545173999374],["untrusted v0.5.1",14249580534216814954]],"local":[{"Precalculated":"0.11.0"}],"rustflags":[]}
