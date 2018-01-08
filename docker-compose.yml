@@ -44,7 +44,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - source: .
+      - source: ./src/frontend
         target: /usr/src/elm-slides
         type: bind
       - source: node_modules
