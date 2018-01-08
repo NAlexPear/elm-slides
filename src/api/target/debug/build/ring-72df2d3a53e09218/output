@@ -1,0 +1,54 @@
+HOSTNAME: 0ebf0d344eab
+RUSTUP_HOME: /usr/local/rustup
+PWD: /usr/src/elm-api
+HOME: /root
+CARGO_HOME: /usr/local/cargo
+TERM: xterm
+SHLVL: 1
+PATH: /usr/local/cargo/bin:/usr/local/cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+_: /usr/local/cargo/bin/cargo
+LD_LIBRARY_PATH: /usr/src/elm-api/target/debug/deps:/usr/local/rustup/toolchains/nightly-2017-12-21-x86_64-unknown-linux-gnu/lib
+RUST_RECURSION_COUNT: 1
+RUSTUP_TOOLCHAIN: nightly-2017-12-21-x86_64-unknown-linux-gnu
+SSL_CERT_FILE: /usr/lib/ssl/certs/ca-certificates.crt
+SSL_CERT_DIR: /usr/lib/ssl/certs
+OPT_LEVEL: 0
+CARGO_CFG_TARGET_FEATURE: mmx,sse,sse2
+CARGO_CFG_UNIX: 
+CARGO_CFG_TARGET_FAMILY: unix
+CARGO_CFG_TARGET_VENDOR: unknown
+CARGO_CFG_DEBUG_ASSERTIONS: 
+CARGO: /usr/local/rustup/toolchains/nightly-2017-12-21-x86_64-unknown-linux-gnu/bin/cargo
+CARGO_CFG_TARGET_ENV: gnu
+OUT_DIR: /usr/src/elm-api/target/debug/build/ring-72df2d3a53e09218/out
+CARGO_PKG_DESCRIPTION: Safe, fast, small crypto using Rust.
+RUSTC: rustc
+CARGO_CFG_TARGET_ENDIAN: little
+CARGO_CFG_TARGET_OS: linux
+TARGET: x86_64-unknown-linux-gnu
+CARGO_PKG_VERSION_PRE: 
+HOST: x86_64-unknown-linux-gnu
+CARGO_MANIFEST_LINKS: ring-asm
+CARGO_PKG_AUTHORS: Brian Smith <brian@briansmith.org>
+CARGO_FEATURE_DEV_URANDOM_FALLBACK: 1
+CARGO_PKG_VERSION_MAJOR: 0
+CARGO_FEATURE_DEFAULT: 1
+CARGO_CFG_TARGET_POINTER_WIDTH: 64
+CARGO_PKG_VERSION_MINOR: 11
+NUM_JOBS: 4
+CARGO_PKG_VERSION_PATCH: 0
+CARGO_PKG_VERSION: 0.11.0
+DEBUG: true
+CARGO_CFG_TARGET_HAS_ATOMIC: 16,32,64,8,ptr
+CARGO_FEATURE_USE_HEAP: 1
+RUSTDOC: rustdoc
+CARGO_CFG_TARGET_THREAD_LOCAL: 
+CARGO_MANIFEST_DIR: /usr/local/cargo/registry/src/github.com-1ecc6299db9ec823/ring-0.11.0
+CARGO_CFG_TARGET_ARCH: x86_64
+CARGO_PKG_HOMEPAGE: 
+CARGO_PKG_NAME: ring
+PROFILE: debug
+CARGO_MAKEFLAGS: --jobserver-fds=5,6 -j --jobserver-auth=5,6 -j
+cargo:rustc-link-lib=static=ring-test
+cargo:rustc-link-lib=static=ring-core
+cargo:rustc-link-search=native=/usr/src/elm-api/target/debug/build/ring-72df2d3a53e09218/out

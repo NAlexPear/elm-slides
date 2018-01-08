@@ -10,6 +10,7 @@ services:
     links:
       - frontend
       - api
+      - rocket
 
   postgres:
     image: postgres
@@ -35,6 +36,18 @@ services:
       PGRST_DB_URI: postgres://web_anon:mysecretpassword@postgres:5432/app_db
       PGRST_DB_SCHEMA: api
       PGRST_DB_ANON_ROLE: web_anon
+
+  rocket:
+    tty: true
+    image: rust
+    command: /bin/bash -c "rustup default nightly-2017-12-21 && cargo install --force && cargo build && ./target/debug/elm-slides-api"
+    working_dir: /usr/src/elm-api
+    expose:
+      - "8000"
+    volumes:
+      - source: ./src/api
+        target: /usr/src/elm-api
+        type: bind
 
   frontend:
     tty: true
