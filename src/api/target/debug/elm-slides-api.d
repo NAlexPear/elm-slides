@@ -1,1 +1,1 @@
-/usr/src/elm-api/target/debug/elm-slides-api: /usr/src/elm-api/src/main.rs
+/home/alex/Code/open-source/elm-slides/src/api/target/debug/elm-slides-api: /home/alex/Code/open-source/elm-slides/src/api/src/main.rs

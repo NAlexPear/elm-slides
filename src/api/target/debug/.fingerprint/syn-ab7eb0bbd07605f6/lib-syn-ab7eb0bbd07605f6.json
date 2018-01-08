@@ -1,0 +1,1 @@
+{"rustc":5190010269457199862,"features":"[\"default\", \"parsing\", \"printing\", \"quote\", \"synom\", \"unicode-xid\", \"visit\"]","target":1946764780842404546,"profile":731176819336294830,"deps":[["quote v0.3.15",1364808871816322078],["synom v0.11.3",7547193468764609367],["unicode-xid v0.0.4",8217718167903005668]],"local":[{"Precalculated":"0.11.11"}],"rustflags":[]}
