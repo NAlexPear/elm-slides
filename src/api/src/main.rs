@@ -20,10 +20,13 @@ struct Deck {
     title: String,
 }
 
+const DB_CONNECTION: &'static str = "postgres://web_anon:mysecretpassword@localhost:5432/app_db";
+
 #[get("/decks")]
 fn decks() -> Json<Vec<Deck>> {
+
     let mut decks = Vec::new();
-    let conn = Connection::connect("postgres://web_anon:mysecretpassword@localhost:5432/app_db", TlsMode::None).unwrap();
+    let conn = Connection::connect(DB_CONNECTION, TlsMode::None).unwrap();
 
     for row in &conn.query("SELECT * FROM api.decks", &[]).unwrap() {
         let deck = Deck {
@@ -39,8 +42,8 @@ fn decks() -> Json<Vec<Deck>> {
 
 #[get("/decks/<id>")]
 fn deck(id:i32) -> Json<Deck> {
-    let conn = Connection::connect("postgres://web_anon:mysecretpassword@localhost:5432/app_db", TlsMode::None).unwrap();
-    let rows = &conn.query("SELECT * FROM api.decks where id = $1", &[&id]).unwrap();
+    let conn = Connection::connect(DB_CONNECTION, TlsMode::None).unwrap();
+    let rows = &conn.query("SELECT * FROM api.decks WHERE id = $1", &[&id]).unwrap();
     let row = rows.into_iter().next().unwrap();
 
     let deck = Deck {
