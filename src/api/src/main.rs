@@ -38,7 +38,7 @@ fn decks() -> Json<Vec<Deck>> {
 }
 
 #[get("/decks/<id>")]
-fn deck(id:i32) -> Json<Value> {
+fn deck(id:i32) -> Json<Deck> {
     let conn = Connection::connect("postgres://web_anon:mysecretpassword@localhost:5432/app_db", TlsMode::None).unwrap();
     let rows = &conn.query("SELECT * FROM api.decks where id = $1", &[&id]).unwrap();
     let row = rows.into_iter().next().unwrap();
@@ -48,7 +48,7 @@ fn deck(id:i32) -> Json<Value> {
         title: row.get(1),
     };
 
-    Json(json!(deck))
+    Json(deck)
 }
 
 #[error(404)]
