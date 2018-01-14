@@ -116,6 +116,12 @@ fn get_deck(conn: DbConn, id:i32) -> Json<Presentation> {
 
 #[post("/decks/<id>/slides", format="application/json", data="<slide>")]
 fn post_slide(conn: DbConn, id: i32, slide: Json<Slide>) -> Json<Value> {
+    conn
+        .query(
+            "INSERT INTO api.slides (content, deck_id) VALUES ($1, $2)",
+            &[&slide.0.content, &id]
+            )
+        .expect("inserted a thing, maybe?");
     
     Json(json!({
         "status": "OK",
