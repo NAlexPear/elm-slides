@@ -13,9 +13,15 @@ extern crate serde_derive;
 
 mod db;
 
-use postgres::{Connection, TlsMode};
+use db::{ init_pool, Pool, PooledConnection };
+use postgres::{Connection};
+use rocket::{Request, State, Outcome};
+use rocket::http::Status;
+use rocket::request::{self, FromRequest};
 use rocket_contrib::{Json, Value};
-use db::init_pool;
+use std::ops::Deref;
+
+struct DbConn(PooledConnection);
 
 #[derive(Serialize,Deserialize)]
 struct Slide {
@@ -37,12 +43,29 @@ struct Presentation {
     slides: Option<Vec<Slide>>,
 }
 
-const DB_CONNECTION: &'static str = "postgres://web_anon:mysecretpassword@localhost:5432/app_db";
+impl<'a, 'r> FromRequest<'a, 'r> for DbConn {
+    type Error = ();
+
+    fn from_request(request: &'a Request<'r>) -> request::Outcome<DbConn, ()> {
+        let pool = request.guard::<State<Pool>>()?;
+
+        match pool.get() {
+            Ok(conn) => Outcome::Success(DbConn(conn)),
+            Err(_) => Outcome::Failure((Status::ServiceUnavailable, ()))
+        }
+    }
+}
+
+impl Deref for DbConn {
+    type Target = Connection;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
 
 #[get("/decks")]
-fn get_decks() -> Json<Vec<Deck>> {
-    let conn = Connection::connect(DB_CONNECTION, TlsMode::None).unwrap();
-
+fn get_decks(conn: DbConn) -> Json<Vec<Deck>> {
     let decks = conn
         .query("SELECT * FROM api.decks", &[])
         .unwrap()
@@ -59,8 +82,7 @@ fn get_decks() -> Json<Vec<Deck>> {
 }
 
 #[get("/decks/<id>")]
-fn get_deck(id:i32) -> Json<Presentation> {
-    let conn = Connection::connect(DB_CONNECTION, TlsMode::None).unwrap();
+fn get_deck(conn: DbConn, id:i32) -> Json<Presentation> {
     let deck_rows = conn
         .query("SELECT * FROM api.decks WHERE id = $1", &[&id])
         .unwrap();
@@ -93,7 +115,7 @@ fn get_deck(id:i32) -> Json<Presentation> {
 }
 
 #[post("/decks/<id>/slides", format="application/json", data="<slide>")]
-fn post_slide(id: i32, slide: Json<Slide>) -> Json<Value> {
+fn post_slide(conn: DbConn, id: i32, slide: Json<Slide>) -> Json<Value> {
     
     Json(json!({
         "status": "OK",
