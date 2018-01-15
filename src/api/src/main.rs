@@ -129,18 +129,20 @@ fn get_deck(conn: DbConn, id:i32) -> Json<Presentation> {
     Json(presentation)
 }
 
-#[post("/decks/<id>/slides", format="application/json", data="<slide>")]
-fn post_slide(conn: DbConn, id: i32, slide: Json<Slide>) -> Json<Value> {
-    conn
-        .query(
-            "INSERT INTO api.slides (content, deck_id) VALUES ($1, $2)",
-            &[&slide.0.content, &id]
+#[post("/decks/<id>/slides", format="application/json", data="<slides>")]
+fn post_slide(conn: DbConn, id: i32, slides: Json<Vec<Slide>>) -> Json<Value> {
+    for slide in slides.0 {
+         conn
+            .execute(
+                "INSERT INTO api.slides (content, deck_id) VALUES ($1, $2)",
+                &[&slide.content, &id]
             )
-        .expect("inserted a thing, maybe?");
+            .unwrap();
+    }
     
     Json(json!({
         "status": "OK",
-        "reason": "Everything's fine"
+        "reason": "Slides were inserted correctly!"
     }))
 }
 
