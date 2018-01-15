@@ -113,9 +113,9 @@ deleteDeck : Deck -> Cmd Msg
 deleteDeck deck =
     let
         url =
-            deck.title
-                |> String.toLower
-                |> (++) "/api/decks?title=ilike."
+            deck.id
+                |> toString
+                |> (++) "/api/decks/"
 
         request =
             delete url
@@ -127,9 +127,9 @@ saveDeck : Deck -> Cmd Msg
 saveDeck deck =
     let
         url =
-            deck.title
-                |> String.toLower
-                |> (++) "/api/decks?title=ilike."
+            deck.id
+                |> toString
+                |> (++) "/api/decks/"
 
         body =
             deck
@@ -151,11 +151,11 @@ getDecks =
         Http.send GetDecks request
 
 
-getDeck : String -> Cmd Msg
-getDeck title =
+getDeck : Int -> Cmd Msg
+getDeck id =
     let
         url =
-            "/api/decks?title=ilike." ++ title
+            "/api/decks/" ++ toString id
 
         request =
             getSingle url decodeDeck

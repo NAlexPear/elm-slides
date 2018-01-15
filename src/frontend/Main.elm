@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Navigators
     exposing
-        ( getDeckTitle
+        ( getDeckId
         , getQueryParams
         , getRoute
         )
@@ -63,7 +63,7 @@ init location =
 
             Just (Presentation _ _) ->
                 location
-                    |> getDeckTitle
+                    |> getDeckId
                     |> getDeck
 
             _ ->

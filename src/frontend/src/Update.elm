@@ -2,7 +2,7 @@ module Update exposing (update)
 
 import Navigators
     exposing
-        ( getDeckTitle
+        ( getDeckId
         , navigate
         )
 import Ports
@@ -213,7 +213,7 @@ update msg model =
         UrlChange location ->
             ( { model | history = location :: model.history }
             , location
-                |> getDeckTitle
+                |> getDeckId
                 |> getDeck
             )
 

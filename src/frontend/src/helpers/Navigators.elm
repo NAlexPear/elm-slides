@@ -1,6 +1,6 @@
 module Navigators
     exposing
-        ( getDeckTitle
+        ( getDeckId
         , getQueryParams
         , getRoute
         , navigate
@@ -22,15 +22,11 @@ import Navigation exposing (Location)
 import Types exposing (..)
 
 
-unhyphenate : String -> String
-unhyphenate string =
-    replace (Regex.All) (regex "-") (\_ -> " ") string
-
 
 route : Url.Parser (Route -> a) a
 route =
     Url.oneOf
-        [ Url.map Presentation <| Url.s "decks" </> Url.string <?> Url.stringParam "edit"
+        [ Url.map Presentation <| Url.s "decks" </> Url.int <?> Url.stringParam "edit"
         , Url.map Verify <| Url.s "verify"
         ]
 
@@ -45,14 +41,14 @@ getQueryParams location =
             { edit = False }
 
 
-getDeckTitle : Location -> String
-getDeckTitle location =
+getDeckId : Location -> Int
+getDeckId location =
     case Url.parsePath route location of
-        Just (Presentation title _) ->
-            unhyphenate title
+        Just (Presentation id _) ->
+            id
 
         _ ->
-            ""
+           0
 
 
 getRoute : Location -> Maybe Route
