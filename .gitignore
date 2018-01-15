@@ -3,3 +3,4 @@ dist
 .env
 target
 src/frontend/elm-stuff
+*.swp
