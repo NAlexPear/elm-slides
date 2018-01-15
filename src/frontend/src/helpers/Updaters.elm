@@ -152,11 +152,10 @@ updateOtherDecks ({ decks } as model) newOtherDecks =
         { model | decks = newDecks }
 
 
-changeDeck : String -> Cmd Msg
-changeDeck title =
-    title
-        |> String.toLower
-        |> replace (Regex.All) (regex " ") (\_ -> "-")
+changeDeck : Int -> Cmd Msg
+changeDeck id =
+    id
+        |> toString
         |> (++) "/decks/"
         |> flip (++) "?edit=true"
         |> newUrl
@@ -169,8 +168,8 @@ moveToFirstDeck { others } =
             Array.get 0 others
     in
         case last of
-            Just { title } ->
-                changeDeck title
+            Just { id } ->
+                changeDeck id
 
             Nothing ->
                 Cmd.none

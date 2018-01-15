@@ -25,7 +25,7 @@ deckItem : Deck -> Html Msg
 deckItem { id, title } =
     li
         [ class "pointer"
-        , onClick <| ChangeDeck title
+        , onClick <| ChangeDeck id
         ]
         [ text title ]
 

@@ -20,7 +20,7 @@ type Msg
     | QueueDeckDelete
     | AddSlide
     | CreateDeck
-    | ChangeDeck String
+    | ChangeDeck Int
     | SwipeStart Touch.Coordinates
     | SwipeEnd Touch.Coordinates
     | ToggleChangeDeck

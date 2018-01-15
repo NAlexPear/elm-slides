@@ -172,9 +172,9 @@ update msg model =
             , getDecks
             )
 
-        ChangeDeck title ->
+        ChangeDeck id ->
             ( { model | sidebar = Inactive }
-            , changeDeck title
+            , changeDeck id
             )
 
         ToggleEditDeck ->
