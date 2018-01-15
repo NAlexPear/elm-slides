@@ -129,6 +129,21 @@ fn get_deck(conn: DbConn, id:i32) -> Json<Presentation> {
     Json(presentation)
 }
 
+#[patch("/decks/<id>", format="application/json", data="<deck>")]
+fn patch_deck(conn: DbConn, id:i32, deck: Json<Deck>) -> Json<Value> {
+    conn
+        .execute(
+            "UPDATE api.decks SET title = $1 WHERE id = $2",
+            &[&deck.0.title, &id]
+        )
+        .unwrap(); 
+
+    Json(json!({
+        "status": "OK",
+        "reason": "Deck was updated correctly!"
+    }))
+}
+
 #[post("/decks/<id>/slides", format="application/json", data="<slides>")]
 fn post_slide(conn: DbConn, id: i32, slides: Json<Vec<Slide>>) -> Json<Value> {
     for slide in slides.0 {
@@ -158,7 +173,7 @@ fn not_found() -> Json<Value> {
 fn main() {
     rocket::ignite()
         .manage(init_pool())
-        .mount("/", routes![get_deck, get_decks, post_slide])
+        .mount("/", routes![get_deck, post_deck, patch_deck, get_decks, post_slide])
         .catch(errors![not_found])
         .launch();
 }

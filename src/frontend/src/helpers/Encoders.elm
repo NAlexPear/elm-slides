@@ -5,10 +5,11 @@ import Types exposing (..)
 
 
 encodeDeck : Deck -> Encode.Value
-encodeDeck { slides, title } =
+encodeDeck { id, slides, title } =
     Encode.object
         [ ( "title", Encode.string title )
         , ( "slides", encodeSlides (slides.previous ++ [ slides.current ] ++ slides.remaining) )
+        , ( "id", Encode.int id)
         ]
 
 
