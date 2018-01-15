@@ -4,7 +4,7 @@ extern crate postgres;
 
 use self::r2d2_postgres::{TlsMode, PostgresConnectionManager};
 
-const DB_CONNECTION: &'static str = "postgres://web_anon:mysecretpassword@localhost:5432/app_db";
+const DB_CONNECTION: &'static str = "postgresql://web_anon:mysecretpassword@postgres:5432/app_db";
 
 pub type Pool = r2d2::Pool<PostgresConnectionManager>;
 pub type PooledConnection = r2d2::PooledConnection<PostgresConnectionManager>;

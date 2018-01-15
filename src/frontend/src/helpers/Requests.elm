@@ -25,7 +25,7 @@ getSingle : String -> Decoder a -> Http.Request a
 getSingle url decoder =
     Http.request
         { method = "GET"
-        , headers = [ (Http.header "Accept" "application/vnd.pgrst.object+json") ]
+        , headers = [ (Http.header "Accept" "application/json") ]
         , url = url
         , body = Http.emptyBody
         , expect = Http.expectJson decoder

@@ -10,7 +10,6 @@ services:
     links:
       - frontend
       - api
-      - rocket
 
   postgres:
     image: postgres
@@ -25,25 +24,14 @@ services:
       - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   api:
-    build:
-      context: ./services/api
-      dockerfile: Dockerfile
-    expose:
-      - "3000"
-    links:
-      - postgres
-    environment:
-      PGRST_DB_URI: postgres://web_anon:mysecretpassword@postgres:5432/app_db
-      PGRST_DB_SCHEMA: api
-      PGRST_DB_ANON_ROLE: web_anon
-
-  rocket:
     tty: true
-    image: rust
-    command: /bin/bash -c "rustup default nightly-2017-12-21 && cargo install --force && cargo build && ./target/debug/elm-slides-api"
+    image: rustlang/rust:nightly
+    command: /bin/bash -c "cargo install --force cargo-watch && cargo watch -x run"
     working_dir: /usr/src/elm-api
     expose:
       - "8000"
+    links:
+      - postgres
     volumes:
       - source: ./src/api
         target: /usr/src/elm-api

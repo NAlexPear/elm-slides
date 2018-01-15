@@ -88,7 +88,7 @@ var _NAlexPear$elm_slides$Requests$getSingle = F2(
 				method: 'GET',
 				headers: {
 					ctor: '::',
-					_0: A2(_elm_lang$http$Http$header, 'Accept', 'application/vnd.pgrst.object+json'),
+					_0: A2(_elm_lang$http$Http$header, 'Accept', 'application/json'),
 					_1: {ctor: '[]'}
 				},
 				url: url,

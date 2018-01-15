@@ -81,6 +81,21 @@ fn get_decks(conn: DbConn) -> Json<Vec<Deck>> {
     Json(decks)
 }
 
+#[post("/decks", format="application/json", data="<deck>")]
+fn post_deck(conn: DbConn, deck: Json<Deck>) -> Json<Value> {
+    conn
+        .query(
+            "INSERT INTO api.decks (title) VALUES ($1)",
+            &[&deck.0.title]
+        )
+        .expect("inserted a new deck");
+
+    Json(json!({
+        "status": "Ok",
+        "reason": "Everything's fine",
+    }))
+}
+
 #[get("/decks/<id>")]
 fn get_deck(conn: DbConn, id:i32) -> Json<Presentation> {
     let deck_rows = conn
