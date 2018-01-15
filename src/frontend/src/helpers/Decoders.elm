@@ -13,10 +13,14 @@ import Types exposing (..)
 
 decodeDeck : Decoder Deck
 decodeDeck =
-    decode Deck
-        |> required "title" string
-        |> required "id" int
-        |> required "slides" decodeSlides
+    let
+        fallbackSlides =
+            Slides [] { content = "" } []
+    in
+        decode Deck
+            |> required "title" string
+            |> required "id" int
+            |> optional "slides" decodeSlides fallbackSlides
 
 
 decodeDecks : Decoder (Array Deck)
