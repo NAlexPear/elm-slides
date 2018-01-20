@@ -14,7 +14,9 @@ var auth = new WebAuth({
   redirectUri: `${window.location.origin}/verify`
 });
 
-var app = Elm.Main.fullscreen();
+var token = localStorage.getItem('token') || null;
+
+var app = Elm.Main.fullscreen({ token });
 
 app.ports.highlight.subscribe(() => setTimeout(
   () => document
@@ -40,6 +42,8 @@ app.ports.getToken.subscribe(() => auth.parseHash((err, { accessToken: token }) 
   if(err){
     payload = err;
   }
+
+  localStorage.setItem('token', token);
 
   app.ports.newToken.send(payload)
 }))

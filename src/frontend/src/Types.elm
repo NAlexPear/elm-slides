@@ -67,6 +67,8 @@ type User
     = Anonymous
     | Authorized AuthUser
 
+type alias Flags =
+    { token: Maybe String }
 
 type alias Model =
     { decks : Decks

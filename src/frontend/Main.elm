@@ -29,8 +29,8 @@ import View exposing (view)
 import UrlParser as Url
 
 
-init : Navigation.Location -> ( Model, Cmd Msg )
-init location =
+init : Flags -> Navigation.Location -> ( Model, Cmd Msg )
+init { token } location =
     let
         slides =
             { previous = []
@@ -43,6 +43,13 @@ init location =
                 Inactive
             else
                 Disabled
+
+        user =
+            case token of
+                Just validToken ->
+                    Authorized <| AuthUser 1 "test" validToken
+                _ ->
+                    Anonymous
     in
         ( { decks =
                 { current =
@@ -55,7 +62,7 @@ init location =
           , sidebar = sidebar
           , history = [ location ]
           , swipe = { clientX = 0, clientY = 0 }
-          , user = Anonymous
+          , user = user
           }
         , case getRoute location of
             Just Verify ->
@@ -79,9 +86,9 @@ subscriptions _ =
         ]
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    Navigation.program UrlChange
+    Navigation.programWithFlags UrlChange
         { init = init
         , view = view
         , update = update
