@@ -2,6 +2,7 @@ port module Ports
     exposing
         ( authorize
         , highlight
+        , clearToken
         , getToken
         , newToken
         )
@@ -16,6 +17,9 @@ port highlight : String -> Cmd msg
 
 
 port getToken : String -> Cmd msg
+
+
+port clearToken : String -> Cmd msg
 
 
 port newToken : (Decode.Value -> msg) -> Sub msg

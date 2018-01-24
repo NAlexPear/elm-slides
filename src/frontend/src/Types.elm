@@ -45,7 +45,8 @@ type alias AuthUser =
 
 
 type alias AuthPayload =
-    { previousDeck : String
+    { name: String
+    , previousDeck : String
     , token : String
     }
 
@@ -68,7 +69,9 @@ type User
     | Authorized AuthUser
 
 type alias Flags =
-    { token: Maybe String }
+    { name: String
+    , token: Maybe String
+    }
 
 type alias Model =
     { decks : Decks

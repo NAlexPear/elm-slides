@@ -9,6 +9,7 @@ import Ports
     exposing
         ( authorize
         , highlight
+        , clearToken
         , getToken
         )
 import Requests
@@ -220,10 +221,10 @@ update msg model =
         Authenticate ->
             ( model, authorize "Delegating to auth0" )
 
-        Login (Ok { token, previousDeck }) ->
+        Login (Ok { name, token, previousDeck }) ->
             ( let
                 newUser =
-                    AuthUser 1 "test" token
+                    AuthUser 1 name token
               in
                 { model
                     | user = Authorized newUser
@@ -238,7 +239,7 @@ update msg model =
             )
 
         Logout ->
-            ( { model | user = Anonymous }, Cmd.none )
+            ( { model | user = Anonymous }, clearToken "Clearing auth tokens" )
 
         NoOp ->
             ( model, Cmd.none )

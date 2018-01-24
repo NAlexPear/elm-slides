@@ -31,6 +31,7 @@ decodeDecks =
 decodeLogin : Value -> Result String AuthPayload
 decodeLogin =
     decode AuthPayload
+        |> required "name" string
         |> required "previousDeck" string
         |> required "token" string
         |> decodeValue

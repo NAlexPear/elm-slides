@@ -30,7 +30,7 @@ import UrlParser as Url
 
 
 init : Flags -> Navigation.Location -> ( Model, Cmd Msg )
-init { token } location =
+init { name, token } location =
     let
         slides =
             { previous = []
@@ -47,7 +47,7 @@ init { token } location =
         user =
             case token of
                 Just validToken ->
-                    Authorized <| AuthUser 1 "test" validToken
+                    Authorized <| AuthUser 1 name validToken
                 _ ->
                     Anonymous
     in
