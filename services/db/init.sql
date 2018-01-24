@@ -1,9 +1,15 @@
 DROP SCHEMA IF EXISTS api CASCADE;
 CREATE SCHEMA api;
 
+CREATE TABLE api.users (
+  id serial primary key,
+  sub text not null
+);
+
 CREATE TABLE api.decks (
   id serial primary key,
-  title text not null
+  title text not null,
+  user_sub text REFERENCES api.users.sub ON DELETE CASCADE
 );
 
 CREATE TABLE api.slides (
@@ -12,9 +18,9 @@ CREATE TABLE api.slides (
   content text
 );
 
-INSERT INTO api.decks (title) VALUES
-  ('First Deck'),
-  ('Second Deck');
+INSERT INTO api.decks (title, user_sub) VALUES
+  ('First Deck', 'google-oauth2|116389710457669669655'),
+  ('Second Deck', 'google-oauth2|116389710457669669655');
 
 INSERT INTO api.slides (deck_id, content) VALUES
   (1, '# First Deck'),
