@@ -25,7 +25,7 @@ services:
 
   api:
     tty: true
-    image: rustlang/rust:nightly
+    image: rustdocker/rust:nightly
     command: /bin/bash -c "cargo install --force cargo-watch && cargo watch -x run"
     working_dir: /usr/src/elm-api
     expose:
