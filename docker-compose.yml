@@ -33,9 +33,7 @@ services:
     links:
       - postgres
     volumes:
-      - source: ./src/api
-        target: /usr/src/elm-api
-        type: bind
+      - ./src/api:/usr/src/elm-api:delegated
 
   frontend:
     tty: true
@@ -45,9 +43,7 @@ services:
     expose:
       - "8080"
     volumes:
-      - source: ./src/frontend
-        target: /usr/src/elm-slides
-        type: bind
+      - ./src/frontend:/usr/src/elm-slides:delegated
       - source: node_modules
         target: /usr/src/elm-slides/node_modules
         type: volume
