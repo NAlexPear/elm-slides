@@ -177,7 +177,7 @@ icons model =
             [ span
                 [ class "edit fa fa-pencil-square-o"
                 , alt "Save Slides"
-                , onClick QueueSave
+                , onClick QueueUpdateSlides
                 ]
                 [ label
                     [ class "icon-label" ]

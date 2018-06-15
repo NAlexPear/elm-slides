@@ -5,6 +5,7 @@ module Requests
         , getDeck
         , getDecks
         , saveDeck
+        , saveSlides
         )
 
 import Decoders
@@ -12,9 +13,15 @@ import Decoders
         ( decodeDeck
         , decodeDecks
         )
+
+import Encoders
+    exposing
+        ( encodeDeck
+        , encodeSlides
+        )
+
 import Array
 import Array exposing (Array)
-import Encoders exposing (encodeDeck)
 import Http
 import Json.Decode exposing (Decoder)
 import Message exposing (Msg(..))
@@ -141,6 +148,27 @@ saveDeck deck =
     in
         Http.send SaveDeck request
 
+saveSlides : Deck -> Cmd Msg
+saveSlides deck =
+    let
+        id =
+            toString deck.id
+
+        url =
+            "/api/decks/" ++ id ++ "/slides"
+
+        body =
+            deck.slides.remaining
+                |> (++) [ deck.slides.current ]
+                |> (++) deck.slides.previous
+                |> List.map ( \x -> { content = x.content, deck_id = deck.id } )
+                |> encodeSlides
+                |> Http.jsonBody
+
+        request =
+            patch url body
+    in
+        Http.send SaveSlides request
 
 getDecks : Cmd Msg
 getDecks =

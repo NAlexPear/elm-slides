@@ -19,6 +19,7 @@ import Requests
         , getDeck
         , getDecks
         , saveDeck
+        , saveSlides
         )
 import Array
 import Debug
@@ -114,6 +115,22 @@ update msg model =
         SaveDeck (Err error) ->
             ( Debug.crash <| toString error, Cmd.none )
 
+        SaveSlides (Ok _) ->
+            ( { model
+                | sidebar =
+                    case model.sidebar of
+                        EditingSlide ->
+                            Inactive
+
+                        _ ->
+                            EditingSlide
+              }
+              , Cmd.none
+             )
+
+        SaveSlides (Err error) ->
+            ( Debug.crash <| toString error, Cmd.none )
+
         DeleteDeck (Ok _) ->
             ( let
                 sidebar =
@@ -135,6 +152,9 @@ update msg model =
 
         QueueSave ->
             ( model, saveDeck model.decks.current )
+
+        QueueUpdateSlides ->
+            ( model, saveSlides model.decks.current )
 
         QueueSlideDelete ->
             ( model, deleteSlide model.decks )

@@ -25,7 +25,7 @@ struct DbConn(PooledConnection);
 
 #[derive(Serialize,Deserialize)]
 struct Slide {
-    id: i32,
+    id: Option<i32>,
     content: String,
     deck_id: Option<i32>
 }
@@ -144,8 +144,20 @@ fn patch_deck(conn: DbConn, id:i32, deck: Json<Deck>) -> Json<Value> {
     }))
 }
 
-#[post("/decks/<id>/slides", format="application/json", data="<slides>")]
+#[patch("/decks/<id>/slides", format="application/json", data="<slides>")]
 fn post_slide(conn: DbConn, id: i32, slides: Json<Vec<Slide>>) -> Json<Value> {
+    match slides.0.get(0){
+        Some(slide) => {
+            match slide.deck_id {
+                Some(deck_id) => {
+                    conn.execute("DELETE FROM api.slides WHERE deck_id = $1", &[&deck_id]).unwrap();
+                },
+                None => print!("no deck id found!"),
+            }
+        },
+        None => {},
+    }
+
     for slide in slides.0 {
          conn
             .execute(

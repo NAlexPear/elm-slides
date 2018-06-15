@@ -1,25 +1,33 @@
-module Encoders exposing (encodeDeck)
+module Encoders
+    exposing
+        ( encodeDeck
+        , encodeSlides
+        )
 
 import Json.Encode as Encode
 import Types exposing (..)
 
-
+type alias DeckSlide =
+    { content: String
+    , deck_id: Int
+    }
 encodeDeck : Deck -> Encode.Value
 encodeDeck { id, slides, title } =
     Encode.object
         [ ( "title", Encode.string title )
-        , ( "slides", encodeSlides (slides.previous ++ [ slides.current ] ++ slides.remaining) )
         , ( "id", Encode.int id)
         ]
 
 
-encodeSlide : Slide -> Encode.Value
+encodeSlide : DeckSlide -> Encode.Value
 encodeSlide slide =
     Encode.object
-        [ ( "content", Encode.string slide.content ) ]
+        [ ( "content", Encode.string slide.content )
+        , ( "deck_id", Encode.int slide.deck_id )
+        ]
 
 
-encodeSlides : List Slide -> Encode.Value
+encodeSlides : List DeckSlide -> Encode.Value
 encodeSlides slides =
     slides
         |> List.map encodeSlide

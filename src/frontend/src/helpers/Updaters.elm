@@ -11,12 +11,17 @@ module Updaters
         , updateOtherDecks
         )
 
+import Requests
+    exposing
+        ( saveDeck
+        , saveSlides
+        )
+
 import Array
 import Array exposing (Array)
 import Message exposing (Msg)
 import Navigation exposing (newUrl)
 import Regex exposing (Regex, regex, replace)
-import Requests exposing (saveDeck)
 import Types exposing (..)
 
 
@@ -28,7 +33,7 @@ mapKeyToMsg { decks, sidebar } code =
     in
         case input of
             ( 27, EditingSlide ) ->
-                saveDeck decks.current
+                saveSlides decks.current
 
             _ ->
                 Cmd.none
@@ -91,7 +96,7 @@ deleteSlide { current } =
         newDeck =
             { current | slides = slides }
     in
-        saveDeck newDeck
+        saveSlides newDeck
 
 
 updateSlide : Model -> String -> Model

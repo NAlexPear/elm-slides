@@ -13,9 +13,11 @@ type Msg
     = KeyPress KeyCode
     | GetDeck (Result Http.Error Deck)
     | SaveDeck (Result Http.Error String)
+    | SaveSlides (Result Http.Error String)
     | GetDecks (Result Http.Error (Array Deck))
     | DeleteDeck (Result Http.Error String)
     | QueueSave
+    | QueueUpdateSlides
     | QueueSlideDelete
     | QueueDeckDelete
     | AddSlide
