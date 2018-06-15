@@ -4,3 +4,4 @@ dist
 target
 src/frontend/elm-stuff
 *.swp
+rls
