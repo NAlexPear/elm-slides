@@ -26,7 +26,7 @@ services:
   api:
     tty: true
     image: rustdocker/rust:nightly
-    command: /bin/bash -c "cargo install --force cargo-watch && cargo watch -x run"
+    command: /bin/bash -c "rustup override set nightly-2018-06-09 && cargo install --force cargo-watch && cargo watch -x run"
     working_dir: /usr/src/elm-api
     expose:
       - "8000"

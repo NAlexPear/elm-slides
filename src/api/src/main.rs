@@ -136,7 +136,7 @@ fn patch_deck(conn: DbConn, id:i32, deck: Json<Deck>) -> Json<Value> {
             "UPDATE api.decks SET title = $1 WHERE id = $2",
             &[&deck.0.title, &id]
         )
-        .unwrap(); 
+        .unwrap();
 
     Json(json!({
         "status": "OK",
@@ -154,7 +154,7 @@ fn post_slide(conn: DbConn, id: i32, slides: Json<Vec<Slide>>) -> Json<Value> {
             )
             .unwrap();
     }
-    
+
     Json(json!({
         "status": "OK",
         "reason": "Slides were inserted correctly!"
